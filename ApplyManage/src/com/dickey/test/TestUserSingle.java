@@ -1,13 +1,13 @@
 package com.dickey.test;
 
-import org.hibernate.Session;
+//import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+//import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.dickey.domain.Application;
-import com.dickey.domain.User;
+//import com.dickey.domain.User;
 
 
 

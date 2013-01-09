@@ -37,6 +37,13 @@ public class ApplicationAction extends BaseAction implements ModelDriven<Applica
 	}
 	
 	/*
+	 * 增加
+	 */
+	public String add(){
+		return INPUT;
+	}
+	
+	/*
 	 * 修改页面加载
 	 */
 	public String edit(){
@@ -64,7 +71,6 @@ public class ApplicationAction extends BaseAction implements ModelDriven<Applica
 
 	@Override
 	public void prepare() throws Exception {
-		// TODO Auto-generated method stub
 		application = new Application();
 	}
 	
