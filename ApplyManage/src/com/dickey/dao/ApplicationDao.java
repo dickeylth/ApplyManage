@@ -20,4 +20,6 @@ public interface ApplicationDao {
 	List<Application> findAll();
 	
 	List<Application> findByUser(User user);
+	
+	List<Application> findByProp(String property, String keyword, User user);
 }

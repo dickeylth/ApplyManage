@@ -100,6 +100,12 @@ public class UserServiceImpl implements UserService{
 		return applicationDao.findByUser(user);
 	}
 
+	@Override
+	public List<Application> findApplicationsByProp(String property, String keyword, User user) {
+		// TODO Auto-generated method stub
+		return applicationDao.findByProp(property, keyword, user);
+	}
+
 
 
 

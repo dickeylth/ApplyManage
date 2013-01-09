@@ -20,7 +20,7 @@ public class Application implements Serializable{
 	@GeneratedValue(generator = "idGenerator")
 	private String id;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name="user_id", updatable = false)
 	private User user;
 	

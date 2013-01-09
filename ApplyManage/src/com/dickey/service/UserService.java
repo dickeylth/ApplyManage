@@ -90,4 +90,13 @@ public interface UserService {
 	 * @return 返回所有申请
 	 */
 	List<Application> findApplicationsByUser(User user);
+	
+	/**
+	 * 根据搜索条件列举出所有申请
+	 * @param property 搜索属性
+	 * @param keyword 搜索关键字
+	 * @param user 申请的用户(当前用户)
+	 * @return 返回所有申请
+	 */
+	List<Application> findApplicationsByProp(String property, String keyword, User user);
 }
