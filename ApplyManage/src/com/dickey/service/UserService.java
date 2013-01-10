@@ -41,11 +41,22 @@ public interface UserService {
 	 */
 	User findUserByName(String username);
 	
+	
 	/**
 	 * 列举出所有用户
 	 * @return 返回所有用户
 	 */
 	List<User> findUsers();
+	
+	/**
+	 * 根据条件查找用户
+	 * @param property 搜索属性
+	 * @param keyword 搜索关键字
+	 * @param userRel 是否与当前用户相关联
+	 * @param user 关联用户(当前用户)
+	 * @return 返回所有用户
+	 */
+	List<User> findUsersByProp(String property, String keyword, boolean userRel, User user);
 	
 	/**
 	 * 新增申请
@@ -95,8 +106,9 @@ public interface UserService {
 	 * 根据搜索条件列举出所有申请
 	 * @param property 搜索属性
 	 * @param keyword 搜索关键字
+	 * @param userRel 是否与当前用户相关联
 	 * @param user 申请的用户(当前用户)
 	 * @return 返回所有申请
 	 */
-	List<Application> findApplicationsByProp(String property, String keyword, User user);
+	List<Application> findApplicationsByProp(String property, String keyword, boolean userRel, User user);
 }

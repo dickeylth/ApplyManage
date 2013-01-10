@@ -21,5 +21,5 @@ public interface ApplicationDao {
 	
 	List<Application> findByUser(User user);
 	
-	List<Application> findByProp(String property, String keyword, User user);
+	List<Application> findByProp(String property, String keyword, boolean userRel, User user);
 }

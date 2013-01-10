@@ -15,6 +15,7 @@
 	<nav>
 		<ul>
 			<li><a href="<s:url action="Application_queryAction"/>" target="main">申请管理</a></li>
+			<li><a href="<s:url action="User_queryAction"/>" target="main">用户管理</a></li>
 		</ul>
 	</nav>
 	<iframe src="" id="main" name="main"></iframe>

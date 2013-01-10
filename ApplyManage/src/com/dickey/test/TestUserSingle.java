@@ -2,6 +2,7 @@ package com.dickey.test;
 
 //import org.hibernate.Session;
 //import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Date;
 
@@ -67,7 +68,7 @@ public class TestUserSingle extends HibernateDaoSupport{
 		//System.out.println(user);
 	}
 	
-	public static void main(String[] args) {
+	public static void main3(String[] args) {
 		try {
 			Application application = new Application();
 			Object clazz = application.getClass().getDeclaredField("start").getType();
@@ -76,5 +77,18 @@ public class TestUserSingle extends HibernateDaoSupport{
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
+	}
+	
+	public static void main(String[] args) {
+		Application application = new Application();
+		try {
+			application.getClass().getDeclaredField("user任务人");
+			System.out.println("ABC");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println("ABCD");
+			System.out.println(e.getLocalizedMessage());
+		}
+		
 	}
 }

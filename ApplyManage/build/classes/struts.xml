@@ -13,10 +13,6 @@
 	<package name="default" extends="struts-default" namespace="/">
 
 		<action name="*_*Action" class="com.dickey.action.{1}Action" method="{2}">
-			<interceptor-ref name="defaultStack">
-				<!-- 渲染页面前刷新model在ValueStack的root的引用 -->
-				<param name="modelDriven.refreshModelBeforeResult">true</param>
-			</interceptor-ref>
 			<result name="input">{1}/edit.jsp</result>
 			<result>{1}/index.jsp</result>
 		</action>

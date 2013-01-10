@@ -66,6 +66,12 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
+	public List<User> findUsersByProp(String property, String keyword, boolean userRel, User user) {
+		// TODO Auto-generated method stub
+		return userDao.findByProp(property, keyword, userRel, user);
+	}
+
+	@Override
 	public String addApplication(Application application) {
 		return applicationDao.save(application);
 	}
@@ -101,12 +107,9 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public List<Application> findApplicationsByProp(String property, String keyword, User user) {
+	public List<Application> findApplicationsByProp(String property, String keyword, boolean userRel, User user) {
 		// TODO Auto-generated method stub
-		return applicationDao.findByProp(property, keyword, user);
+		return applicationDao.findByProp(property, keyword, userRel, user);
 	}
-
-
-
 
 }

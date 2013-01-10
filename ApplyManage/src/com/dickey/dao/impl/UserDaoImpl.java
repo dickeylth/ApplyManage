@@ -52,6 +52,18 @@ public class UserDaoImpl extends HibernateDaoSupport implements UserDao {
 		// TODO Auto-generated method stub
 		return (List<User>)getHibernateTemplate().find(" from User");
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<User> findByProp(String property, String keyword, boolean userRel, User user) {
+		// TODO Auto-generated method stub
+		if(userRel){
+			return (List<User>)getHibernateTemplate().find(" from User as a where a." + property + " like '%" + keyword + "%' and a.user = ?", user);
+		}else{
+			return (List<User>)getHibernateTemplate().find(" from User as a where a." + property + " like '%" + keyword + "%'");
+		}
+		
+	}
 
 
 }

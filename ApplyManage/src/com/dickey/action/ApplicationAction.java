@@ -23,6 +23,9 @@ public class ApplicationAction extends BaseAction{
 	//模型驱动的实例
 	private Application model = new Application();
 	
+	//模型是否与User相关联
+	private boolean userRel = false;
+	
 	//删除时的选中项的id
 	private String[] checkItems;
 	
@@ -35,21 +38,52 @@ public class ApplicationAction extends BaseAction{
 	//当前用户
 	private User user = (User) ActionContext.getContext().getSession().get("user");
 	
+	//查询出的实例集
 	private List<Application> applications = new LinkedList<Application>();
 	
 	/*
 	 * 按字段查询
 	 */
 	public String queryByProp(){
-		setApplications(userService.findApplicationsByProp(property, keyword, user));
+		boolean flag = false;
+		//处理与User关联的数据
+		try {
+			model.getClass().getDeclaredField("user");
+			flag = true;
+		}  catch (Exception e) {
+			System.out.println(model.getClass().getName() + "与用户无关联");
+		}
+		
+		setApplications(userService.findApplicationsByProp(property, keyword, flag, user));
 		return SUCCESS;
 	}
 	
 	/*
 	 * 查询
 	 */
+	@SuppressWarnings("unchecked")
 	public String query(){
-		setApplications(userService.findApplicationsByUser(user));
+		
+		//处理与User关联的数据
+		checkUserRel();
+		
+		Method method = null;
+		if(userRel){
+			try {
+				method = userService.getClass().getDeclaredMethod("findApplicationsByUser", User.class);
+				setApplications((List<Application>) method.invoke(userService, user));
+			} catch (Exception e) {
+				System.err.println("userService中无法找到按用户查找数据的方法");
+			}
+		}else{
+			try {
+				method = userService.getClass().getDeclaredMethod("findApplications");
+				setApplications((List<Application>) method.invoke(userService));
+			} catch (Exception e) {
+				System.err.println("userService中无法找到查找所有数据的方法");
+			}
+		}
+
 		return SUCCESS;
 	}
 	
@@ -98,6 +132,20 @@ public class ApplicationAction extends BaseAction{
 		}
 		return query();
 	}
+	
+	/*
+	 * 判断当前模型实例是否与用户相关联
+	 */
+	private void checkUserRel(){
+		//处理与User关联的数据
+		try {
+			model.getClass().getDeclaredField("user");
+			userRel = true;
+		}  catch (Exception e) {
+			System.out.println(model.getClass().getName() + "与用户无关联");
+		}
+	}
+	
 	/*
 	 * Getters 和 Setters
 	 */

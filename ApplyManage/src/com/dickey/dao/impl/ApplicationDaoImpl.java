@@ -56,10 +56,14 @@ public class ApplicationDaoImpl extends HibernateDaoSupport implements Applicati
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Application> findByProp(String property, String keyword, User user) {
+	public List<Application> findByProp(String property, String keyword, boolean userRel, User user) {
 		// TODO Auto-generated method stub
-		System.out.println(keyword);
-		return (List<Application>)getHibernateTemplate().find(" from Application as a where a." + property + " like '%" + keyword + "%' and a.user = ?", user);
+		if(userRel){
+			return (List<Application>)getHibernateTemplate().find(" from Application as a where a." + property + " like '%" + keyword + "%' and a.user = ?", user);
+		}else{
+			return (List<Application>)getHibernateTemplate().find(" from Application as a where a." + property + " like '%" + keyword + "%'");
+		}
+		
 	}
 	
 }
