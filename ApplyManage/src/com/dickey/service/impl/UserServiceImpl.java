@@ -2,6 +2,8 @@ package com.dickey.service.impl;
 
 import java.util.List;
 
+import org.apache.shiro.authz.annotation.*;
+
 import com.dickey.dao.ApplicationDao;
 import com.dickey.dao.UserDao;
 import com.dickey.domain.Application;
@@ -30,6 +32,7 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
+	@RequiresRoles("ROLE_ADMIN")
 	public String addUser(User user) {
 		return userDao.save(user);
 	}

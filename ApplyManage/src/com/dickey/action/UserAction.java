@@ -4,9 +4,6 @@ import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.shiro.authz.annotation.*;
-
-
 import com.dickey.action.base.BaseAction;
 import com.dickey.domain.User;
 import com.opensymphony.xwork2.ActionContext;
@@ -45,7 +42,6 @@ public class UserAction extends BaseAction{
 	/*
 	 * 按字段查询
 	 */
-	@RequiresRoles("ROLE_ADMIN")
 	public String queryByProp(){
 		
 		//处理与User关联的数据
@@ -58,7 +54,6 @@ public class UserAction extends BaseAction{
 	/*
 	 * 查询
 	 */
-	@RequiresRoles("ROLE_ADMIN")
 	@SuppressWarnings("unchecked")
 	public String query(){
 		
@@ -88,7 +83,6 @@ public class UserAction extends BaseAction{
 	/*
 	 * 加载增加页面
 	 */
-	@RequiresRoles("ROLE_ADMIN")
 	public String add(){
 		return INPUT;
 	}
@@ -96,7 +90,6 @@ public class UserAction extends BaseAction{
 	/*
 	 * 加载修改页面
 	 */
-	@RequiresRoles("ROLE_ADMIN")
 	public String edit(){
 		model = userService.findUser(id);
 		return INPUT;
@@ -105,7 +98,6 @@ public class UserAction extends BaseAction{
 	/*
 	 * 处理增加/修改
 	 */
-	@RequiresRoles("ROLE_ADMIN")
 	public String editSubmit(){
 		if(model.getId().equals("")){
 			//处理与User关联的数据
@@ -127,7 +119,6 @@ public class UserAction extends BaseAction{
 	/*
 	 * 处理删除
 	 */
-	@RequiresRoles("ROLE_ADMIN")
 	public String delete(){
 		for (String id : checkItems) {
 			userService.delApplication(id);

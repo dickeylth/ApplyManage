@@ -4,7 +4,6 @@ import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.List;
 
-
 import com.dickey.action.base.BaseAction;
 import com.dickey.domain.Application;
 import com.dickey.domain.User;
@@ -40,6 +39,10 @@ public class ApplicationAction extends BaseAction{
 	
 	//查询出的实例集
 	private List<Application> applications = new LinkedList<Application>();
+	
+	{
+		System.out.println(user);
+	}
 	
 	/*
 	 * 按字段查询

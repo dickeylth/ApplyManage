@@ -11,6 +11,17 @@
 	<constant name="struts.devMode" value="true"/>
 	<constant name="struts.action.extension" value="do"></constant>
 	<package name="default" extends="struts-default" namespace="/">
+	
+		<!-- 定义全局结果 -->
+		<global-results>
+			<result name="unauthorized">/unauthorized.jsp</result>
+			<result name="unauthenticated">/unauthenticated.jsp</result>
+		</global-results>
+		<!-- 定义全局异常映射 -->
+		<global-exception-mappings>
+			<exception-mapping result="unauthorized" exception="org.apache.shiro.authz.UnauthorizedException"/>
+			<exception-mapping result="unauthenticated" exception="org.apache.shiro.authz.UnauthenticatedException"/>
+		</global-exception-mappings>
 
 		<action name="*_*Action" class="com.dickey.action.{1}Action" method="{2}">
 			<result name="input">{1}/edit.jsp</result>
