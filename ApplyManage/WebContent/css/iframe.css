@@ -64,6 +64,10 @@ table, #options ul{
     margin: 10px auto;
 }
 
+input[type=text]{
+    font-family:"微软雅黑", 'Microsoft Yahei',Arial,Tahoma;
+}
+
 #options ul{
     overflow: hidden;
     margin-left: 96px;
