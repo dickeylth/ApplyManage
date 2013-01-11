@@ -52,11 +52,9 @@ public interface UserService {
 	 * 根据条件查找用户
 	 * @param property 搜索属性
 	 * @param keyword 搜索关键字
-	 * @param userRel 是否与当前用户相关联
-	 * @param user 关联用户(当前用户)
 	 * @return 返回所有用户
 	 */
-	List<User> findUsersByProp(String property, String keyword, boolean userRel, User user);
+	List<User> findUsersByProp(String property, String keyword);
 	
 	/**
 	 * 新增申请

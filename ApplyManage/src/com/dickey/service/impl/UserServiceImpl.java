@@ -38,40 +38,47 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
+	@RequiresRoles("ROLE_ADMIN")
 	public void delUser(User user) {
 		userDao.delete(user);
 	}
 
 	@Override
+	@RequiresRoles("ROLE_ADMIN")
 	public void delUser(String id) {
 		userDao.delete(id);
 	}
 
 	@Override
+	@RequiresRoles("ROLE_ADMIN")
 	public void updateUser(User user) {
 		userDao.update(user);
 	}
 
 	@Override
+	@RequiresRoles("ROLE_ADMIN")
 	public User findUserByName(String username) {
 		return userDao.findUserByName(username);
 	}
 
 	@Override
+	@RequiresRoles("ROLE_ADMIN")
 	public User findUser(String id) {
 		// TODO Auto-generated method stub
 		return userDao.get(id);
 	}
 	
 	@Override
+	@RequiresRoles("ROLE_ADMIN")
 	public List<User> findUsers() {
 		return userDao.findAll();
 	}
 
 	@Override
-	public List<User> findUsersByProp(String property, String keyword, boolean userRel, User user) {
+	@RequiresRoles("ROLE_ADMIN")
+	public List<User> findUsersByProp(String property, String keyword) {
 		// TODO Auto-generated method stub
-		return userDao.findByProp(property, keyword, userRel, user);
+		return userDao.findByProp(property, keyword);
 	}
 
 	@Override

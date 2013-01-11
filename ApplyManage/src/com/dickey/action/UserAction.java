@@ -1,12 +1,12 @@
 package com.dickey.action;
 
-import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.shiro.crypto.hash.Md5Hash;
+
 import com.dickey.action.base.BaseAction;
 import com.dickey.domain.User;
-import com.opensymphony.xwork2.ActionContext;
 
 public class UserAction extends BaseAction{
 
@@ -21,9 +21,6 @@ public class UserAction extends BaseAction{
 	//模型驱动的实例
 	private User model = new User();
 	
-	//模型是否与User相关联
-	private boolean userRel = false;
-	
 	//删除时的选中项的id
 	private String[] checkItems;
 	
@@ -33,9 +30,10 @@ public class UserAction extends BaseAction{
 	//搜索时的关键字
 	private String keyword;
 	
-	//当前用户
-	private User user = (User) ActionContext.getContext().getSession().get("user");
+	//页面标题
+	private String title;
 	
+	//模型驱动的实例集
 	private List<User> users = new LinkedList<User>();
 	
 	
@@ -43,40 +41,15 @@ public class UserAction extends BaseAction{
 	 * 按字段查询
 	 */
 	public String queryByProp(){
-		
-		//处理与User关联的数据
-		checkUserRel();
-		
-		setUsers(userService.findUsersByProp(property, keyword, userRel, user));
+		setUsers(userService.findUsersByProp(property, keyword));
 		return SUCCESS;
 	}
 	
 	/*
 	 * 查询
 	 */
-	@SuppressWarnings("unchecked")
 	public String query(){
-		
-		//处理与User关联的数据
-		checkUserRel();
-		
-		Method method = null;
-		if(userRel){
-			try {
-				method = userService.getClass().getDeclaredMethod("findUsersByUser", User.class);
-				setUsers((List<User>) method.invoke(userService, user));
-			} catch (Exception e) {
-				System.err.println("userService中无法找到按用户查找数据的方法");
-			}
-		}else{
-			try {
-				method = userService.getClass().getDeclaredMethod("findUsers");
-				setUsers((List<User>) method.invoke(userService));
-			} catch (Exception e) {
-				System.err.println("userService中无法找到查找所有数据的方法");
-			}
-		}
-
+		setUsers(userService.findUsers());
 		return SUCCESS;
 	}
 	
@@ -84,6 +57,7 @@ public class UserAction extends BaseAction{
 	 * 加载增加页面
 	 */
 	public String add(){
+		title = "创建新";
 		return INPUT;
 	}
 	
@@ -91,6 +65,7 @@ public class UserAction extends BaseAction{
 	 * 加载修改页面
 	 */
 	public String edit(){
+		title = "编辑";
 		model = userService.findUser(id);
 		return INPUT;
 	}
@@ -99,14 +74,11 @@ public class UserAction extends BaseAction{
 	 * 处理增加/修改
 	 */
 	public String editSubmit(){
+		//加密密码
+		String crypto = new Md5Hash(model.getPassword()).toHex(); 
+		model.setPassword(crypto);
+		
 		if(model.getId().equals("")){
-			//处理与User关联的数据
-			try {
-				Method method = model.getClass().getDeclaredMethod("setUser", User.class);
-				method.invoke(model, user);
-			} catch (Exception e) {
-				System.out.println("与User无关联");
-			}
 			//处理新建
 			userService.addUser(model);
 		}else{
@@ -124,19 +96,6 @@ public class UserAction extends BaseAction{
 			userService.delApplication(id);
 		}
 		return query();
-	}
-	
-	/*
-	 * 判断当前模型实例是否与用户相关联
-	 */
-	private void checkUserRel(){
-		//处理与User关联的数据
-		try {
-			model.getClass().getDeclaredField("user");
-			userRel = true;
-		}  catch (Exception e) {
-			System.out.println(model.getClass().getName() + "与用户无关联");
-		}
 	}
 	
 	/*
@@ -183,20 +142,20 @@ public class UserAction extends BaseAction{
 		this.keyword = keyword;
 	}
 
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
 	public List<User> getUsers() {
 		return users;
 	}
 
 	public void setUsers(List<User> users) {
 		this.users = users;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 

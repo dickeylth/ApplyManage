@@ -1,5 +1,6 @@
 package com.dickey.action;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.List;
@@ -33,6 +34,12 @@ public class ApplicationAction extends BaseAction{
 	
 	//搜索时的关键字
 	private String keyword;
+	
+	//页面标题
+	private String title;
+	
+	//业务模型的所有字段
+	private Field[] fields = model.getClass().getDeclaredFields();
 	
 	//当前用户
 	private User user = (User) ActionContext.getContext().getSession().get("user");
@@ -94,6 +101,7 @@ public class ApplicationAction extends BaseAction{
 	 * 加载增加页面
 	 */
 	public String add(){
+		title = "创建新";
 		return INPUT;
 	}
 	
@@ -101,6 +109,11 @@ public class ApplicationAction extends BaseAction{
 	 * 加载修改页面
 	 */
 	public String edit(){
+		title = "编辑";
+		System.out.println("Edit");
+		for (Field f : fields) {
+			System.out.println(f.getName());
+		}
 		model = userService.findApplication(id);
 		return INPUT;
 	}
@@ -198,6 +211,22 @@ public class ApplicationAction extends BaseAction{
 
 	public void setKeyword(String keyword) {
 		this.keyword = keyword;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public Field[] getFields() {
+		return fields;
+	}
+
+	public void setFields(Field[] fields) {
+		this.fields = fields;
 	}
 
 

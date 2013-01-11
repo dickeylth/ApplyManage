@@ -5,19 +5,18 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>申请管理</title>
+	<link rel="stylesheet" href="css/iframe.css"/>
 </head>
 <body>
-	<h2>这里是申请管理页面</h2>
 	<form id="search" method="post" action="Application_queryByPropAction.do">
 		<select id="property" name="property">
-			<option value="id" <s:if test='%{property=="id"}'>selected="selected"</s:if>>Id</option>
-			<option value="start" <s:if test='%{property=="start"}'>selected="selected"</s:if>>开始时间</option>
-			<option value="end" <s:if test='%{property=="end"}'>selected="selected"</s:if>>结束时间</option>
-			<option value="reason" <s:if test='%{property=="reason"}'>selected="selected"</s:if>>原因</option>
+			<option value="id" <s:if test='%{property=="id"}'>selected="selected"</s:if>><s:text name="application.id"/></option>
+			<option value="start" <s:if test='%{property=="start"}'>selected="selected"</s:if>><s:text name="application.start"/></option>
+			<option value="end" <s:if test='%{property=="end"}'>selected="selected"</s:if>><s:text name="application.end"/></option>
+			<option value="reason" <s:if test='%{property=="reason"}'>selected="selected"</s:if>><s:text name="application.reason"/></option>
 		</select>
 		<input type="text" name="keyword" id="keyword" value="<s:property value="keyword"/>"/>
-		<input type="submit" value="搜索"/>
+		<input type="submit" id="search_btn" class="button" value="<s:text name='search'/>"/>
 		<s:fielderror/>
 	</form>
 	<form id="options" method="post">
@@ -25,10 +24,10 @@
 			<thead>
 				<tr>
 					<td></td>
-					<td>Id</td>
-					<td>开始时间</td>
-					<td>结束时间</td>
-					<td>原因</td>
+					<td><s:text name="application.id"/></td>
+					<td><s:text name="application.start"/></td>
+					<td><s:text name="application.end"/></td>
+					<td><s:text name="application.reason"/></td>
 				</tr>
 			</thead>
 			<tbody>
@@ -55,10 +54,10 @@
 		</table>
 		<ul>
 			<li>
-				<input type="submit" value="增加" id="add" data-action="Application_addAction.do" class="ctrl"/>
+				<input type="submit" value="增加" id="add" data-action="Application_addAction.do" class="ctrl button"/>
 			</li>
 			<li>
-				<input type="submit" value="删除" id="delete" data-action="Application_deleteAction.do" class="ctrl"/>
+				<input type="submit" value="删除" id="delete" data-action="Application_deleteAction.do" class="ctrl button"/>
 			</li>
 		</ul>
 	</form>

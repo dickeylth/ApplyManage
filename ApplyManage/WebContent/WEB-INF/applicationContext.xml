@@ -95,6 +95,9 @@
 				/login.jsp = anon
                 /login* = authc
                 /logout = logout
+                /js/* = anon 
+                /css/* = anon 
+                /img/* = anon
                 /** = authc
 			</value>
 		</property>

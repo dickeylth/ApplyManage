@@ -1,0 +1,70 @@
+body{
+    font:normal 13px "微软雅黑", 'Microsoft Yahei',Arial,Tahoma;
+    color:#666;
+    margin: 50px 40px 0px 40px;
+    text-align: center;
+}
+
+ul{
+    list-style: none;
+}
+
+ul li{
+    float: left;
+}
+
+section,header,footer,aside,article,nav{
+    display:block;
+}
+
+.button{
+    font-family: "微软雅黑", 'Microsoft Yahei',Arial,Tahoma;
+    border: 1px solid #789;
+    background-color: #FFF;
+    color: #0072DB;
+    padding: 4px 12px;
+}
+
+.button:hover{
+    background-color: #0072DB;
+    color: #FFF;
+    cursor: pointer;
+}
+
+/*搜索框*/
+#search{
+    text-align: center;
+    margin: 20px auto;
+}
+
+#keyword{
+    width: 200px;
+}
+
+#property, #keyword{
+    font-family:"微软雅黑", 'Microsoft Yahei',Arial,Tahoma;
+    padding: 4px;
+    border: 1px solid #789;
+}
+
+#search_btn{
+    margin-left: -5px;
+}
+
+/*内容框*/
+#options table{
+    width: 640px;
+}
+
+#editForm table{
+    text-align: right;
+}
+
+table, #options ul{
+    margin: 10px auto;
+}
+
+#options ul{
+    overflow: hidden;
+    margin-left: 96px;
+}

@@ -5,18 +5,17 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>用户管理</title>
+	<link rel="stylesheet" href="css/iframe.css"/>
 </head>
 <body>
-	<h2>这里是用户管理页面</h2>
 	<form id="search" method="post" action="User_queryByPropAction.do">
 		<select id="property" name="property">
-			<option value="id" <s:if test='%{property=="id"}'>selected="selected"</s:if>>Id</option>
-			<option value="username" <s:if test='%{property=="username"}'>selected="selected"</s:if>>用户名</option>
-			<option value="password" <s:if test='%{property=="password"}'>selected="selected"</s:if>>密码</option>
+			<option value="id" <s:if test='%{property=="id"}'>selected="selected"</s:if>><s:text name="user.id"/></option>
+			<option value="username" <s:if test='%{property=="username"}'>selected="selected"</s:if>><s:text name="user.username"/></option>
+			<option value="password" <s:if test='%{property=="password"}'>selected="selected"</s:if>><s:text name="user.password"/></option>
 		</select>
 		<input type="text" name="keyword" id="keyword" value="<s:property value="keyword"/>"/>
-		<input type="submit" value="搜索"/>
+		<input type="submit" id="search_btn" class="button" value="<s:text name='search'/>"/>
 		<s:fielderror/>
 	</form>
 	<form id="options" method="post">
@@ -24,10 +23,9 @@
 			<thead>
 				<tr>
 					<td></td>
-					<td>Id</td>
-					<td>用户名</td>
-					<td>密码</td>
-					<td>原因</td>
+					<td><s:text name="user.id"/></td>
+					<td><s:text name="user.username"/></td>
+					<td><s:text name="user.password"/></td>
 				</tr>
 			</thead>
 			<tbody>
@@ -51,10 +49,10 @@
 		</table>
 		<ul>
 			<li>
-				<input type="submit" value="增加" id="add" data-action="User_addAction.do" class="ctrl"/>
+				<input type="submit" value="增加" id="add" data-action="User_addAction.do" class="ctrl button"/>
 			</li>
 			<li>
-				<input type="submit" value="删除" id="delete" data-action="User_deleteAction.do" class="ctrl"/>
+				<input type="submit" value="删除" id="delete" data-action="User_deleteAction.do" class="ctrl button"/>
 			</li>
 		</ul>
 	</form>

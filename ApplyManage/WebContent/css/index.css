@@ -1,0 +1,76 @@
+body{
+    font:normal 13px "微软雅黑", 'Microsoft Yahei',Arial,Tahoma;
+    color:#666;
+    background:url(../img/background.jpg) no-repeat center top #EEFCFF;
+    margin: 50px 240px 0px 240px;
+}
+
+ul{
+    list-style: none;
+}
+
+ul li{
+    float: left;
+}
+
+section,header,footer,aside,article,nav{
+    display:block;
+}
+
+/*顶部标题栏*/
+#top h1{
+    padding: 24px 18px;
+    text-shadow: 0 2px 2px #B0B0B0;
+    -moz-text-shadow: 0 2px 2px #B0B0B0;
+    -webkit-text-shadow: 0 2px 2px #B0B0B0;
+}
+
+/*导航栏*/
+nav{
+    overflow: hidden;
+    background-color: #0491c7;
+    font-size: 16px;
+    color: #F0F0F0;
+    border: 1px solid #456;
+}
+
+nav li a{
+    color: #F0F0F0;
+    text-shadow: 0 2px 2px #0072DB;
+    -moz-text-shadow: 0 2px 2px #0072DB;
+    -webkit-text-shadow: 0 2px 2px #0072DB;
+    text-decoration: none;
+    font-weight: 500;
+    display: block;
+    padding: 12px 32px;
+}
+
+nav li a:hover, nav li a.on{
+    background-color: #F0F0F0;
+    color: #0072DB;
+    text-shadow: 0 2px 2px #F0F0F0;
+    -moz-text-shadow: 0 2px 2px #F0F0F0;
+    -webkit-text-shadow: 0 2px 2px #F0F0F0;
+}
+
+nav li a.on{
+    background-color: #eafaff;
+}
+
+#account{
+    float: right;
+    padding: 12px 0;
+}
+
+#logout{
+    display: inline;
+    padding-left: 24px;
+}
+
+/*iframe style*/
+#main{
+    width: 100%;
+    height: 640px;
+    opacity: 0.8;
+    background-color: #eafaff;
+}

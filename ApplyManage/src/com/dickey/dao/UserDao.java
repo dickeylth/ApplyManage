@@ -19,5 +19,5 @@ public interface UserDao {
 	
 	List<User> findAll();
 	
-	List<User> findByProp(String property, String keyword, boolean userRel, User user);
+	List<User> findByProp(String property, String keyword);
 }
