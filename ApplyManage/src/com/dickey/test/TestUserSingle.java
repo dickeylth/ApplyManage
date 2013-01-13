@@ -29,7 +29,6 @@ public class TestUserSingle extends HibernateDaoSupport{
 		Transaction tx = session.beginTransaction();
 	
 		
-		
 		tx.commit();
 		session.close();*/
 
