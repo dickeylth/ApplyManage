@@ -8,11 +8,10 @@
 	<link rel="stylesheet" href="css/iframe.css"/>
 </head>
 <body>
-	<form id="search" method="post" action="User_queryByPropAction.do">
+	<form id="search" method="post" action="Role_queryByPropAction.do">
 		<select id="property" name="property">
-			<option value="id" <s:if test='%{property=="id"}'>selected="selected"</s:if>><s:text name="user.id"/></option>
-			<option value="username" <s:if test='%{property=="username"}'>selected="selected"</s:if>><s:text name="user.username"/></option>
-			<option value="password" <s:if test='%{property=="password"}'>selected="selected"</s:if>><s:text name="user.password"/></option>
+			<option value="id" <s:if test='%{property=="id"}'>selected="selected"</s:if>><s:text name="role.id"/></option>
+			<option value="rolename" <s:if test='%{property=="rolename"}'>selected="selected"</s:if>><s:text name="role.rolename"/></option>
 		</select>
 		<input type="text" name="keyword" id="keyword" value="<s:property value="keyword"/>"/>
 		<input type="submit" id="search_btn" class="button" value="<s:text name='search'/>"/>
@@ -23,9 +22,8 @@
 			<thead>
 				<tr>
 					<td></td>
-					<td><s:text name="user.id"/></td>
-					<td><s:text name="user.username"/></td>
-					<td><s:text name="user.password"/></td>
+					<td><s:text name="role.id"/></td>
+					<td><s:text name="role.rolename"/></td>
 				</tr>
 			</thead>
 			<tbody>
@@ -35,13 +33,10 @@
 							<input type="checkbox" name="checkItems" class="check" value="<s:property value="#model.id"/>"/>
 						</td>
 						<td>
-							<a href="<s:url action='User_editAction'><s:param name='id' value='#model.id'/></s:url>"><s:property value="#model.id"/></a>
+							<a href="<s:url action='Role_editAction'><s:param name='id' value='#model.id'/></s:url>"><s:property value="#model.id"/></a>
 						</td>
 						<td>
-							<s:property value="#model.username"/>
-						</td>
-						<td>
-							<s:property value="#model.password"/>
+							<s:property value="#model.rolename"/>
 						</td>
 					</tr>
 				</s:iterator>
@@ -49,10 +44,10 @@
 		</table>
 		<ul>
 			<li>
-				<input type="submit" value="增加" id="add" data-action="User_addAction.do" class="ctrl button"/>
+				<input type="submit" value="增加" id="add" data-action="Role_addAction.do" class="ctrl button"/>
 			</li>
 			<li>
-				<input type="submit" value="删除" id="delete" data-action="User_deleteAction.do" class="ctrl button"/>
+				<input type="submit" value="删除" id="delete" data-action="Role_deleteAction.do" class="ctrl button"/>
 			</li>
 		</ul>
 	</form>

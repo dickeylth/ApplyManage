@@ -25,7 +25,7 @@ public class ApplicationDaoImpl extends HibernateDaoSupport implements Applicati
 	@Override
 	public void update(Application application) {
 		// TODO Auto-generated method stub
-		getHibernateTemplate().update(application);
+		getHibernateTemplate().merge(application);
 	}
 
 	@Override

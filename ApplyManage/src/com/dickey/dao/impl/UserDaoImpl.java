@@ -31,7 +31,7 @@ public class UserDaoImpl extends HibernateDaoSupport implements UserDao {
 	@Override
 	public void update(User user) {
 		// TODO Auto-generated method stub
-		getHibernateTemplate().update(user);
+		getHibernateTemplate().merge(user);
 	}
 
 	@Override

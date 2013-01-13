@@ -55,6 +55,14 @@
 	    color: #FFF;
 	    cursor: pointer;
 	}
+	.tip{
+		color: red;
+		text-align: right;
+		position: relative;
+		top: -43px;
+		left: 230px;
+		width: 270px;
+	}
 	</style>
 </head>
 <body>

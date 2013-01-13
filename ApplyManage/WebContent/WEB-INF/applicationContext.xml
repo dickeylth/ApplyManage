@@ -65,10 +65,14 @@
    	
    	<bean id="daoTemplate" abstract="true" p:sessionFactory-ref="sessionFactory"/>
 	<bean id="userDao" class="com.dickey.dao.impl.UserDaoImpl" parent="daoTemplate"/>
+	<bean id="roleDao" class="com.dickey.dao.impl.RoleDaoImpl" parent="daoTemplate"/>
+	<bean id="permissionDao" class="com.dickey.dao.impl.PermissionDaoImpl" parent="daoTemplate"/>
 	<bean id="applicationDao" class="com.dickey.dao.impl.ApplicationDaoImpl" parent="daoTemplate"/>
    	<bean id="userService" class="com.dickey.service.impl.UserServiceImpl" 
    		p:userDao-ref="userDao"
-   		p:applicationDao-ref="applicationDao"/>
+   		p:roleDao-ref="roleDao"
+   		p:applicationDao-ref="applicationDao"
+   		p:permissionDao-ref="permissionDao"/>
    	
    	
    	

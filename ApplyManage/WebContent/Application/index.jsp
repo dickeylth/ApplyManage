@@ -31,22 +31,22 @@
 				</tr>
 			</thead>
 			<tbody>
-				<s:iterator value="applications" id="application">
+				<s:iterator value="models" id="model">
 					<tr>
 						<td>
-							<input type="checkbox" name="checkItems" class="check" value="<s:property value="#application.id"/>"/>
+							<input type="checkbox" name="checkItems" class="check" value="<s:property value="#model.id"/>"/>
 						</td>
 						<td>
-							<a href="<s:url action='Application_editAction'><s:param name='id' value='#application.id'/></s:url>"><s:property value="#application.id"/></a>
+							<a href="<s:url action='Application_editAction'><s:param name='id' value='#model.id'/></s:url>"><s:property value="#model.id"/></a>
 						</td>
 						<td>
-							<s:property value="#application.start"/>
+							<s:property value="#model.start"/>
 						</td>
 						<td>
-							<s:property value="#application.end"/>
+							<s:property value="#model.end"/>
 						</td>
 						<td>
-							<s:property value="#application.reason"/>
+							<s:property value="#model.reason"/>
 						</td>
 					</tr>
 				</s:iterator>

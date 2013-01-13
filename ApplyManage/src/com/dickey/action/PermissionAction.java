@@ -1,17 +1,12 @@
 package com.dickey.action;
 
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
-
-import org.apache.shiro.crypto.hash.Md5Hash;
 
 import com.dickey.action.base.BaseAction;
-import com.dickey.domain.Role;
-import com.dickey.domain.User;
+import com.dickey.domain.Permission;
 
-public class UserAction extends BaseAction{
+public class PermissionAction extends BaseAction{
 
 	/**
 	 * 默认序列化UID
@@ -22,7 +17,7 @@ public class UserAction extends BaseAction{
 	private String id = "";
 	
 	//模型驱动的实例
-	private User model = new User();
+	private Permission model = new Permission();
 	
 	//删除时的选中项的id
 	private String[] checkItems;
@@ -37,19 +32,14 @@ public class UserAction extends BaseAction{
 	private String title;
 	
 	//模型驱动的实例集
-	private List<User> models = new LinkedList<User>();
+	private List<Permission> models = new LinkedList<Permission>();
 	
-	//系统所有的角色
-	private List<Role> sysRoles = new LinkedList<Role>();
-	
-	//当前用户所有的角色
-	private List<String> roles = new LinkedList<String>();
 	
 	/*
 	 * 按字段查询
 	 */
 	public String queryByProp(){
-		setModels(userService.findUsersByProp(property, keyword));
+		setModels(userService.findPermissionsByProp(property, keyword));
 		return SUCCESS;
 	}
 	
@@ -57,7 +47,7 @@ public class UserAction extends BaseAction{
 	 * 查询
 	 */
 	public String query(){
-		setModels(userService.findUsers());
+		setModels(userService.findPermissions());
 		return SUCCESS;
 	}
 	
@@ -66,7 +56,6 @@ public class UserAction extends BaseAction{
 	 */
 	public String add(){
 		title = "创建新";
-		sysRoles = userService.findRoles();
 		return INPUT;
 	}
 	
@@ -75,13 +64,7 @@ public class UserAction extends BaseAction{
 	 */
 	public String edit(){
 		title = "编辑";
-		sysRoles = userService.findRoles();
-		model = userService.findUser(id);
-
-		for (Role role : model.getRoles()) {
-			roles.add(role.getId());
-		}
-		
+		model = userService.findPermission(id);
 		return INPUT;
 	}
 	
@@ -89,29 +72,13 @@ public class UserAction extends BaseAction{
 	 * 处理增加/修改
 	 */
 	public String editSubmit(){
-		//加密密码
-		String crypto = new Md5Hash(model.getPassword()).toHex(); 
-		model.setPassword(crypto);
 		
-		//处理角色绑定
-		sysRoles = userService.findRoles();
-		Set<Role> roleList = new HashSet<Role>();
-
-		for (String roleId : roles) {
-			System.out.println("角色名：" + roleId);
-			if(!roleId.equals("")){
-				Role role = findRoleFromRoleList(sysRoles, roleId);
-				roleList.add(role);
-			}
-		}
-		
-		model.setRoles(roleList);
 		if(model.getId().equals("")){
 			//处理新建
-			userService.addUser(model);
+			userService.addPermission(model);
 		}else{
 			//处理更新
-			userService.updateUser(model);
+			userService.updatePermission(model);
 		}
 		return query();
 	}
@@ -121,41 +88,21 @@ public class UserAction extends BaseAction{
 	 */
 	public String delete(){
 		for (String id : checkItems) {
-			userService.deleteUser(id);
+			userService.deletePermission(id);
 		}
 		return query();
 	}
-	
-	/*
-	 * 根据id字符串在数据库role列表中找到对应的Role实例
-	 */
-	private Role findRoleFromRoleList(List<Role> roles, String id){
-		for (Role role : roles) {
-			if(role.getId().equals(id)){
-				return role;
-			}
-		}
-		return null;
-	}
+
 	
 	/*
 	 * Getters 和 Setters
 	 */
-
 	public String getId() {
 		return id;
 	}
 
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	public User getModel() {
-		return model;
-	}
-
-	public void setModel(User model) {
-		this.model = model;
 	}
 
 	public String[] getCheckItems() {
@@ -190,24 +137,20 @@ public class UserAction extends BaseAction{
 		this.title = title;
 	}
 
-	public List<User> getModels() {
+	public List<Permission> getModels() {
 		return models;
 	}
 
-	public void setModels(List<User> models) {
+	public void setModels(List<Permission> models) {
 		this.models = models;
 	}
 
-	public List<Role> getSysRoles() {
-		return sysRoles;
+	public Permission getModel() {
+		return model;
 	}
 
-	public List<String> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(List<String> roles) {
-		this.roles = roles;
+	public void setModel(Permission model) {
+		this.model = model;
 	}
 	
 

@@ -45,11 +45,7 @@ public class ApplicationAction extends BaseAction{
 	private User user = (User) ActionContext.getContext().getSession().get("user");
 	
 	//查询出的实例集
-	private List<Application> applications = new LinkedList<Application>();
-	
-	{
-		System.out.println(user);
-	}
+	private List<Application> models = new LinkedList<Application>();
 	
 	/*
 	 * 按字段查询
@@ -64,7 +60,7 @@ public class ApplicationAction extends BaseAction{
 			System.out.println(model.getClass().getName() + "与用户无关联");
 		}
 		
-		setApplications(userService.findApplicationsByProp(property, keyword, flag, user));
+		setModels(userService.findApplicationsByProp(property, keyword, flag, user));
 		return SUCCESS;
 	}
 	
@@ -81,14 +77,14 @@ public class ApplicationAction extends BaseAction{
 		if(userRel){
 			try {
 				method = userService.getClass().getDeclaredMethod("findApplicationsByUser", User.class);
-				setApplications((List<Application>) method.invoke(userService, user));
+				setModels((List<Application>) method.invoke(userService, user));
 			} catch (Exception e) {
 				System.err.println("userService中无法找到按用户查找数据的方法");
 			}
 		}else{
 			try {
 				method = userService.getClass().getDeclaredMethod("findApplications");
-				setApplications((List<Application>) method.invoke(userService));
+				setModels((List<Application>) method.invoke(userService));
 			} catch (Exception e) {
 				System.err.println("userService中无法找到查找所有数据的方法");
 			}
@@ -165,14 +161,6 @@ public class ApplicationAction extends BaseAction{
 	/*
 	 * Getters 和 Setters
 	 */
-	public void setApplications(List<Application> applications) {
-		this.applications = applications;
-	}	
-
-	public List<Application> getApplications() {
-		return applications;
-	}
-
 	public String getId() {
 		return id;
 	}
@@ -227,6 +215,14 @@ public class ApplicationAction extends BaseAction{
 
 	public void setFields(Field[] fields) {
 		this.fields = fields;
+	}
+
+	public List<Application> getModels() {
+		return models;
+	}
+
+	public void setModels(List<Application> models) {
+		this.models = models;
 	}
 
 

@@ -5,13 +5,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.shiro.crypto.hash.Md5Hash;
 
 import com.dickey.action.base.BaseAction;
+import com.dickey.domain.Permission;
 import com.dickey.domain.Role;
-import com.dickey.domain.User;
 
-public class UserAction extends BaseAction{
+public class RoleAction extends BaseAction{
 
 	/**
 	 * 默认序列化UID
@@ -22,7 +21,7 @@ public class UserAction extends BaseAction{
 	private String id = "";
 	
 	//模型驱动的实例
-	private User model = new User();
+	private Role model = new Role();
 	
 	//删除时的选中项的id
 	private String[] checkItems;
@@ -37,19 +36,19 @@ public class UserAction extends BaseAction{
 	private String title;
 	
 	//模型驱动的实例集
-	private List<User> models = new LinkedList<User>();
+	private List<Role> models = new LinkedList<Role>();
 	
-	//系统所有的角色
-	private List<Role> sysRoles = new LinkedList<Role>();
-	
+	//系统所有的权限
+	private List<Permission> sysPermissions = new LinkedList<Permission>();
+		
 	//当前用户所有的角色
-	private List<String> roles = new LinkedList<String>();
+	private List<String> permissions = new LinkedList<String>();
 	
 	/*
 	 * 按字段查询
 	 */
 	public String queryByProp(){
-		setModels(userService.findUsersByProp(property, keyword));
+		setModels(userService.findRolesByProp(property, keyword));
 		return SUCCESS;
 	}
 	
@@ -57,7 +56,7 @@ public class UserAction extends BaseAction{
 	 * 查询
 	 */
 	public String query(){
-		setModels(userService.findUsers());
+		setModels(userService.findRoles());
 		return SUCCESS;
 	}
 	
@@ -66,7 +65,7 @@ public class UserAction extends BaseAction{
 	 */
 	public String add(){
 		title = "创建新";
-		sysRoles = userService.findRoles();
+		sysPermissions = userService.findPermissions();
 		return INPUT;
 	}
 	
@@ -75,12 +74,13 @@ public class UserAction extends BaseAction{
 	 */
 	public String edit(){
 		title = "编辑";
-		sysRoles = userService.findRoles();
-		model = userService.findUser(id);
-
-		for (Role role : model.getRoles()) {
-			roles.add(role.getId());
+		sysPermissions = userService.findPermissions();
+		model = userService.findRole(id);
+		
+		for (Permission permission : model.getPermissions()) {
+			permissions.add(permission.getId());
 		}
+		System.out.println(permissions);
 		
 		return INPUT;
 	}
@@ -89,29 +89,24 @@ public class UserAction extends BaseAction{
 	 * 处理增加/修改
 	 */
 	public String editSubmit(){
-		//加密密码
-		String crypto = new Md5Hash(model.getPassword()).toHex(); 
-		model.setPassword(crypto);
 		
-		//处理角色绑定
-		sysRoles = userService.findRoles();
-		Set<Role> roleList = new HashSet<Role>();
-
-		for (String roleId : roles) {
-			System.out.println("角色名：" + roleId);
-			if(!roleId.equals("")){
-				Role role = findRoleFromRoleList(sysRoles, roleId);
-				roleList.add(role);
+		//处理权限绑定
+		sysPermissions = userService.findPermissions();
+		Set<Permission> permissionList = new HashSet<Permission>();
+		for (String permissionId : permissions) {
+			if(!permissionId.equals("")){
+				Permission permission = findPermissionFromRoleList(sysPermissions, permissionId);
+				permissionList.add(permission);
 			}
 		}
 		
-		model.setRoles(roleList);
+		model.setPermissions(permissionList);
 		if(model.getId().equals("")){
 			//处理新建
-			userService.addUser(model);
+			userService.addRole(model);
 		}else{
 			//处理更新
-			userService.updateUser(model);
+			userService.updateRole(model);
 		}
 		return query();
 	}
@@ -121,18 +116,18 @@ public class UserAction extends BaseAction{
 	 */
 	public String delete(){
 		for (String id : checkItems) {
-			userService.deleteUser(id);
+			userService.deleteRole(id);
 		}
 		return query();
 	}
-	
+
 	/*
-	 * 根据id字符串在数据库role列表中找到对应的Role实例
+	 * 根据id字符串在数据库permission列表中找到对应的Permission实例
 	 */
-	private Role findRoleFromRoleList(List<Role> roles, String id){
-		for (Role role : roles) {
-			if(role.getId().equals(id)){
-				return role;
+	private Permission findPermissionFromRoleList(List<Permission> permissions, String id){
+		for (Permission permission : permissions) {
+			if(permission.getId().equals(id)){
+				return permission;
 			}
 		}
 		return null;
@@ -141,7 +136,6 @@ public class UserAction extends BaseAction{
 	/*
 	 * Getters 和 Setters
 	 */
-
 	public String getId() {
 		return id;
 	}
@@ -150,11 +144,11 @@ public class UserAction extends BaseAction{
 		this.id = id;
 	}
 
-	public User getModel() {
+	public Role getModel() {
 		return model;
 	}
 
-	public void setModel(User model) {
+	public void setModel(Role model) {
 		this.model = model;
 	}
 
@@ -190,25 +184,25 @@ public class UserAction extends BaseAction{
 		this.title = title;
 	}
 
-	public List<User> getModels() {
+	public List<Role> getModels() {
 		return models;
 	}
 
-	public void setModels(List<User> models) {
+	public void setModels(List<Role> models) {
 		this.models = models;
 	}
 
-	public List<Role> getSysRoles() {
-		return sysRoles;
+	public List<Permission> getSysPermissions() {
+		return sysPermissions;
 	}
 
-	public List<String> getRoles() {
-		return roles;
+	public List<String> getPermissions() {
+		return permissions;
 	}
 
-	public void setRoles(List<String> roles) {
-		this.roles = roles;
+	public void setPermissions(List<String> permissions) {
+		this.permissions = permissions;
 	}
-	
+
 
 }
