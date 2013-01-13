@@ -6,12 +6,12 @@
 <!-- Struts2配置文件的根元素 -->
 <struts>
 	<!-- 配置了系列常量 -->
-	<constant name="struts.custom.i18n.resources" value="resource"/>
-	<constant name="struts.i18n.encoding" value="UTF-8"/>
-	<constant name="struts.devMode" value="true"/>
+	<constant name="struts.custom.i18n.resources" value="resource" />
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+	<constant name="struts.devMode" value="true" />
 	<constant name="struts.action.extension" value="do"></constant>
 	<package name="default" extends="struts-default" namespace="/">
-	
+
 		<!-- 定义全局结果 -->
 		<global-results>
 			<result name="unauthorized">/unauthorized.jsp</result>
@@ -19,11 +19,14 @@
 		</global-results>
 		<!-- 定义全局异常映射 -->
 		<global-exception-mappings>
-			<exception-mapping result="unauthorized" exception="org.apache.shiro.authz.UnauthorizedException"/>
-			<exception-mapping result="unauthenticated" exception="org.apache.shiro.authz.UnauthenticatedException"/>
+			<exception-mapping result="unauthorized"
+				exception="org.apache.shiro.authz.UnauthorizedException" />
+			<exception-mapping result="unauthenticated"
+				exception="org.apache.shiro.authz.UnauthenticatedException" />
 		</global-exception-mappings>
 
-		<action name="*_*Action" class="com.dickey.action.{1}Action" method="{2}">
+		<action name="*_*Action" class="com.dickey.action.{1}Action"
+			method="{2}">
 			<result name="input">{1}/edit.jsp</result>
 			<result>{1}/index.jsp</result>
 		</action>
