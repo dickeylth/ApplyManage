@@ -91,11 +91,10 @@ public class RoleAction extends BaseAction{
 	public String editSubmit(){
 		
 		//处理权限绑定
-		sysPermissions = userService.findPermissions();
 		Set<Permission> permissionList = new HashSet<Permission>();
 		for (String permissionId : permissions) {
 			if(!permissionId.equals("")){
-				Permission permission = findPermissionFromRoleList(sysPermissions, permissionId);
+				Permission permission = userService.findPermission(permissionId);
 				permissionList.add(permission);
 			}
 		}
@@ -121,18 +120,6 @@ public class RoleAction extends BaseAction{
 		return query();
 	}
 
-	/*
-	 * 根据id字符串在数据库permission列表中找到对应的Permission实例
-	 */
-	private Permission findPermissionFromRoleList(List<Permission> permissions, String id){
-		for (Permission permission : permissions) {
-			if(permission.getId().equals(id)){
-				return permission;
-			}
-		}
-		return null;
-	}
-	
 	/*
 	 * Getters 和 Setters
 	 */

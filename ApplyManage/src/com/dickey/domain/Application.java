@@ -21,7 +21,7 @@ public class Application implements Serializable{
 	private String id;
 	
 	@ManyToOne
-	@JoinColumn(name="user_id", updatable = false)
+	@JoinColumn(name="user_id", updatable = false, nullable=false)	
 	private User user;
 	
 	@Column

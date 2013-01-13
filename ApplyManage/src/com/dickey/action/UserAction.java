@@ -94,13 +94,12 @@ public class UserAction extends BaseAction{
 		model.setPassword(crypto);
 		
 		//处理角色绑定
-		sysRoles = userService.findRoles();
 		Set<Role> roleList = new HashSet<Role>();
-
 		for (String roleId : roles) {
 			System.out.println("角色名：" + roleId);
+			
 			if(!roleId.equals("")){
-				Role role = findRoleFromRoleList(sysRoles, roleId);
+				Role role = userService.findRole(roleId);
 				roleList.add(role);
 			}
 		}
@@ -124,18 +123,6 @@ public class UserAction extends BaseAction{
 			userService.deleteUser(id);
 		}
 		return query();
-	}
-	
-	/*
-	 * 根据id字符串在数据库role列表中找到对应的Role实例
-	 */
-	private Role findRoleFromRoleList(List<Role> roles, String id){
-		for (Role role : roles) {
-			if(role.getId().equals(id)){
-				return role;
-			}
-		}
-		return null;
 	}
 	
 	/*
