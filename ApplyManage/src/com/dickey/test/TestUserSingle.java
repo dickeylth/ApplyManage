@@ -15,8 +15,9 @@ import com.dickey.domain.Application;
 //import com.dickey.domain.User;
 import com.dickey.domain.User;
 
-
-
+/*
+ * 测试用户
+ */
 public class TestUserSingle extends HibernateDaoSupport{
 	/**
 	 * @param args
