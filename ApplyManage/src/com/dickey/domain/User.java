@@ -27,14 +27,11 @@ public class User implements Serializable{
 	@Column(nullable=true)
 	private String password;
 	
-	@ManyToMany(cascade = { CascadeType.ALL}, fetch=FetchType.EAGER)  
+	@ManyToMany(cascade = CascadeType.REFRESH, fetch=FetchType.EAGER)  
     @JoinTable(name = "USER_ROLE", joinColumns = { @JoinColumn(name = "USER_ID") }, inverseJoinColumns = { @JoinColumn(name = "ROLE_ID") })
 	private Set<Role> roles = new HashSet<Role>();
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinTable(name = "User_Application",
-	joinColumns = {@JoinColumn(name = "User_ID", referencedColumnName = "id")},
-	inverseJoinColumns = {@JoinColumn(name = "Application_ID", referencedColumnName ="id")})
+	@OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER, mappedBy="user")
 	private Set<Application> applications = new HashSet<Application>(0);
 	
 	public String getId() {

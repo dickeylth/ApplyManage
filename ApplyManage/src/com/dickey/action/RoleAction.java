@@ -168,10 +168,14 @@ public class RoleAction extends BaseAction{
 	 * 处理删除
 	 */
 	public String delete(){
+		
+		//是否有关联类操作
+		boolean flag = !refClass.trim().equals("") && !refId.trim().equals("");
+		
 		for (String id : checkItems) {
 			userService.deleteRole(id);
 		}
-		return query();
+		return flag ? queryByRef() : query();
 	}
 
 	/*

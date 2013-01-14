@@ -20,10 +20,8 @@ public class Application implements Serializable{
 	@GeneratedValue(generator = "idGenerator")
 	private String id;
 	
-	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-	@JoinTable(name = "User_Application",
-	joinColumns = {@JoinColumn(name = "Application_ID", referencedColumnName = "id")},
-	inverseJoinColumns = {@JoinColumn(name = "User_ID", referencedColumnName ="id")})
+	@ManyToOne(cascade=CascadeType.MERGE, fetch=FetchType.EAGER)
+	@JoinColumn(name="user_id")
 	private User user;
 	
 	@Column

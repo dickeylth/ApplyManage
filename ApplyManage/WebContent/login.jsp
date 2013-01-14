@@ -72,9 +72,6 @@ form table {
 .tip {
 	color: red;
 	text-align: right;
-	position: relative;
-	top: -43px;
-	left: 230px;
 	width: 270px;
 }
 </style>
@@ -87,13 +84,20 @@ form table {
 				<s:text name="sysname" />
 			</h2>
 		</div>
-		<s:form action="login" method="post">
+		<s:form action="login" method="post" id="loginForm">
 			<s:textfield name="username" key="username" />
 			<s:password name="password" key="password" />
 			<s:checkbox name="rememberMe" key="rememberMe" />
 			<s:submit key="login" id="login" cssClass="button" />
 		</s:form>
-		<p class="tip">${sessionScope.tip }</p>
+		<input type="hidden" id="tip" value="${sessionScope.tip}"/>
+		<script type="text/javascript"
+			src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+		<script>
+			$(document).ready(function(){
+				$('#login').before($('<span>').addClass('tip').text($('#tip').val()));
+			});
+		</script>
 	</div>
 </body>
 </html>
