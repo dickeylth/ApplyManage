@@ -31,6 +31,12 @@ public class User implements Serializable{
     @JoinTable(name = "USER_ROLE", joinColumns = { @JoinColumn(name = "USER_ID") }, inverseJoinColumns = { @JoinColumn(name = "ROLE_ID") })
 	private Set<Role> roles = new HashSet<Role>();
 	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable(name = "User_Application",
+	joinColumns = {@JoinColumn(name = "User_ID", referencedColumnName = "id")},
+	inverseJoinColumns = {@JoinColumn(name = "Application_ID", referencedColumnName ="id")})
+	private Set<Application> applications = new HashSet<Application>(0);
+	
 	public String getId() {
 		return id;
 	}
@@ -56,6 +62,12 @@ public class User implements Serializable{
 		this.roles = roles;
 	}
 	
+	public Set<Application> getApplications() {
+		return applications;
+	}
+	public void setApplications(Set<Application> applications) {
+		this.applications = applications;
+	}
 	public User(){
 		
 	}

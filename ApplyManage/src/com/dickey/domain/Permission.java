@@ -18,7 +18,8 @@ public class Permission {
 	@Column(unique=true, nullable=true)
 	private String permission;
 	
-	@ManyToMany(cascade = {CascadeType.ALL}, fetch=FetchType.EAGER, mappedBy="permissions")
+	@ManyToMany(cascade = {CascadeType.ALL},fetch=FetchType.EAGER)  
+    @JoinTable(name = "ROLE_PERMISSION", joinColumns = { @JoinColumn(name = "PERMISSION_ID") }, inverseJoinColumns = { @JoinColumn(name = "ROLE_ID") })
 	private Set<Role> roles = new HashSet<Role>();
 
 	public String getId() {

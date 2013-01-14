@@ -65,5 +65,11 @@ public class ApplicationDaoImpl extends HibernateDaoSupport implements Applicati
 		}
 		
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Application> findByRef(String refClass, String refId) {
+		return (List<Application>)getHibernateTemplate().find(" from Application as a where a." + refClass.toLowerCase() + ".id = ?", refId);
+	}
 	
 }

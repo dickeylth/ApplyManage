@@ -44,8 +44,6 @@ public class RoleDaoImpl extends HibernateDaoSupport implements RoleDao {
 	@Override
 	public List<Role> findAll() {
 		// TODO Auto-generated method stub
-		System.out.println("pring");
-		System.out.println((List<Role>)getHibernateTemplate().find(" from Role"));
 		return (List<Role>)getHibernateTemplate().find(" from Role");
 	}
 	
@@ -54,6 +52,13 @@ public class RoleDaoImpl extends HibernateDaoSupport implements RoleDao {
 	public List<Role> findByProp(String property, String keyword) {
 		// TODO Auto-generated method stub
 		return (List<Role>)getHibernateTemplate().find(" from Role as a where a." + property + " like '%" + keyword + "%'");
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Role> findByRef(String refClass, String refId) {
+		// TODO Auto-generated method stub
+		return (List<Role>)getHibernateTemplate().find(" from Role as a where a." + refClass.trim().toLowerCase() + ".id = ?", refId);
 	}
 
 

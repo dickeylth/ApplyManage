@@ -1,5 +1,8 @@
 package com.dickey.test;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -7,6 +10,7 @@ import org.hibernate.cfg.Configuration;
 
 import com.dickey.domain.Address;
 import com.dickey.domain.Major;
+import com.dickey.domain.Phone;
 import com.dickey.domain.Student;
 import com.dickey.domain.Teacher;
 
@@ -30,6 +34,15 @@ public class TestRelations {
 		Student student2 = new Student("韩梅梅", address2);
 		Student student3 = new Student("莎拉", address3);
 		
+		Set<Phone> phoneNumbers = new HashSet<Phone>();
+		phoneNumbers.add(new Phone("house","32354353"));
+		phoneNumbers.add(new Phone("mobile","9889343423"));
+		Phone phone = new Phone("house", "010223344");
+		phone.setStudent(student3);
+		
+		student1.setStudentPhoneNumbers(phoneNumbers);
+		
+		
 		Major major1 = new Major("英语");
 		Major major2 = new Major("计算机");
 		
@@ -46,6 +59,7 @@ public class TestRelations {
 		
 		session.save(teacher1);
 		session.save(teacher2);
+		session.save(phone);
 		//session.save(student3);
 		
 		tx.commit();

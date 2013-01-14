@@ -8,17 +8,23 @@
 <title>编辑</title>
 <link rel="stylesheet" href="css/iframe.css" />
 </head>
-<body>
+<body style="display:none">
 	<h3>
-		${title}
-		<s:text name="permission" />
+		${title}<s:text name="permission" />
 	</h3>
 	<s:form action="Permission_editSubmitAction" method="post"
 		id="editForm">
 		<s:hidden name="model.id" id="model_id" value="%{model.id}" />
 		<s:textfield name="model.permission" value="%{model.permission}"
 			key="permission.permission" />
+		<s:checkboxlist name="roles" list="sysRoles" key="permission.roles"
+			listKey="id" listValue="rolename" cssClass="checkboxlist"/>
 		<s:submit id="submit" key="submit" cssClass="button" />
 	</s:form>
+	<iframe src="" name="view" id="view"></iframe>
+	<a id="close">×</a>
+	<script type="text/javascript"
+		src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+	<script src="js/edit.js"></script>
 </body>
 </html>

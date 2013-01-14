@@ -54,5 +54,12 @@ public class PermissionDaoImpl extends HibernateDaoSupport implements Permission
 		return (List<Permission>)getHibernateTemplate().find(" from Permission as a where a." + property + " like '%" + keyword + "%'");
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Permission> findByRef(String refClass, String refId) {
+		// TODO Auto-generated method stub
+		return (List<Permission>)getHibernateTemplate().find(" from Permission as a where a." + refClass.trim().toLowerCase() + ".id = ?", refId);
+	}
+
 
 }

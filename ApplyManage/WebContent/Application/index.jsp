@@ -1,36 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" href="css/iframe.css" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" href="css/iframe.css" />
 </head>
-<body>
-	<form id="search" method="post"
-		action="Application_queryByPropAction.do">
-		<select id="property" name="property">
-			<option value="id"
-				<s:if test='%{property=="id"}'>selected="selected"</s:if>>
-				<s:text name="application.id" />
-			</option>
-			<option value="start"
-				<s:if test='%{property=="start"}'>selected="selected"</s:if>>
-				<s:text name="application.start" />
-			</option>
-			<option value="end"
-				<s:if test='%{property=="end"}'>selected="selected"</s:if>>
-				<s:text name="application.end" />
-			</option>
-			<option value="reason"
-				<s:if test='%{property=="reason"}'>selected="selected"</s:if>>
-				<s:text name="application.reason" />
-			</option>
-		</select> <input type="text" name="keyword" id="keyword"
-			value="<s:property value="keyword"/>" /> <input type="submit"
-			id="search_btn" class="button" value="<s:text name='search'/>" />
-		<s:fielderror />
+<body>	
+	<form id="search" method="post" action="Application_queryByPropAction.do">
+		<s:select list="properties" id="property" name="property" 
+				headerKey="" headerValue="--选择搜索字段--" value="property"/>
+		<input type="text" name="keyword" id="keyword" value="<s:property value="keyword"/>" />
+		<input type="submit" id="search_btn" class="button" value="<s:text name='search'/>" />
 	</form>
 	<form id="options" method="post">
 		<table>
@@ -59,10 +42,14 @@
 			</tbody>
 		</table>
 		<ul>
+			<shiro:hasPermission name="application:add">
 			<li><input type="submit" value="增加" id="add"
-				data-action="Application_addAction.do" class="ctrl button" /></li>
+				data-action="Application_addAction.do?refClass=${refClass}&refId=${refId}" class="ctrl button" /></li>
+			</shiro:hasPermission>
+			<shiro:hasPermission name="application:delete">
 			<li><input type="submit" value="删除" id="delete"
-				data-action="Application_deleteAction.do" class="ctrl button" /></li>
+				data-action="Application_deleteAction.do?refClass=${refClass}&refId=${refId}" class="ctrl button" /></li>
+			</shiro:hasPermission>
 		</ul>
 	</form>
 	<script type="text/javascript"

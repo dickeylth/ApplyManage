@@ -23,6 +23,12 @@ public class Student {
 	joinColumns = {@JoinColumn(name = "Student_ID", referencedColumnName = "id")},
 	inverseJoinColumns = {@JoinColumn(name = "Teacher_ID", referencedColumnName ="id")})
 	private Set<Teacher> teachers = new HashSet<Teacher>();
+	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable(name = "Student_Phone",
+	joinColumns = {@JoinColumn(name = "Student_ID", referencedColumnName = "id")},
+	inverseJoinColumns = {@JoinColumn(name = "Phone_ID", referencedColumnName ="phoneId")})
+	private Set<Phone> studentPhoneNumbers = new HashSet<Phone>(0);
 
 	public int getId() {
 		return id;
@@ -66,6 +72,14 @@ public class Student {
 
 	public void setTeachers(Set<Teacher> teachers) {
 		this.teachers = teachers;
+	}
+
+	public Set<Phone> getStudentPhoneNumbers() {
+		return studentPhoneNumbers;
+	}
+
+	public void setStudentPhoneNumbers(Set<Phone> studentPhoneNumbers) {
+		this.studentPhoneNumbers = studentPhoneNumbers;
 	}
 	
 }

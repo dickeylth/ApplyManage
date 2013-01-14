@@ -22,4 +22,6 @@ public interface ApplicationDao {
 	List<Application> findByUser(User user);
 	
 	List<Application> findByProp(String property, String keyword, boolean userRel, User user);
+
+	List<Application> findByRef(String refClass, String refId);
 }

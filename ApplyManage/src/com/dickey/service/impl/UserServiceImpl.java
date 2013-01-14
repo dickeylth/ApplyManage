@@ -101,7 +101,12 @@ public class UserServiceImpl implements UserService{
 		// TODO Auto-generated method stub
 		return userDao.findByProp(property, keyword);
 	}
-	
+
+	@Override
+	public List<User> findUsersByRef(String refClass, String refId) {
+		// TODO Auto-generated method stub
+		return userDao.findByRef(refClass, refId);
+	}
 	
 
 	@Override
@@ -144,6 +149,12 @@ public class UserServiceImpl implements UserService{
 	public List<Role> findRolesByProp(String property, String keyword) {
 		// TODO Auto-generated method stub
 		return roleDao.findByProp(property, keyword);
+	}
+
+	@Override
+	public List<Role> findRolesByRef(String refClass, String refId) {
+		// TODO Auto-generated method stub
+		return roleDao.findByRef(refClass, refId);
 	}
 
 
@@ -189,6 +200,11 @@ public class UserServiceImpl implements UserService{
 		return permissionDao.findByProp(property, keyword);
 	}
 
+	@Override
+	public List<Permission> findPermissionsByRef(String refClass, String refId) {
+		// TODO Auto-generated method stub
+		return permissionDao.findByRef(refClass, refId);
+	}
 	
 	@Override
 	public String addApplication(Application application) {
@@ -230,5 +246,13 @@ public class UserServiceImpl implements UserService{
 		// TODO Auto-generated method stub
 		return applicationDao.findByProp(property, keyword, userRel, user);
 	}
+
+	@Override
+	public List<Application> findApplicationsByRef(String refClass, String refId) {
+		// TODO Auto-generated method stub
+		return applicationDao.findByRef(refClass, refId);
+	}
+
+
 
 }

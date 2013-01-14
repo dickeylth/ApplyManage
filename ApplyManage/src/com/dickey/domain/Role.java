@@ -18,7 +18,8 @@ public class Role {
 	@Column(unique=true, nullable=true)
 	private String rolename;
 	
-	@ManyToMany(cascade = {CascadeType.ALL},fetch=FetchType.EAGER, mappedBy="roles")
+	@ManyToMany(cascade = { CascadeType.ALL}, fetch=FetchType.EAGER)  
+    @JoinTable(name = "USER_ROLE", joinColumns = { @JoinColumn(name = "ROLE_ID") }, inverseJoinColumns = { @JoinColumn(name = "USER_ID") })
 	private Set<User> users = new HashSet<User>();
 	
 	@ManyToMany(cascade = {CascadeType.ALL},fetch=FetchType.EAGER)  

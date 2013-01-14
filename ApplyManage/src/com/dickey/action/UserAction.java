@@ -1,8 +1,10 @@
 package com.dickey.action;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.shiro.crypto.hash.Md5Hash;
@@ -27,6 +29,10 @@ public class UserAction extends BaseAction{
 	//删除时的选中项的id
 	private String[] checkItems;
 	
+	//搜索可用的字段
+	private String[] fields = {"id", "username"};
+	private Map<String, String> properties = new HashMap<String, String>();
+	
 	//搜索时的字段类别
 	private String property;
 	
@@ -35,6 +41,12 @@ public class UserAction extends BaseAction{
 	
 	//页面标题
 	private String title;
+	
+	//关联查询的类
+	private String refClass;
+	
+	//关联查询的类的id
+	private String refId;
 	
 	//模型驱动的实例集
 	private List<User> models = new LinkedList<User>();
@@ -49,6 +61,9 @@ public class UserAction extends BaseAction{
 	 * 按字段查询
 	 */
 	public String queryByProp(){
+		for (String field : fields) {
+			properties.put(field, getText("user." + field));
+		}
 		setModels(userService.findUsersByProp(property, keyword));
 		return SUCCESS;
 	}
@@ -57,7 +72,18 @@ public class UserAction extends BaseAction{
 	 * 查询
 	 */
 	public String query(){
+		for (String field : fields) {
+			properties.put(field, getText("user." + field));
+		}
 		setModels(userService.findUsers());
+		return SUCCESS;
+	}
+	
+	/*
+	 * 关联查询
+	 */
+	public String queryByRef(){
+		setModels(userService.findUsersByRef(refClass, refId));
 		return SUCCESS;
 	}
 	
@@ -66,7 +92,10 @@ public class UserAction extends BaseAction{
 	 */
 	public String add(){
 		title = "创建新";
+		
+		//处理关联的角色字段
 		sysRoles = userService.findRoles();
+		
 		return INPUT;
 	}
 	
@@ -75,9 +104,11 @@ public class UserAction extends BaseAction{
 	 */
 	public String edit(){
 		title = "编辑";
-		sysRoles = userService.findRoles();
+		
 		model = userService.findUser(id);
-
+		
+		//处理关联的角色字段
+		sysRoles = userService.findRoles();
 		for (Role role : model.getRoles()) {
 			roles.add(role.getId());
 		}
@@ -96,15 +127,13 @@ public class UserAction extends BaseAction{
 		//处理角色绑定
 		Set<Role> roleList = new HashSet<Role>();
 		for (String roleId : roles) {
-			System.out.println("角色名：" + roleId);
-			
 			if(!roleId.equals("")){
 				Role role = userService.findRole(roleId);
 				roleList.add(role);
 			}
 		}
-		
 		model.setRoles(roleList);
+		
 		if(model.getId().equals("")){
 			//处理新建
 			userService.addUser(model);
@@ -151,6 +180,14 @@ public class UserAction extends BaseAction{
 
 	public void setCheckItems(String[] checkItems) {
 		this.checkItems = checkItems;
+	}
+	
+	public Map<String, String> getProperties() {
+		return properties;
+	}
+
+	public void setProperties(Map<String, String> properties) {
+		this.properties = properties;
 	}
 
 	public String getProperty() {

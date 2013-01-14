@@ -18,4 +18,6 @@ public interface RoleDao {
 	List<Role> findAll();
 	
 	List<Role> findByProp(String property, String keyword);
+
+	List<Role> findByRef(String refClass, String refId);
 }

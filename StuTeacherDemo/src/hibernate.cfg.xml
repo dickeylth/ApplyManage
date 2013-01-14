@@ -14,9 +14,11 @@
 		<property name="hibernate.show_sql">true</property>
 		<property name="hibernate.format_sql">true</property>
 
-		<mapping class="com.dickey.domain.Student" />
+		
 		<mapping class="com.dickey.domain.Address" />
 		<mapping class="com.dickey.domain.Major" />
 		<mapping class="com.dickey.domain.Teacher" />
+		<mapping class="com.dickey.domain.Phone"/>
+		<mapping class="com.dickey.domain.Student" />
 	</session-factory>
 </hibernate-configuration>

@@ -18,4 +18,6 @@ public interface PermissionDao {
 	List<Permission> findAll();
 	
 	List<Permission> findByProp(String property, String keyword);
+
+	List<Permission> findByRef(String refClass, String refId);
 }

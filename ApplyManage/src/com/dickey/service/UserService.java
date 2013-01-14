@@ -58,6 +58,14 @@ public interface UserService {
 	 */
 	List<User> findUsersByProp(String property, String keyword);
 	
+	/**
+	 * 根据关联类查找用户
+	 * @param refClass 关联类名
+	 * @param refId 关联类的id
+	 * @return 返回所有用户
+	 */
+	List<User> findUsersByRef(String refClass, String refId);
+	
 	
 	/**
 	 * 新增角色
@@ -104,6 +112,14 @@ public interface UserService {
 	List<Role> findRolesByProp(String property, String keyword);
 	
 	/**
+	 * 根据关联类查找角色
+	 * @param refClass 关联类名
+	 * @param keyword 关联类实例的id
+	 * @return 返回所有角色
+	 */
+	List<Role> findRolesByRef(String refClass, String refId);
+	
+	/**
 	 * 新增权限
 	 * @param permission 新增权限的Permission实例
 	 * @return 新增权限的主键
@@ -147,6 +163,13 @@ public interface UserService {
 	 */
 	List<Permission> findPermissionsByProp(String property, String keyword);
 	
+	/**
+	 * 根据关联类查找权限
+	 * @param refClass 关联类名
+	 * @param refId 关联类实例id
+	 * @return 返回所有权限
+	 */
+	List<Permission> findPermissionsByRef(String refClass, String refId);
 	
 	/**
 	 * 新增申请
@@ -201,4 +224,13 @@ public interface UserService {
 	 * @return 返回所有申请
 	 */
 	List<Application> findApplicationsByProp(String property, String keyword, boolean userRel, User user);
+	
+	/**
+	 * 根据关联类列举出所有申请
+	 * @param refClass 关联类
+	 * @param refId 关联类的id
+	 * @return 返回所有申请
+	 */
+	List<Application> findApplicationsByRef(String refClass, String refId);
+
 }

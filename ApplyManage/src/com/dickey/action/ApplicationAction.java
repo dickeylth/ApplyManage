@@ -1,9 +1,10 @@
 package com.dickey.action;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import com.dickey.action.base.BaseAction;
 import com.dickey.domain.Application;
@@ -23,11 +24,12 @@ public class ApplicationAction extends BaseAction{
 	//模型驱动的实例
 	private Application model = new Application();
 	
-	//模型是否与User相关联
-	private boolean userRel = false;
-	
 	//删除时的选中项的id
 	private String[] checkItems;
+	
+	//搜索可用的字段
+	private String[] fields = {"id", "start", "end", "reason"};
+	private Map<String, String> properties = new HashMap<String, String>();
 	
 	//搜索时的字段类别
 	private String property;
@@ -38,11 +40,14 @@ public class ApplicationAction extends BaseAction{
 	//页面标题
 	private String title;
 	
-	//业务模型的所有字段
-	private Field[] fields = model.getClass().getDeclaredFields();
-	
 	//当前用户
 	private User user = (User) ActionContext.getContext().getSession().get("user");
+	
+	//关联查询的类
+	private String refClass;
+	
+	//关联查询的类的id
+	private String refId;
 	
 	//查询出的实例集
 	private List<Application> models = new LinkedList<Application>();
@@ -51,6 +56,9 @@ public class ApplicationAction extends BaseAction{
 	 * 按字段查询
 	 */
 	public String queryByProp(){
+		for (String field : fields) {
+			properties.put(field, getText("application." + field));
+		}
 		boolean flag = false;
 		//处理与User关联的数据
 		try {
@@ -60,36 +68,28 @@ public class ApplicationAction extends BaseAction{
 			System.out.println(model.getClass().getName() + "与用户无关联");
 		}
 		
-		setModels(userService.findApplicationsByProp(property, keyword, flag, user));
+		if(!property.trim().equals("") && !keyword.trim().equals("")){
+			setModels(userService.findApplicationsByProp(property, keyword, flag, user));
+		}
 		return SUCCESS;
 	}
 	
 	/*
 	 * 查询
 	 */
-	@SuppressWarnings("unchecked")
 	public String query(){
-		
-		//处理与User关联的数据
-		checkUserRel();
-		
-		Method method = null;
-		if(userRel){
-			try {
-				method = userService.getClass().getDeclaredMethod("findApplicationsByUser", User.class);
-				setModels((List<Application>) method.invoke(userService, user));
-			} catch (Exception e) {
-				System.err.println("userService中无法找到按用户查找数据的方法");
-			}
-		}else{
-			try {
-				method = userService.getClass().getDeclaredMethod("findApplications");
-				setModels((List<Application>) method.invoke(userService));
-			} catch (Exception e) {
-				System.err.println("userService中无法找到查找所有数据的方法");
-			}
+		for (String field : fields) {
+			properties.put(field, getText("application." + field));
 		}
-
+		setModels(userService.findApplicationsByUser(user));
+		return SUCCESS;
+	}
+	
+	/*
+	 * 关联查询
+	 */
+	public String queryByRef(){
+		setModels(userService.findApplicationsByRef(refClass, refId));
 		return SUCCESS;
 	}
 	
@@ -106,10 +106,6 @@ public class ApplicationAction extends BaseAction{
 	 */
 	public String edit(){
 		title = "编辑";
-		System.out.println("Edit");
-		for (Field f : fields) {
-			System.out.println(f.getName());
-		}
 		model = userService.findApplication(id);
 		return INPUT;
 	}
@@ -118,21 +114,40 @@ public class ApplicationAction extends BaseAction{
 	 * 处理增加/修改
 	 */
 	public String editSubmit(){
-		if(model.getId().equals("")){
-			//处理与User关联的数据
+		//是否有关联类操作
+		boolean flag = false;
+		if(!refClass.trim().equals("") && !refId.trim().equals("")){
+			Object object = null;
 			try {
-				Method method = model.getClass().getDeclaredMethod("setUser", User.class);
-				method.invoke(model, user);
+				Method method = userService.getClass().getDeclaredMethod("find"+refClass, String.class);
+				object = method.invoke(userService, refId.trim());
 			} catch (Exception e) {
-				System.out.println("与User无关联");
+				System.err.println("UserService中找不到find"+refClass+"方法！");
 			}
+			
+			try {
+				Class<?> clazz = Class.forName("com.dickey.domain." + refClass.trim());
+				Method method = model.getClass().getDeclaredMethod("set"+refClass.trim(), clazz);
+				method.invoke(model, object);
+			} catch (Exception e) {
+				System.err.println("Application中找不到set"+refClass+"方法！");
+			}
+			flag = true;
+			
+		}
+		
+		if(model.getUser() == null){
+			model.setUser(user);
+		}
+		
+		if(model.getId().equals("")){
 			//处理新建
 			userService.addApplication(model);
 		}else{
 			//处理更新
 			userService.updateApplication(model);
 		}
-		return query();
+		return flag ? queryByRef() : query();
 	}
 	
 	/*
@@ -143,19 +158,6 @@ public class ApplicationAction extends BaseAction{
 			userService.delApplication(id);
 		}
 		return query();
-	}
-	
-	/*
-	 * 判断当前模型实例是否与用户相关联
-	 */
-	private void checkUserRel(){
-		//处理与User关联的数据
-		try {
-			model.getClass().getDeclaredField("user");
-			userRel = true;
-		}  catch (Exception e) {
-			System.out.println(model.getClass().getName() + "与用户无关联");
-		}
 	}
 	
 	/*
@@ -185,6 +187,14 @@ public class ApplicationAction extends BaseAction{
 		this.checkItems = checkItems;
 	}
 
+	public Map<String, String> getProperties() {
+		return properties;
+	}
+
+	public void setProperties(Map<String, String> properties) {
+		this.properties = properties;
+	}
+
 	public String getProperty() {
 		return property;
 	}
@@ -209,12 +219,20 @@ public class ApplicationAction extends BaseAction{
 		this.title = title;
 	}
 
-	public Field[] getFields() {
-		return fields;
+	public String getRefClass() {
+		return refClass;
 	}
 
-	public void setFields(Field[] fields) {
-		this.fields = fields;
+	public void setRefClass(String refClass) {
+		this.refClass = refClass;
+	}
+
+	public String getRefId() {
+		return refId;
+	}
+
+	public void setRefId(String refId) {
+		this.refId = refId;
 	}
 
 	public List<Application> getModels() {

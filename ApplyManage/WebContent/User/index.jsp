@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,23 +10,10 @@
 </head>
 <body>
 	<form id="search" method="post" action="User_queryByPropAction.do">
-		<select id="property" name="property">
-			<option value="id"
-				<s:if test='%{property=="id"}'>selected="selected"</s:if>>
-				<s:text name="user.id" />
-			</option>
-			<option value="username"
-				<s:if test='%{property=="username"}'>selected="selected"</s:if>>
-				<s:text name="user.username" />
-			</option>
-			<option value="password"
-				<s:if test='%{property=="password"}'>selected="selected"</s:if>>
-				<s:text name="user.password" />
-			</option>
-		</select> <input type="text" name="keyword" id="keyword"
-			value="<s:property value="keyword"/>" /> <input type="submit"
-			id="search_btn" class="button" value="<s:text name='search'/>" />
-		<s:fielderror />
+		<s:select list="properties" id="property" name="property" 
+				headerKey="" headerValue="--选择搜索字段--" value="property"/>
+		<input type="text" name="keyword" id="keyword" value="<s:property value="keyword"/>" />
+		<input type="submit" id="search_btn" class="button" value="<s:text name='search'/>" />
 	</form>
 	<form id="options" method="post">
 		<table>
@@ -52,10 +40,14 @@
 			</tbody>
 		</table>
 		<ul>
+			<shiro:hasPermission name="user:add">
 			<li><input type="submit" value="增加" id="add"
-				data-action="User_addAction.do" class="ctrl button" /></li>
+				data-action="User_addAction.do?refClass=${refClass}&refId=${refId}" class="ctrl button" /></li>
+			</shiro:hasPermission>
+			<shiro:hasPermission name="user:delete">
 			<li><input type="submit" value="删除" id="delete"
-				data-action="User_deleteAction.do" class="ctrl button" /></li>
+				data-action="User_deleteAction.do?refClass=${refClass}&refId=${refId}" class="ctrl button" /></li>
+			</shiro:hasPermission>
 		</ul>
 	</form>
 	<script type="text/javascript"

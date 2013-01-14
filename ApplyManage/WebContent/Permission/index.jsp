@@ -8,20 +8,11 @@
 <link rel="stylesheet" href="css/iframe.css" />
 </head>
 <body>
-	<form id="search" method="post"
-		action="Permission_queryByPropAction.do">
-		<select id="property" name="property">
-			<option value="id"
-				<s:if test='%{property=="id"}'>selected="selected"</s:if>>
-				<s:text name="permission.id" />
-			</option>
-			<option value="permission"
-				<s:if test='%{property=="permission"}'>selected="selected"</s:if>>
-				<s:text name="permission.permission" />
-			</option>
-		</select> <input type="text" name="keyword" id="keyword"
-			value="<s:property value="keyword"/>" /> <input type="submit"
-			id="search_btn" class="button" value="<s:text name='search'/>" />
+	<form id="search" method="post" action="Permission_queryByPropAction.do">
+		<s:select list="properties" id="property" name="property" 
+				headerKey="" headerValue="--选择搜索字段--" value="property"/>
+		<input type="text" name="keyword" id="keyword" value="<s:property value="keyword"/>" />
+		<input type="submit" id="search_btn" class="button" value="<s:text name='search'/>" />
 		<s:fielderror />
 	</form>
 	<form id="options" method="post">
