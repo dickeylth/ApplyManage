@@ -5,10 +5,12 @@ import java.util.List;
 import org.apache.shiro.authz.annotation.*;
 
 import com.dickey.dao.ApplicationDao;
+import com.dickey.dao.ApplicationTypeDao;
 import com.dickey.dao.PermissionDao;
 import com.dickey.dao.RoleDao;
 import com.dickey.dao.UserDao;
 import com.dickey.domain.Application;
+import com.dickey.domain.ApplicationType;
 import com.dickey.domain.Permission;
 import com.dickey.domain.Role;
 import com.dickey.domain.User;
@@ -20,6 +22,7 @@ public class UserServiceImpl implements UserService{
 	private ApplicationDao applicationDao;
 	private RoleDao roleDao;
 	private PermissionDao permissionDao;
+	private ApplicationTypeDao applicationTypeDao;
 	
 	public UserDao getUserDao() {
 		return userDao;
@@ -51,6 +54,14 @@ public class UserServiceImpl implements UserService{
 
 	public void setPermissionDao(PermissionDao permissionDao) {
 		this.permissionDao = permissionDao;
+	}
+
+	public ApplicationTypeDao getApplicationTypeDao() {
+		return applicationTypeDao;
+	}
+
+	public void setApplicationTypeDao(ApplicationTypeDao applicationTypeDao) {
+		this.applicationTypeDao = applicationTypeDao;
 	}
 
 	@Override
@@ -246,12 +257,56 @@ public class UserServiceImpl implements UserService{
 		// TODO Auto-generated method stub
 		return applicationDao.findByProp(property, keyword, userRel, user);
 	}
-
+	
 	@Override
 	public List<Application> findApplicationsByRef(String refClass, String refId) {
 		// TODO Auto-generated method stub
 		return applicationDao.findByRef(refClass, refId);
 	}
+	
+	
+	@Override
+	public String addApplicationType(ApplicationType applicationType) {
+		return applicationTypeDao.save(applicationType);
+	}
+
+	@Override
+	public void delApplicationType(ApplicationType applicationType) {
+		applicationTypeDao.delete(applicationType);
+	}
+
+	@Override
+	public void delApplicationType(String id) {
+		applicationTypeDao.delete(id);
+	}
+
+	@Override
+	public void updateApplicationType(ApplicationType applicationType) {
+		applicationTypeDao.update(applicationType);
+	}
+
+	@Override
+	public ApplicationType findApplicationType(String id) {
+		return applicationTypeDao.get(id);
+	}
+	
+	@Override
+	public List<ApplicationType> findApplicationTypes() {
+		return applicationTypeDao.findAll();
+	}
+
+	@Override
+	public List<ApplicationType> findApplicationTypesByProp(String property, String keyword, boolean userRel, User user) {
+		// TODO Auto-generated method stub
+		return applicationTypeDao.findByProp(property, keyword, userRel, user);
+	}
+
+	@Override
+	public List<ApplicationType> findApplicationTypesByRef(String refClass, String refId) {
+		// TODO Auto-generated method stub
+		return applicationTypeDao.findByRef(refClass, refId);
+	}
+
 
 
 

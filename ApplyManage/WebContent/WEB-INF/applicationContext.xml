@@ -63,8 +63,13 @@
 		parent="daoTemplate" />
 	<bean id="applicationDao" class="com.dickey.dao.impl.ApplicationDaoImpl"
 		parent="daoTemplate" />
+	<bean id="applicationTypeDao" class="com.dickey.dao.impl.ApplicationTypeDaoImpl"
+		parent="daoTemplate" />
 	<bean id="userService" class="com.dickey.service.impl.UserServiceImpl"
-		p:userDao-ref="userDao" p:roleDao-ref="roleDao" p:applicationDao-ref="applicationDao"
+		p:userDao-ref="userDao" 
+		p:roleDao-ref="roleDao" 
+		p:applicationDao-ref="applicationDao"
+		p:applicationTypeDao-ref="applicationTypeDao"
 		p:permissionDao-ref="permissionDao" />
 
 

@@ -1,5 +1,6 @@
 package com.dickey.action;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -83,7 +84,14 @@ public class UserAction extends BaseAction{
 	 * 关联查询
 	 */
 	public String queryByRef(){
-		setModels(userService.findUsersByRef(refClass, refId));
+		
+		if(refClass != null && refId != null){
+			refClass = toLowerFirst(refClass);
+			setModels(userService.findUsersByRef(refClass, refId));
+		}else{
+			System.err.println("RefClass或RefId为空！");
+		}
+		
 		return SUCCESS;
 	}
 	
@@ -134,6 +142,28 @@ public class UserAction extends BaseAction{
 		}
 		model.setRoles(roleList);
 		
+		//是否有关联类操作
+		boolean flag = false;
+		if(refClass != null && refId != null && !refClass.trim().equals("") && !refId.trim().equals("")){
+			Object object = null;
+			try {
+				Method method = userService.getClass().getDeclaredMethod("find"+refClass, String.class);
+				object = method.invoke(userService, refId.trim());
+			} catch (Exception e) {
+				System.err.println("UserService中找不到find"+refClass+"方法！");
+			}
+			
+			try {
+				Class<?> clazz = Class.forName("com.dickey.domain." + refClass.trim());
+				Method method = model.getClass().getDeclaredMethod("set"+refClass.trim(), clazz);
+				method.invoke(model, object);
+			} catch (Exception e) {
+				System.err.println("Application中找不到set"+refClass+"方法！");
+			}
+			flag = true;
+			
+		}
+		
 		if(model.getId().equals("")){
 			//处理新建
 			userService.addUser(model);
@@ -141,7 +171,7 @@ public class UserAction extends BaseAction{
 			//处理更新
 			userService.updateUser(model);
 		}
-		return query();
+		return flag ? queryByRef() : query();
 	}
 	
 	/*

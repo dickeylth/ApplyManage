@@ -2,19 +2,16 @@ package com.dickey.action;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
 
 import com.dickey.action.base.BaseAction;
-import com.dickey.domain.Permission;
-import com.dickey.domain.Role;
+import com.dickey.domain.ApplicationType;
 import com.dickey.domain.User;
+import com.opensymphony.xwork2.ActionContext;
 
-public class RoleAction extends BaseAction{
+public class ApplicationTypeAction extends BaseAction{
 
 	/**
 	 * 默认序列化UID
@@ -25,13 +22,13 @@ public class RoleAction extends BaseAction{
 	private String id = "";
 	
 	//模型驱动的实例
-	private Role model = new Role();
+	private ApplicationType model = new ApplicationType();
 	
 	//删除时的选中项的id
 	private String[] checkItems;
 	
 	//搜索可用的字段
-	private String[] fields = {"id", "rolename"};
+	private String[] fields = {"id", "typeName"};
 	private Map<String, String> properties = new HashMap<String, String>();
 	
 	//搜索时的字段类别
@@ -43,35 +40,37 @@ public class RoleAction extends BaseAction{
 	//页面标题
 	private String title;
 	
+	//当前用户
+	private User user = (User) ActionContext.getContext().getSession().get("user");
+	
 	//关联查询的类
 	private String refClass;
 	
 	//关联查询的类的id
 	private String refId;
 	
-	//模型驱动的实例集
-	private List<Role> models = new LinkedList<Role>();
-	
-	//系统所有的用户
-	private List<User> sysUsers = new LinkedList<User>();
-		
-	//当前角色所有的用户
-	private List<String> users = new LinkedList<String>();
-	
-	//系统所有的权限
-	private List<Permission> sysPermissions = new LinkedList<Permission>();
-		
-	//当前角色所有的权限
-	private List<String> permissions = new LinkedList<String>();
+	//查询出的实例集
+	private List<ApplicationType> models = new LinkedList<ApplicationType>();
 	
 	/*
 	 * 按字段查询
 	 */
 	public String queryByProp(){
 		for (String field : fields) {
-			properties.put(field, getText("user." + field));
+			properties.put(field, getText("applicationType." + field));
 		}
-		setModels(userService.findRolesByProp(property, keyword));
+		boolean flag = false;
+		//处理与User关联的数据
+		try {
+			model.getClass().getDeclaredField("user");
+			flag = true;
+		}  catch (Exception e) {
+			System.out.println(model.getClass().getName() + "与用户无关联");
+		}
+		
+		if(!property.trim().equals("") && !keyword.trim().equals("")){
+			setModels(userService.findApplicationTypesByProp(property, keyword, flag, user));
+		}
 		return SUCCESS;
 	}
 	
@@ -79,7 +78,10 @@ public class RoleAction extends BaseAction{
 	 * 查询
 	 */
 	public String query(){
-		setModels(userService.findRoles());
+		for (String field : fields) {
+			properties.put(field, getText("applicationType." + field));
+		}
+		setModels(userService.findApplicationTypes());
 		return SUCCESS;
 	}
 	
@@ -90,7 +92,7 @@ public class RoleAction extends BaseAction{
 		
 		if(refClass != null && refId != null){
 			refClass = toLowerFirst(refClass);
-			setModels(userService.findRolesByRef(refClass, refId));
+			setModels(userService.findApplicationTypesByRef(refClass, refId));
 		}else{
 			System.err.println("RefClass或RefId为空！");
 		}
@@ -103,13 +105,6 @@ public class RoleAction extends BaseAction{
 	 */
 	public String add(){
 		title = "创建新";
-		
-		//处理关联的权限字段
-		sysPermissions = userService.findPermissions();
-		
-		//处理关联的用户字段
-		sysUsers = userService.findUsers();
-		
 		return INPUT;
 	}
 	
@@ -118,21 +113,7 @@ public class RoleAction extends BaseAction{
 	 */
 	public String edit(){
 		title = "编辑";
-		
-		model = userService.findRole(id);
-		
-		//处理关联的用户字段
-		sysUsers = userService.findUsers();
-		for (User user : model.getUsers()) {
-			users.add(user.getId());
-		}
-		
-		//处理关联的权限字段
-		sysPermissions = userService.findPermissions();
-		for (Permission permission : model.getPermissions()) {
-			permissions.add(permission.getId());
-		}
-		
+		model = userService.findApplicationType(id);
 		return INPUT;
 	}
 	
@@ -140,27 +121,6 @@ public class RoleAction extends BaseAction{
 	 * 处理增加/修改
 	 */
 	public String editSubmit(){
-		
-		//处理用户绑定
-		Set<User> userList = new HashSet<User>();
-		for (String userId : users) {
-			if(!userId.equals("")){
-				User user = userService.findUser(userId);
-				userList.add(user);
-			}
-		}
-		model.setUsers(userList);
-		
-		//处理权限绑定
-		Set<Permission> permissionList = new HashSet<Permission>();
-		for (String permissionId : permissions) {
-			if(!permissionId.equals("")){
-				Permission permission = userService.findPermission(permissionId);
-				permissionList.add(permission);
-			}
-		}
-		model.setPermissions(permissionList);
-		
 		//是否有关联类操作
 		boolean flag = false;
 		if(refClass != null && refId != null && !refClass.trim().equals("") && !refId.trim().equals("")){
@@ -185,10 +145,10 @@ public class RoleAction extends BaseAction{
 		
 		if(model.getId().equals("")){
 			//处理新建
-			userService.addRole(model);
+			userService.addApplicationType(model);
 		}else{
 			//处理更新
-			userService.updateRole(model);
+			userService.updateApplicationType(model);
 		}
 		return flag ? queryByRef() : query();
 	}
@@ -197,16 +157,15 @@ public class RoleAction extends BaseAction{
 	 * 处理删除
 	 */
 	public String delete(){
-		
 		//是否有关联类操作
 		boolean flag = !refClass.trim().equals("") && !refId.trim().equals("");
-		
+				
 		for (String id : checkItems) {
-			userService.deleteRole(id);
+			userService.delApplicationType(id);
 		}
 		return flag ? queryByRef() : query();
 	}
-
+	
 	/*
 	 * Getters 和 Setters
 	 */
@@ -218,11 +177,11 @@ public class RoleAction extends BaseAction{
 		this.id = id;
 	}
 
-	public Role getModel() {
+	public ApplicationType getModel() {
 		return model;
 	}
 
-	public void setModel(Role model) {
+	public void setModel(ApplicationType model) {
 		this.model = model;
 	}
 
@@ -232,6 +191,14 @@ public class RoleAction extends BaseAction{
 
 	public void setCheckItems(String[] checkItems) {
 		this.checkItems = checkItems;
+	}
+
+	public Map<String, String> getProperties() {
+		return properties;
+	}
+
+	public void setProperties(Map<String, String> properties) {
+		this.properties = properties;
 	}
 
 	public String getProperty() {
@@ -258,42 +225,6 @@ public class RoleAction extends BaseAction{
 		this.title = title;
 	}
 
-	public List<Role> getModels() {
-		return models;
-	}
-
-	public void setModels(List<Role> models) {
-		this.models = models;
-	}
-
-	public List<Permission> getSysPermissions() {
-		return sysPermissions;
-	}
-
-	public List<String> getPermissions() {
-		return permissions;
-	}
-
-	public void setPermissions(List<String> permissions) {
-		this.permissions = permissions;
-	}
-
-	public List<User> getSysUsers() {
-		return sysUsers;
-	}
-
-	public void setSysUsers(List<User> sysUsers) {
-		this.sysUsers = sysUsers;
-	}
-
-	public List<String> getUsers() {
-		return users;
-	}
-
-	public void setUsers(List<String> users) {
-		this.users = users;
-	}
-
 	public String getRefClass() {
 		return refClass;
 	}
@@ -310,13 +241,14 @@ public class RoleAction extends BaseAction{
 		this.refId = refId;
 	}
 
-	public Map<String, String> getProperties() {
-		return properties;
+	public List<ApplicationType> getModels() {
+		return models;
 	}
 
-	public void setProperties(Map<String, String> properties) {
-		this.properties = properties;
+	public void setModels(List<ApplicationType> models) {
+		this.models = models;
 	}
+
 
 
 }

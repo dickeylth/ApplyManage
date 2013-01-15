@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.dickey.action.base.BaseAction;
 import com.dickey.domain.Application;
+import com.dickey.domain.ApplicationType;
 import com.dickey.domain.User;
 import com.opensymphony.xwork2.ActionContext;
 
@@ -52,6 +53,15 @@ public class ApplicationAction extends BaseAction{
 	//查询出的实例集
 	private List<Application> models = new LinkedList<Application>();
 	
+	//{Start处理多对一
+	//系统所有的申请类型
+	private List<ApplicationType> sysApplicationTypes = new LinkedList<ApplicationType>();
+	
+	//当前申请单的类型
+	private String applicationType;
+	//End处理多对一}
+	
+	
 	/*
 	 * 按字段查询
 	 */
@@ -89,7 +99,14 @@ public class ApplicationAction extends BaseAction{
 	 * 关联查询
 	 */
 	public String queryByRef(){
-		setModels(userService.findApplicationsByRef(refClass, refId));
+		
+		if(refClass != null && refId != null){
+			refClass = toLowerFirst(refClass);
+			setModels(userService.findApplicationsByRef(refClass, refId));
+		}else{
+			System.err.println("RefClass或RefId为空！");
+		}
+		
 		return SUCCESS;
 	}
 	
@@ -98,6 +115,10 @@ public class ApplicationAction extends BaseAction{
 	 */
 	public String add(){
 		title = "创建新";
+		
+		//处理多对一关联的ApplicationType类
+		sysApplicationTypes = userService.findApplicationTypes();
+		
 		return INPUT;
 	}
 	
@@ -106,6 +127,10 @@ public class ApplicationAction extends BaseAction{
 	 */
 	public String edit(){
 		title = "编辑";
+		
+		//处理多对一关联的ApplicationType类
+		sysApplicationTypes = userService.findApplicationTypes();
+		
 		model = userService.findApplication(id);
 		return INPUT;
 	}
@@ -116,7 +141,7 @@ public class ApplicationAction extends BaseAction{
 	public String editSubmit(){
 		//是否有关联类操作
 		boolean flag = false;
-		if(!refClass.trim().equals("") && !refId.trim().equals("")){
+		if(refClass != null && refId != null && !refClass.trim().equals("") && !refId.trim().equals("")){
 			Object object = null;
 			try {
 				Method method = userService.getClass().getDeclaredMethod("find"+refClass, String.class);
@@ -140,6 +165,11 @@ public class ApplicationAction extends BaseAction{
 			model.setUser(user);
 		}
 		
+		//处理多对一关联的ApplicationType
+		if(model.getApplicationType() == null){
+			model.setApplicationType(userService.findApplicationType(applicationType));
+		}
+		
 		if(model.getId().equals("")){
 			//处理新建
 			userService.addApplication(model);
@@ -158,7 +188,6 @@ public class ApplicationAction extends BaseAction{
 		boolean flag = !refClass.trim().equals("") && !refId.trim().equals("");
 				
 		for (String id : checkItems) {
-			System.out.println(id);
 			userService.delApplication(id);
 		}
 		return flag ? queryByRef() : query();
@@ -245,6 +274,22 @@ public class ApplicationAction extends BaseAction{
 
 	public void setModels(List<Application> models) {
 		this.models = models;
+	}
+
+	public List<ApplicationType> getSysApplicationTypes() {
+		return sysApplicationTypes;
+	}
+
+	public void setSysApplicationTypes(List<ApplicationType> sysApplicationTypes) {
+		this.sysApplicationTypes = sysApplicationTypes;
+	}
+
+	public String getApplicationType() {
+		return applicationType;
+	}
+
+	public void setApplicationType(String applicationType) {
+		this.applicationType = applicationType;
 	}
 
 

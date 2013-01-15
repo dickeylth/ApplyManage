@@ -3,6 +3,7 @@ package com.dickey.service;
 import java.util.List;
 
 import com.dickey.domain.Application;
+import com.dickey.domain.ApplicationType;
 import com.dickey.domain.Permission;
 import com.dickey.domain.Role;
 import com.dickey.domain.User;
@@ -232,5 +233,23 @@ public interface UserService {
 	 * @return 返回所有申请
 	 */
 	List<Application> findApplicationsByRef(String refClass, String refId);
+
+	String addApplicationType(ApplicationType applicationType);
+
+	void delApplicationType(ApplicationType applicationType);
+
+	void delApplicationType(String id);
+
+	void updateApplicationType(ApplicationType applicationType);
+
+	ApplicationType findApplicationType(String id);
+
+	List<ApplicationType> findApplicationTypes();
+
+	List<ApplicationType> findApplicationTypesByProp(String property,
+			String keyword, boolean userRel, User user);
+
+	List<ApplicationType> findApplicationTypesByRef(String refClass,
+			String refId);
 
 }

@@ -17,6 +17,12 @@
 		<s:hidden name="refClass" value="%{refClass}"/>
 		<s:hidden name="refId" value="%{refId}"/>
 		<s:hidden name="model.id" id="model_id" value="%{model.id}" />
+		
+		<!-- 多对一 -->
+		<s:select list="sysApplicationTypes" name="applicationType" listKey="id" listValue="typeName" 
+			key="application.applicationType" value="%{model.applicationType.id}"
+			headerKey="" headerValue="--请选择--"/>
+		
 		<s:textfield name="model.start" value="%{model.start}"
 			key="application.start" />
 		<s:textfield name="model.end" value="%{model.end}"
@@ -26,6 +32,7 @@
 		<s:submit key="submit" cssClass="button" />
 	</s:form>
 	<iframe src="" name="view" id="view"></iframe>
+	<a id="close">×</a>
 	<script type="text/javascript"
 		src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
 	<script src="js/edit.js"></script>

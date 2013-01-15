@@ -64,7 +64,7 @@ public class UserDaoImpl extends HibernateDaoSupport implements UserDao {
 	@Override
 	public List<User> findByRef(String refClass, String refId) {
 		// TODO Auto-generated method stub
-		return (List<User>)getHibernateTemplate().find(" from User as a where a." + refClass.toLowerCase() + ".id = ?", refId);
+		return (List<User>)getHibernateTemplate().find(" from User as a where a." + refClass + ".id = ?", refId);
 	}
 
 

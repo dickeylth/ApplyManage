@@ -82,7 +82,15 @@ public class PermissionAction extends BaseAction{
 	 * 关联查询
 	 */
 	public String queryByRef(){
-		setModels(userService.findPermissionsByRef(refClass, refId));
+		
+		if(refClass != null && refId != null){
+			refClass = toLowerFirst(refClass);
+			setModels(userService.findPermissionsByRef(refClass, refId));
+		}else{
+			System.err.println("RefClass或RefId为空！");
+		}
+		
+		
 		return SUCCESS;
 	}
 	
@@ -132,7 +140,9 @@ public class PermissionAction extends BaseAction{
 		
 		//是否有关联类操作
 		boolean flag = false;
-		if(!refClass.trim().equals("") && !refId.trim().equals("")){
+		System.out.println(refClass);
+		System.out.println(refId);
+		if(refClass != null && refId != null && !refClass.trim().equals("") && !refId.trim().equals("")){
 			Object object = null;
 			try {
 				Method method = userService.getClass().getDeclaredMethod("find"+refClass, String.class);

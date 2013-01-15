@@ -17,4 +17,15 @@ public class BaseAction extends ActionSupport{
 	{
 		this.userService = userService;
 	}
+	
+	//公用方法
+	public String toLowerFirst(String origin){
+		if(origin != null && !origin.trim().equals("")){
+			String src = origin.trim();
+			StringBuilder sb = new StringBuilder(); 
+		 	sb.append(Character.toLowerCase(src.charAt(0))).append(src.substring(1)); 
+		 	return sb.toString();
+		}
+		return "";
+	}
 }

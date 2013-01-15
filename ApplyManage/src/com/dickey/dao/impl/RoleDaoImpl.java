@@ -58,7 +58,7 @@ public class RoleDaoImpl extends HibernateDaoSupport implements RoleDao {
 	@Override
 	public List<Role> findByRef(String refClass, String refId) {
 		// TODO Auto-generated method stub
-		return (List<Role>)getHibernateTemplate().find(" from Role as a where a." + refClass.trim().toLowerCase() + ".id = ?", refId);
+		return (List<Role>)getHibernateTemplate().find(" from Role as a where a." + refClass + ".id = ?", refId);
 	}
 
 

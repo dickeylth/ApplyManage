@@ -24,6 +24,10 @@ public class Application implements Serializable{
 	@JoinColumn(name="user_id")
 	private User user;
 	
+	@ManyToOne(cascade=CascadeType.MERGE, fetch=FetchType.EAGER)
+	@JoinColumn(name="applicationType_id")
+	private ApplicationType applicationType;
+	
 	@Column
 	private Date start;
 	
@@ -47,6 +51,14 @@ public class Application implements Serializable{
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public ApplicationType getApplicationType() {
+		return applicationType;
+	}
+
+	public void setApplicationType(ApplicationType applicationType) {
+		this.applicationType = applicationType;
 	}
 
 	public Date getStart() {
