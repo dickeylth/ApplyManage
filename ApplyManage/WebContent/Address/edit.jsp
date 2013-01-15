@@ -37,8 +37,7 @@
 	</s:form>
 	<iframe src="" name="view" id="view"></iframe>
 	<a id="close">×</a>
-	<script type="text/javascript"
-		src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+	<script src="js/jquery-1.8.3.min.js"></script>
 	<script src="js/edit.js"></script>
 </body>
 </html>
