@@ -65,7 +65,7 @@ section,header,footer,aside,article,nav {
 }
 
 #editForm table {
-	text-align: right;
+	text-align: left;
 }
 
 table,#options ul {
