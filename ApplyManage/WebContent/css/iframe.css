@@ -86,6 +86,10 @@ table,table td {
 	border-collapse: collapse;
 }
 
+table td{
+    padding: 0 5px;
+}
+
 /*Edit中的iFrame*/
 #view {
 	position: absolute;
