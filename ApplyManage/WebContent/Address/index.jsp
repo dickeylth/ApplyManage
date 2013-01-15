@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="css/iframe.css" />
 </head>
 <body>
-	<form id="search" method="post" action="User_queryByPropAction.do">
+	<form id="search" method="post" action="Address_queryByPropAction.do">
 		<s:select list="properties" id="property" name="property" headerKey=""
 			headerValue="--选择搜索字段--" value="property" />
 		<input type="text" name="keyword" id="keyword"
@@ -21,9 +21,9 @@
 			<thead>
 				<tr>
 					<td></td>
-					<td><s:text name="user.id" /></td>
-					<td><s:text name="user.username" /></td>
-					<td><s:text name="user.password" /></td>
+					<td><s:text name="address.id" /></td>
+					<td><s:text name="address.country" /></td>
+					<td><s:text name="address.city" /></td>
 				</tr>
 			</thead>
 			<tbody>
@@ -32,23 +32,23 @@
 						<td><input type="checkbox" name="checkItems" class="check"
 							value="<s:property value="#model.id"/>" /></td>
 						<td><a
-							href="<s:url action='User_editAction'><s:param name='id' value='#model.id'/></s:url>"><s:property
+							href="<s:url action='Address_editAction'><s:param name='id' value='#model.id'/></s:url>"><s:property
 									value="#model.id" /></a></td>
-						<td><s:property value="#model.username" /></td>
-						<td><s:property value="#model.password" /></td>
+						<td><s:property value="#model.country" /></td>
+						<td><s:property value="#model.city" /></td>
 					</tr>
 				</s:iterator>
 			</tbody>
 		</table>
 		<ul>
-			<shiro:hasPermission name="user:add">
+			<shiro:hasPermission name="address:add">
 				<li><input type="submit" value="新增" id="add"
-					data-action="User_addAction.do?refClass=${refClass}&refId=${refId}"
+					data-action="Address_addAction.do?refClass=${refClass}&refId=${refId}"
 					class="ctrl button" /></li>
 			</shiro:hasPermission>
-			<shiro:hasPermission name="user:delete">
+			<shiro:hasPermission name="address:delete">
 				<li><input type="submit" value="删除" id="delete"
-					data-action="User_deleteAction.do?refClass=${refClass}&refId=${refId}"
+					data-action="Address_deleteAction.do?refClass=${refClass}&refId=${refId}"
 					class="ctrl button" /></li>
 			</shiro:hasPermission>
 		</ul>

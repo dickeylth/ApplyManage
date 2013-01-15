@@ -18,12 +18,12 @@ section,header,footer,aside,article,nav {
 }
 
 .button {
-    background-color: #FFFFFF;
-    border: 1px solid #778899;
-    color: #0072DB;
-    font-family: "微软雅黑",'Microsoft Yahei',Arial,Tahoma;
-    margin: 3px;
-    padding: 5px 12px;
+	background-color: #FFFFFF;
+	border: 1px solid #778899;
+	color: #0072DB;
+	font-family: "微软雅黑", 'Microsoft Yahei', Arial, Tahoma;
+	margin: 3px;
+	padding: 5px 12px;
 }
 
 .button:hover {
@@ -49,15 +49,14 @@ section,header,footer,aside,article,nav {
 }
 
 #search_btn {
-    margin-left: -5px;
+	margin-left: -5px;
 }
 
 /*Chrome Hach*/
-@media screen and (-webkit-min-device-pixel-ratio:0)
-{
-    #search_btn {
-        padding: 6px 14px;   
-    }
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+	#search_btn {
+		padding: 6px 14px;
+	}
 }
 
 /*内容框*/
@@ -73,7 +72,7 @@ table,#options ul {
 	margin: 10px auto;
 }
 
-input[type=text], select {
+input[type=text],select {
 	font-family: "微软雅黑", 'Microsoft Yahei', Arial, Tahoma;
 }
 
@@ -82,44 +81,44 @@ input[type=text], select {
 	margin-left: 96px;
 }
 
-table, table td {
-    border: 1px solid #cccccc;
-    border-collapse: collapse;
+table,table td {
+	border: 1px solid #cccccc;
+	border-collapse: collapse;
 }
 
 /*Edit中的iFrame*/
-#view{
-    position: absolute;
-    top: 10%;
-    left: 50%;
-    width: 720px;
-    margin-left: -360px;
-    height: 400px;
-    overflow: hidden;
-    background-color: #EEFCFF;
-    border: 1px solid #CDCDCD;
-    box-shadow: 4px 2px 6px #CDCDCD; 
-    -webkit-box-shadow: 4px 2px 6px #CDCDCD;
-    -moz-box-shadow: 4px 2px 6px #CDCDCD;
-    display: none;
+#view {
+	position: absolute;
+	top: 10%;
+	left: 50%;
+	width: 720px;
+	margin-left: -360px;
+	height: 400px;
+	overflow: hidden;
+	background-color: #EEFCFF;
+	border: 1px solid #CDCDCD;
+	box-shadow: 4px 2px 6px #CDCDCD;
+	-webkit-box-shadow: 4px 2px 6px #CDCDCD;
+	-moz-box-shadow: 4px 2px 6px #CDCDCD;
+	display: none;
 }
 
-#close{
-    border-color: red;
-    border-style: none none solid solid;
-    border-width: 0 0 2px 2px;
-    font-size: 18px;
-    padding: 2px 8px;
-    position: absolute;
-    right: 110px;
-    top: 10%;
-    z-index: 2;
-    cursor: pointer;
-    color: red;
-    display: none;
+#close {
+	border-color: red;
+	border-style: none none solid solid;
+	border-width: 0 0 2px 2px;
+	font-size: 18px;
+	padding: 2px 8px;
+	position: absolute;
+	right: 110px;
+	top: 10%;
+	z-index: 2;
+	cursor: pointer;
+	color: red;
+	display: none;
 }
 
-#close:hover{
-    background-color: red;
-    color: white;
+#close:hover {
+	background-color: red;
+	color: white;
 }

@@ -8,11 +8,13 @@
 <link rel="stylesheet" href="css/iframe.css" />
 </head>
 <body>
-	<form id="search" method="post" action="Permission_queryByPropAction.do">
-		<s:select list="properties" id="property" name="property" 
-				headerKey="" headerValue="--选择搜索字段--" value="property"/>
-		<input type="text" name="keyword" id="keyword" value="<s:property value="keyword"/>" />
-		<input type="submit" id="search_btn" class="button" value="<s:text name='search'/>" />
+	<form id="search" method="post"
+		action="Permission_queryByPropAction.do">
+		<s:select list="properties" id="property" name="property" headerKey=""
+			headerValue="--选择搜索字段--" value="property" />
+		<input type="text" name="keyword" id="keyword"
+			value="<s:property value="keyword"/>" /> <input type="submit"
+			id="search_btn" class="button" value="<s:text name='search'/>" />
 		<s:fielderror />
 	</form>
 	<form id="options" method="post">
@@ -38,7 +40,7 @@
 			</tbody>
 		</table>
 		<ul>
-			<li><input type="submit" value="增加" id="add"
+			<li><input type="submit" value="新增" id="add"
 				data-action="Permission_addAction.do" class="ctrl button" /></li>
 			<li><input type="submit" value="删除" id="delete"
 				data-action="Role_deleteAction.do" class="ctrl button" /></li>

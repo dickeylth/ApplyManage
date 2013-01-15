@@ -26,6 +26,10 @@
 				<li><a href="<s:url action="ApplicationType_queryAction"/>"
 					target="main"><s:text name="applicationType" />管理</a></li>
 			</shiro:hasPermission>
+			<shiro:hasPermission name="address:management">
+				<li><a href="<s:url action="Address_queryAction"/>"
+					target="main"><s:text name="address" />管理</a></li>
+			</shiro:hasPermission>
 			<shiro:hasPermission name="sysadmin:access">
 				<li class="adminli"><a href="javascript:;">系统管理</a>
 					<ul class="sysadmin">

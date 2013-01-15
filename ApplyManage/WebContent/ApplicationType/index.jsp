@@ -1,19 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
-<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<link rel="stylesheet" href="css/iframe.css" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="css/iframe.css" />
 </head>
-<body>	
-	<form id="search" method="post" action="ApplicationType_queryByPropAction.do">
-		<s:select list="properties" id="property" name="property" 
-				headerKey="" headerValue="--选择搜索字段--" value="property"/>
-		<input type="text" name="keyword" id="keyword" value="<s:property value="keyword"/>" />
-		<input type="submit" id="search_btn" class="button" value="<s:text name='search'/>" />
+<body>
+	<form id="search" method="post"
+		action="ApplicationType_queryByPropAction.do">
+		<s:select list="properties" id="property" name="property" headerKey=""
+			headerValue="--选择搜索字段--" value="property" />
+		<input type="text" name="keyword" id="keyword"
+			value="<s:property value="keyword"/>" /> <input type="submit"
+			id="search_btn" class="button" value="<s:text name='search'/>" />
 	</form>
 	<form id="options" method="post">
 		<table>
@@ -39,12 +41,14 @@
 		</table>
 		<ul>
 			<shiro:hasPermission name="applicationType:add">
-			<li><input type="submit" value="增加" id="add"
-				data-action="ApplicationType_addAction.do?refClass=${refClass}&refId=${refId}" class="ctrl button" /></li>
+				<li><input type="submit" value="新增" id="add"
+					data-action="ApplicationType_addAction.do?refClass=${refClass}&refId=${refId}"
+					class="ctrl button" /></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="applicationType:delete">
-			<li><input type="submit" value="删除" id="delete"
-				data-action="ApplicationType_deleteAction.do?refClass=${refClass}&refId=${refId}" class="ctrl button" /></li>
+				<li><input type="submit" value="删除" id="delete"
+					data-action="ApplicationType_deleteAction.do?refClass=${refClass}&refId=${refId}"
+					class="ctrl button" /></li>
 			</shiro:hasPermission>
 		</ul>
 	</form>

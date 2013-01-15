@@ -78,9 +78,7 @@ public class ApplicationTypeAction extends BaseAction{
 	 * 查询
 	 */
 	public String query(){
-		for (String field : fields) {
-			properties.put(field, getText("applicationType." + field));
-		}
+		initQuery();
 		setModels(userService.findApplicationTypes());
 		return SUCCESS;
 	}
@@ -89,7 +87,7 @@ public class ApplicationTypeAction extends BaseAction{
 	 * 关联查询
 	 */
 	public String queryByRef(){
-		
+		initQuery();
 		if(refClass != null && refId != null){
 			refClass = toLowerFirst(refClass);
 			setModels(userService.findApplicationTypesByRef(refClass, refId));
@@ -110,10 +108,21 @@ public class ApplicationTypeAction extends BaseAction{
 	
 	/*
 	 * 加载修改页面
-	 */
+	 */	
 	public String edit(){
 		title = "编辑";
-		model = userService.findApplicationType(id);
+		if(!id.trim().isEmpty()){
+			model = userService.findApplicationType(id);
+		}else if(refClass != null && refId != null){
+			refClass = refClass.trim();
+			refId = refId.trim();
+			if(!refClass.equals("") && !refId.equals("")){
+				List<ApplicationType> list = userService.findApplicationTypesByRef(toLowerFirst(refClass), refId);
+				if(!list.isEmpty()){
+					model = list.get(0);
+				}
+			}
+		}
 		return INPUT;
 	}
 	
@@ -137,7 +146,7 @@ public class ApplicationTypeAction extends BaseAction{
 				Method method = model.getClass().getDeclaredMethod("set"+refClass.trim(), clazz);
 				method.invoke(model, object);
 			} catch (Exception e) {
-				System.err.println("Application中找不到set"+refClass+"方法！");
+				System.err.println("ApplicationType中找不到set"+refClass+"方法！");
 			}
 			flag = true;
 			
@@ -164,6 +173,15 @@ public class ApplicationTypeAction extends BaseAction{
 			userService.delApplicationType(id);
 		}
 		return flag ? queryByRef() : query();
+	}
+	
+	/*
+	 * 初始化搜索字段
+	 */
+	private void initQuery(){
+		for (String field : fields) {
+			properties.put(field, getText("applicationType." + field));
+		}
 	}
 	
 	/*

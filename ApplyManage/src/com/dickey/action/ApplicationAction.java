@@ -88,9 +88,7 @@ public class ApplicationAction extends BaseAction{
 	 * 查询
 	 */
 	public String query(){
-		for (String field : fields) {
-			properties.put(field, getText("application." + field));
-		}
+		initQuery();
 		setModels(userService.findApplicationsByUser(user));
 		return SUCCESS;
 	}
@@ -99,7 +97,7 @@ public class ApplicationAction extends BaseAction{
 	 * 关联查询
 	 */
 	public String queryByRef(){
-		
+		initQuery();
 		if(refClass != null && refId != null){
 			refClass = toLowerFirst(refClass);
 			setModels(userService.findApplicationsByRef(refClass, refId));
@@ -131,7 +129,18 @@ public class ApplicationAction extends BaseAction{
 		//处理多对一关联的ApplicationType类
 		sysApplicationTypes = userService.findApplicationTypes();
 		
-		model = userService.findApplication(id);
+		if(!id.trim().isEmpty()){
+			model = userService.findApplication(id);
+		}else if(refClass != null && refId != null){
+			refClass = refClass.trim();
+			refId = refId.trim();
+			if(!refClass.equals("") && !refId.equals("")){
+				List<Application> list = userService.findApplicationsByRef(toLowerFirst(refClass), refId);
+				if(!list.isEmpty()){
+					model = list.get(0);
+				}
+			}
+		}
 		return INPUT;
 	}
 	
@@ -192,6 +201,16 @@ public class ApplicationAction extends BaseAction{
 		}
 		return flag ? queryByRef() : query();
 	}
+	
+	/*
+	 * 初始化搜索字段
+	 */
+	private void initQuery(){
+		for (String field : fields) {
+			properties.put(field, getText("application." + field));
+		}
+	}
+	
 	
 	/*
 	 * Getters 和 Setters

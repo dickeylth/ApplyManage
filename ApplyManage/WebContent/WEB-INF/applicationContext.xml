@@ -31,7 +31,7 @@
 			<value>
 				hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
 				hibernate.hbm2ddl.auto=update
-				hibernate.show_sql=false
+				hibernate.show_sql=true
 				hibernate.format_sql=true
 			</value>
 		</property>
@@ -65,12 +65,12 @@
 		parent="daoTemplate" />
 	<bean id="applicationTypeDao" class="com.dickey.dao.impl.ApplicationTypeDaoImpl"
 		parent="daoTemplate" />
+	<bean id="addressDao" class="com.dickey.dao.impl.AddressDaoImpl"
+		parent="daoTemplate" />
 	<bean id="userService" class="com.dickey.service.impl.UserServiceImpl"
-		p:userDao-ref="userDao" 
-		p:roleDao-ref="roleDao" 
-		p:applicationDao-ref="applicationDao"
-		p:applicationTypeDao-ref="applicationTypeDao"
-		p:permissionDao-ref="permissionDao" />
+		p:userDao-ref="userDao" p:roleDao-ref="roleDao" p:applicationDao-ref="applicationDao"
+		p:applicationTypeDao-ref="applicationTypeDao" p:permissionDao-ref="permissionDao"
+		p:addressDao-ref="addressDao" />
 
 
 

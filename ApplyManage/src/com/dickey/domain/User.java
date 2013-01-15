@@ -27,12 +27,16 @@ public class User implements Serializable{
 	@Column(nullable=true)
 	private String password;
 	
-	@ManyToMany(cascade = CascadeType.REFRESH, fetch=FetchType.EAGER)  
+	@ManyToMany(cascade = CascadeType.REFRESH, fetch=FetchType.LAZY)  
     @JoinTable(name = "USER_ROLE", joinColumns = { @JoinColumn(name = "USER_ID") }, inverseJoinColumns = { @JoinColumn(name = "ROLE_ID") })
 	private Set<Role> roles = new HashSet<Role>();
 	
-	@OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER, mappedBy="user")
+	@OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY, mappedBy="user")
 	private Set<Application> applications = new HashSet<Application>(0);
+	
+	@OneToOne(cascade = CascadeType.PERSIST)
+	@JoinTable(name = "USER_ADDRESS", joinColumns = { @JoinColumn(name = "USER_ID") }, inverseJoinColumns = { @JoinColumn(name = "ADDRESS_ID") })
+	private Address address;
 	
 	public String getId() {
 		return id;
@@ -64,6 +68,12 @@ public class User implements Serializable{
 	}
 	public void setApplications(Set<Application> applications) {
 		this.applications = applications;
+	}
+	public Address getAddress() {
+		return address;
+	}
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 	public User(){
 		

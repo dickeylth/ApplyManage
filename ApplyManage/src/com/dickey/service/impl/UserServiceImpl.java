@@ -4,11 +4,13 @@ import java.util.List;
 
 import org.apache.shiro.authz.annotation.*;
 
+import com.dickey.dao.AddressDao;
 import com.dickey.dao.ApplicationDao;
 import com.dickey.dao.ApplicationTypeDao;
 import com.dickey.dao.PermissionDao;
 import com.dickey.dao.RoleDao;
 import com.dickey.dao.UserDao;
+import com.dickey.domain.Address;
 import com.dickey.domain.Application;
 import com.dickey.domain.ApplicationType;
 import com.dickey.domain.Permission;
@@ -23,6 +25,7 @@ public class UserServiceImpl implements UserService{
 	private RoleDao roleDao;
 	private PermissionDao permissionDao;
 	private ApplicationTypeDao applicationTypeDao;
+	private AddressDao addressDao;
 	
 	public UserDao getUserDao() {
 		return userDao;
@@ -62,6 +65,14 @@ public class UserServiceImpl implements UserService{
 
 	public void setApplicationTypeDao(ApplicationTypeDao applicationTypeDao) {
 		this.applicationTypeDao = applicationTypeDao;
+	}
+
+	public AddressDao getAddressDao() {
+		return addressDao;
+	}
+
+	public void setAddressDao(AddressDao addressDao) {
+		this.addressDao = addressDao;
 	}
 
 	@Override
@@ -307,7 +318,60 @@ public class UserServiceImpl implements UserService{
 		return applicationTypeDao.findByRef(refClass, refId);
 	}
 
+	@Override
+	public String addAddress(Address address) {
+		// TODO Auto-generated method stub
+		return addressDao.save(address);
+	}
 
+	@Override
+	public void deleteAddress(Address address) {
+		// TODO Auto-generated method stub
+		addressDao.delete(address);
+	}
+
+	@Override
+	public void deleteAddress(String id) {
+		// TODO Auto-generated method stub
+		addressDao.delete(id);
+	}
+
+	@Override
+	public void updateAddress(Address address) {
+		// TODO Auto-generated method stub
+		addressDao.update(address);
+	}
+
+	@Override
+	public Address findAddress(String id) {
+		// TODO Auto-generated method stub
+		return addressDao.get(id);
+	}
+
+	@Override
+	public List<Address> findAddresss() {
+		// TODO Auto-generated method stub
+		return addressDao.findAll();
+	}
+
+	@Override
+	public List<Address> findAddresssByProp(String property, String keyword,
+			boolean userRel, User user) {
+		// TODO Auto-generated method stub
+		return addressDao.findByProp(property, keyword, userRel, user);
+	}
+
+	@Override
+	public List<Address> findAddresssByRef(String refClass, String refId) {
+		// TODO Auto-generated method stub
+		return addressDao.findByRef(refClass, refId);
+	}
+
+	@Override
+	public List<Address> findAddresssByUser(User user) {
+		// TODO Auto-generated method stub
+		return addressDao.findByUser(user);
+	}
 
 
 }

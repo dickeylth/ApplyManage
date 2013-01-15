@@ -29,9 +29,11 @@ public class Application implements Serializable{
 	private ApplicationType applicationType;
 	
 	@Column
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date start;
 	
 	@Column
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date end;
 	
 	@Column

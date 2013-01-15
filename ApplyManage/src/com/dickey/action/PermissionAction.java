@@ -60,9 +60,7 @@ public class PermissionAction extends BaseAction{
 	 * 按字段查询
 	 */
 	public String queryByProp(){
-		for (String field : fields) {
-			properties.put(field, getText("user." + field));
-		}
+		initQuery();
 		setModels(userService.findPermissionsByProp(property, keyword));
 		return SUCCESS;
 	}
@@ -71,9 +69,7 @@ public class PermissionAction extends BaseAction{
 	 * 查询
 	 */
 	public String query(){
-		for (String field : fields) {
-			properties.put(field, getText("user." + field));
-		}
+		initQuery();
 		setModels(userService.findPermissions());
 		return SUCCESS;
 	}
@@ -82,7 +78,7 @@ public class PermissionAction extends BaseAction{
 	 * 关联查询
 	 */
 	public String queryByRef(){
-		
+		initQuery();
 		if(refClass != null && refId != null){
 			refClass = toLowerFirst(refClass);
 			setModels(userService.findPermissionsByRef(refClass, refId));
@@ -108,20 +104,30 @@ public class PermissionAction extends BaseAction{
 	
 	/*
 	 * 加载修改页面
-	 */
+	 */	
 	public String edit(){
 		title = "编辑";
+		if(!id.trim().isEmpty()){
+			model = userService.findPermission(id);
+		}else if(refClass != null && refId != null){
+			refClass = refClass.trim();
+			refId = refId.trim();
+			if(!refClass.equals("") && !refId.equals("")){
+				List<Permission> list = userService.findPermissionsByRef(toLowerFirst(refClass), refId);
+				if(!list.isEmpty()){
+					model = list.get(0);
+				}
+			}
+		}
 		
-		model = userService.findPermission(id);
-		
-		//处理关联的角色字段
+		//处理对多对关联的角色字段
 		sysRoles = userService.findRoles();
 		for (Role role : model.getRoles()) {
 			roles.add(role.getId());
 		}
-		
 		return INPUT;
 	}
+	
 	
 	/*
 	 * 处理增加/修改
@@ -156,7 +162,7 @@ public class PermissionAction extends BaseAction{
 				Method method = model.getClass().getDeclaredMethod("set"+refClass.trim(), clazz);
 				method.invoke(model, object);
 			} catch (Exception e) {
-				System.err.println("Application中找不到set"+refClass+"方法！");
+				System.err.println("Permission中找不到set"+refClass+"方法！");
 			}
 			flag = true;
 			
@@ -184,7 +190,15 @@ public class PermissionAction extends BaseAction{
 		}
 		return flag ? queryByRef() : query();
 	}
-
+	
+	/*
+	 * 初始化搜索字段
+	 */
+	private void initQuery(){
+		for (String field : fields) {
+			properties.put(field, getText("permission." + field));
+		}
+	}
 	
 	/*
 	 * Getters 和 Setters
@@ -285,5 +299,5 @@ public class PermissionAction extends BaseAction{
 		this.properties = properties;
 	}
 	
-
+	
 }

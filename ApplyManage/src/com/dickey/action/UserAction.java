@@ -62,9 +62,6 @@ public class UserAction extends BaseAction{
 	 * 按字段查询
 	 */
 	public String queryByProp(){
-		for (String field : fields) {
-			properties.put(field, getText("user." + field));
-		}
 		setModels(userService.findUsersByProp(property, keyword));
 		return SUCCESS;
 	}
@@ -73,9 +70,7 @@ public class UserAction extends BaseAction{
 	 * 查询
 	 */
 	public String query(){
-		for (String field : fields) {
-			properties.put(field, getText("user." + field));
-		}
+		initQuery();
 		setModels(userService.findUsers());
 		return SUCCESS;
 	}
@@ -84,7 +79,7 @@ public class UserAction extends BaseAction{
 	 * 关联查询
 	 */
 	public String queryByRef(){
-		
+		initQuery();
 		if(refClass != null && refId != null){
 			refClass = toLowerFirst(refClass);
 			setModels(userService.findUsersByRef(refClass, refId));
@@ -113,14 +108,26 @@ public class UserAction extends BaseAction{
 	public String edit(){
 		title = "编辑";
 		
-		model = userService.findUser(id);
+		//获取model实例
+		if(!id.trim().isEmpty()){
+			model = userService.findUser(id);
+		}else if(refClass != null && refId != null){
+			refClass = refClass.trim();
+			refId = refId.trim();
+			if(!refClass.equals("") && !refId.equals("")){
+				List<User> list = userService.findUsersByRef(toLowerFirst(refClass), refId);
+				if(!list.isEmpty()){
+					model = list.get(0);
+				}
+			}
+		}
 		
 		//处理关联的角色字段
 		sysRoles = userService.findRoles();
 		for (Role role : model.getRoles()) {
 			roles.add(role.getId());
 		}
-		
+				
 		return INPUT;
 	}
 	
@@ -186,6 +193,15 @@ public class UserAction extends BaseAction{
 			userService.deleteUser(id);
 		}
 		return flag ? queryByRef() : query();
+	}
+	
+	/*
+	 * 初始化搜索字段
+	 */
+	private void initQuery(){
+		for (String field : fields) {
+			properties.put(field, getText("user." + field));
+		}
 	}
 	
 	/*
@@ -267,6 +283,21 @@ public class UserAction extends BaseAction{
 	public void setRoles(List<String> roles) {
 		this.roles = roles;
 	}
-	
 
+	public String getRefClass() {
+		return refClass;
+	}
+
+	public void setRefClass(String refClass) {
+		this.refClass = refClass;
+	}
+
+	public String getRefId() {
+		return refId;
+	}
+
+	public void setRefId(String refId) {
+		this.refId = refId;
+	}
+	
 }

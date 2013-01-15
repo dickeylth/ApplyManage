@@ -19,7 +19,7 @@ public class TestRelations {
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) {
+	public static void main2(String[] args) {
 		// TODO Auto-generated method stub
 		Configuration configuration = new Configuration().configure();
 		SessionFactory sf = configuration.buildSessionFactory();
@@ -33,6 +33,9 @@ public class TestRelations {
 		Student student1 = new Student("李磊", address1);
 		Student student2 = new Student("韩梅梅", address2);
 		Student student3 = new Student("莎拉", address3);
+		
+		Student student4 = new Student();
+		address3.setStudent(student4);
 		
 		Set<Phone> phoneNumbers = new HashSet<Phone>();
 		phoneNumbers.add(new Phone("house","32354353"));
@@ -66,4 +69,32 @@ public class TestRelations {
 		session.close();
 	}
 
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Configuration configuration = new Configuration().configure();
+		SessionFactory sf = configuration.buildSessionFactory();
+		Session session = sf.openSession();
+		Transaction tx = session.beginTransaction();
+		
+		Address address1 = new Address("中国", "北京");
+		Address address2 = new Address("俄罗斯", "莫斯科");
+		Address address3 = new Address("英国", "伦敦");
+		
+		Student student1 = new Student("李磊", address1);
+		Student student2 = new Student("韩梅梅", address2);
+		Student student3 = new Student();
+		student3.setName("Jack");
+		
+		address3.setStudent(student3);
+		
+		
+		session.save(address3);
+		//session.save(student3);
+		
+		tx.commit();
+		session.close();
+	}
 }

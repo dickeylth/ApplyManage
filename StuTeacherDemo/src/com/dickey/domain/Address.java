@@ -1,10 +1,14 @@
 package com.dickey.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Address {
@@ -18,6 +22,10 @@ public class Address {
 	
 	@Column(nullable=false)
 	private String city;
+	
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinTable(name = "stu_addr", joinColumns = { @JoinColumn(name = "addr_id") }, inverseJoinColumns = { @JoinColumn(name = "stu_id") })
+	private Student student;
 	
 	public int getId() {
 		return id;
@@ -44,10 +52,15 @@ public class Address {
 		this.city = city;
 	}
 	
+	public Student getStudent() {
+		return student;
+	}
+	public void setStudent(Student student) {
+		this.student = student;
+	}
 	@Override
 	public String toString() {
-		return "Address [id=" + id + ", country=" + country + ", city=" + city
-				+ "]";
+		return "Address [id=" + id + ", country=" + country + ", city=" + city + ", student=" + student + "]";
 	}
 	
 }

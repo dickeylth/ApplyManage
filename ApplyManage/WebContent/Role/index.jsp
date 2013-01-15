@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
-<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,10 +10,11 @@
 </head>
 <body>
 	<form id="search" method="post" action="Role_queryByPropAction.do">
-		<s:select list="properties" id="property" name="property" 
-				headerKey="" headerValue="--选择搜索字段--" value="property"/>
-		<input type="text" name="keyword" id="keyword" value="<s:property value="keyword"/>" />
-		<input type="submit" id="search_btn" class="button" value="<s:text name='search'/>" />
+		<s:select list="properties" id="property" name="property" headerKey=""
+			headerValue="--选择搜索字段--" value="property" />
+		<input type="text" name="keyword" id="keyword"
+			value="<s:property value="keyword"/>" /> <input type="submit"
+			id="search_btn" class="button" value="<s:text name='search'/>" />
 		<s:fielderror />
 	</form>
 	<form id="options" method="post">
@@ -40,12 +41,12 @@
 		</table>
 		<ul>
 			<shiro:hasPermission name="role:add">
-			<li><input type="submit" value="增加" id="add"
-				data-action="Role_addAction.do" class="ctrl button" /></li>
+				<li><input type="submit" value="新增" id="add"
+					data-action="Role_addAction.do" class="ctrl button" /></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="role:delete">
-			<li><input type="submit" value="删除" id="delete"
-				data-action="Role_deleteAction.do" class="ctrl button" /></li>
+				<li><input type="submit" value="删除" id="delete"
+					data-action="Role_deleteAction.do" class="ctrl button" /></li>
 			</shiro:hasPermission>
 		</ul>
 	</form>

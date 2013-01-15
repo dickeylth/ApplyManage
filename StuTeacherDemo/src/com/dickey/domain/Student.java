@@ -15,7 +15,8 @@ public class Student {
 	@Column(nullable=false)
 	private String name;
 	
-	@OneToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinTable(name = "stu_addr", joinColumns = { @JoinColumn(name = "stu_id") }, inverseJoinColumns = { @JoinColumn(name = "addr_id") })
 	private Address address;
 	
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -80,6 +81,10 @@ public class Student {
 
 	public void setStudentPhoneNumbers(Set<Phone> studentPhoneNumbers) {
 		this.studentPhoneNumbers = studentPhoneNumbers;
+	}
+
+	public Student() {
+		super();
 	}
 	
 }

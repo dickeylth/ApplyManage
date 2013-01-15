@@ -2,11 +2,7 @@ package com.dickey.service;
 
 import java.util.List;
 
-import com.dickey.domain.Application;
-import com.dickey.domain.ApplicationType;
-import com.dickey.domain.Permission;
-import com.dickey.domain.Role;
-import com.dickey.domain.User;
+import com.dickey.domain.*;
 
 public interface UserService {
 	/**
@@ -234,6 +230,7 @@ public interface UserService {
 	 */
 	List<Application> findApplicationsByRef(String refClass, String refId);
 
+	//ApplicationType CRUD
 	String addApplicationType(ApplicationType applicationType);
 
 	void delApplicationType(ApplicationType applicationType);
@@ -251,5 +248,29 @@ public interface UserService {
 
 	List<ApplicationType> findApplicationTypesByRef(String refClass,
 			String refId);
+	//ApplicationType CRUD
+	
+	//Address CRUD
+	String addAddress(Address address);
+
+	void deleteAddress(Address address);
+
+	void deleteAddress(String id);
+
+	void updateAddress(Address address);
+
+	Address findAddress(String id);
+
+	List<Address> findAddresss();
+	
+	List<Address> findAddresssByUser(User user);
+	
+	List<Address> findAddresssByProp(String property,
+			String keyword, boolean userRel, User user);
+
+	List<Address> findAddresssByRef(String refClass,
+			String refId);
+	//Address CRUD
+
 
 }

@@ -1,5 +1,6 @@
 package com.dickey.domain;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -8,8 +9,13 @@ import javax.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-public class Permission {
+public class Permission implements Serializable {
 	
+	/**
+	 * 默认序列化UID
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GenericGenerator(name = "idGenerator", strategy = "uuid")
 	@GeneratedValue(generator = "idGenerator")
@@ -18,7 +24,7 @@ public class Permission {
 	@Column(unique=true, nullable=true)
 	private String permission;
 	
-	@ManyToMany(cascade = CascadeType.REFRESH,fetch=FetchType.EAGER)  
+	@ManyToMany(cascade = CascadeType.REFRESH,fetch=FetchType.LAZY)  
     @JoinTable(name = "ROLE_PERMISSION", joinColumns = { @JoinColumn(name = "PERMISSION_ID") }, inverseJoinColumns = { @JoinColumn(name = "ROLE_ID") })
 	private Set<Role> roles = new HashSet<Role>();
 

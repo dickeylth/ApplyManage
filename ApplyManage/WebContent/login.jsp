@@ -33,13 +33,13 @@ body {
 	width: 100%;
 	height: 100%;
 	opacity: 0.5;
-	filter: alpha(opacity = 50);
+	filter: alpha(opacity =   50);
 }
 
 #banner h2 {
 	background-color: #E0E0E0;
 	opacity: 0.7;
-	filter: alpha(opacity = 70);
+	filter: alpha(opacity =   70);
 	color: black;
 	text-shadow: 0 2px 2px #B0B0B0;
 	-moz-text-shadow: 0 2px 2px #B0B0B0;
@@ -90,7 +90,7 @@ form table {
 			<s:checkbox name="rememberMe" key="rememberMe" />
 			<s:submit key="login" id="login" cssClass="button" />
 		</s:form>
-		<input type="hidden" id="tip" value="${sessionScope.tip}"/>
+		<input type="hidden" id="tip" value="${sessionScope.tip}" />
 		<script type="text/javascript"
 			src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
 		<script>
