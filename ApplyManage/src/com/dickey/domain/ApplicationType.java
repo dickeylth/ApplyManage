@@ -24,7 +24,7 @@ public class ApplicationType implements Serializable {
 	@Column(nullable=true)
 	private String typeName;
 	
-	@OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER, mappedBy="applicationType")
+	@OneToMany(cascade = CascadeType.PERSIST, mappedBy="applicationType")
 	private List<Application> applications = new LinkedList<Application>();
 
 	public String getId() {

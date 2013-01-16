@@ -20,11 +20,11 @@ public class Application implements Serializable{
 	@GeneratedValue(generator = "idGenerator")
 	private String id;
 	
-	@ManyToOne(cascade=CascadeType.MERGE, fetch=FetchType.EAGER)
+	@ManyToOne(cascade=CascadeType.MERGE)
 	@JoinColumn(name="user_id")
 	private User user;
 	
-	@ManyToOne(cascade=CascadeType.MERGE, fetch=FetchType.EAGER)
+	@ManyToOne(cascade=CascadeType.MERGE)
 	@JoinColumn(name="applicationType_id")
 	private ApplicationType applicationType;
 	

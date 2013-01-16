@@ -89,8 +89,7 @@ public class AddressAction extends BaseAction{
 		
 		initQuery();
 		if(refClass != null && refId != null){
-			refClass = toLowerFirst(refClass);
-			setModels(userService.findAddresssByRef(refClass, refId));
+			setModels(userService.findAddresssByRef(toLowerFirst(refClass), refId));
 		}else{
 			System.err.println("RefClass或RefId为空！");
 		}

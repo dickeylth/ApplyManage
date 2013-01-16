@@ -80,8 +80,7 @@ public class PermissionAction extends BaseAction{
 	public String queryByRef(){
 		initQuery();
 		if(refClass != null && refId != null){
-			refClass = toLowerFirst(refClass);
-			setModels(userService.findPermissionsByRef(refClass, refId));
+			setModels(userService.findPermissionsByRef(toLowerFirst(refClass), refId));
 		}else{
 			System.err.println("RefClass或RefId为空！");
 		}

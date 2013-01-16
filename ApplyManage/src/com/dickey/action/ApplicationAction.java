@@ -99,8 +99,7 @@ public class ApplicationAction extends BaseAction{
 	public String queryByRef(){
 		initQuery();
 		if(refClass != null && refId != null){
-			refClass = toLowerFirst(refClass);
-			setModels(userService.findApplicationsByRef(refClass, refId));
+			setModels(userService.findApplicationsByRef(toLowerFirst(refClass), refId));
 		}else{
 			System.err.println("RefClass或RefId为空！");
 		}

@@ -24,11 +24,11 @@ public class Role implements Serializable{
 	@Column(unique=true, nullable=true)
 	private String rolename;
 	
-	@ManyToMany(cascade = CascadeType.REFRESH, fetch=FetchType.LAZY)  
+	@ManyToMany(cascade = CascadeType.REFRESH)
     @JoinTable(name = "USER_ROLE", joinColumns = { @JoinColumn(name = "ROLE_ID") }, inverseJoinColumns = { @JoinColumn(name = "USER_ID") })
 	private Set<User> users = new HashSet<User>();
 	
-	@ManyToMany(cascade = CascadeType.REFRESH,fetch=FetchType.LAZY)  
+	@ManyToMany(cascade = CascadeType.REFRESH)
     @JoinTable(name = "ROLE_PERMISSION", joinColumns = { @JoinColumn(name = "ROLE_ID") }, inverseJoinColumns = { @JoinColumn(name = "PERMISSION_ID") })
 	private Set<Permission> permissions = new HashSet<Permission>();
 

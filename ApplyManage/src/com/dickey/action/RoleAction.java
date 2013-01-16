@@ -90,8 +90,7 @@ public class RoleAction extends BaseAction{
 	public String queryByRef(){
 		initQuery();
 		if(refClass != null && refId != null){
-			refClass = toLowerFirst(refClass);
-			setModels(userService.findRolesByRef(refClass, refId));
+			setModels(userService.findRolesByRef(toLowerFirst(refClass), refId));
 		}else{
 			System.err.println("RefClass或RefId为空！");
 		}

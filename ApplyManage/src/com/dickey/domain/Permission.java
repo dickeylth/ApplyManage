@@ -24,7 +24,7 @@ public class Permission implements Serializable {
 	@Column(unique=true, nullable=true)
 	private String permission;
 	
-	@ManyToMany(cascade = CascadeType.REFRESH,fetch=FetchType.LAZY)  
+	@ManyToMany(cascade = CascadeType.REFRESH)
     @JoinTable(name = "ROLE_PERMISSION", joinColumns = { @JoinColumn(name = "PERMISSION_ID") }, inverseJoinColumns = { @JoinColumn(name = "ROLE_ID") })
 	private Set<Role> roles = new HashSet<Role>();
 

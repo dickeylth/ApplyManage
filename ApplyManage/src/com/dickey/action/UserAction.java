@@ -81,8 +81,7 @@ public class UserAction extends BaseAction{
 	public String queryByRef(){
 		initQuery();
 		if(refClass != null && refId != null){
-			refClass = toLowerFirst(refClass);
-			setModels(userService.findUsersByRef(refClass, refId));
+			setModels(userService.findUsersByRef(toLowerFirst(refClass), refId));
 		}else{
 			System.err.println("RefClass或RefId为空！");
 		}
