@@ -2,6 +2,8 @@ package com.dickey.domain;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -37,6 +39,9 @@ public class User implements Serializable{
 	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinTable(name = "USER_ADDRESS", joinColumns = { @JoinColumn(name = "USER_ID") }, inverseJoinColumns = { @JoinColumn(name = "ADDRESS_ID") })
 	private Address address;
+	
+	@ElementCollection
+	private List<String> phones = new LinkedList<String>();
 	
 	public String getId() {
 		return id;
@@ -85,6 +90,12 @@ public class User implements Serializable{
 		this.password = password;
 	}
 	
+	public List<String> getPhones() {
+		return phones;
+	}
+	public void setPhones(List<String> phones) {
+		this.phones = phones;
+	}
 	
 	@Override
 	public String toString() {

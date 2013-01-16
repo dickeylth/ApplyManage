@@ -87,7 +87,35 @@ table,table td {
 }
 
 table td{
-    padding: 0 5px;
+    padding: 3px 5px;
+}
+
+.multi_button{
+    padding: 1px 4px;
+    cursor: pointer;
+    color: #FFF;
+    display: inline-block;
+}
+
+.multi_button.add{
+    color: #000;
+    background-color: #ACDAF4;
+    margin: 2px;
+}
+
+.multi_button.add:hover{
+    background-color: #0072DB;
+    color: #FFF;
+}
+
+.multi_button.del{
+    color: #000;
+    background-color: #FFDAF4;
+}
+
+.multi_button.del:hover{
+    background-color: red;
+    color: #FFF;
 }
 
 /*Edit中的iFrame*/

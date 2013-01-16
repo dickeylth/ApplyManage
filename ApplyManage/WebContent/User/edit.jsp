@@ -49,6 +49,11 @@
 				key="user.address" />
 		</s:if>
 		<!-- 一对一 -->
+		
+		<!-- 集合类型 -->
+		<s:hidden name="model.phones" value="%{model.phones}" cssClass="collections"/>
+		<s:label key="user.phones"/>
+		
 
 		<s:submit id="submit" key="submit" cssClass="button" />
 	</s:form>

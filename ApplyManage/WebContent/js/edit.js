@@ -5,14 +5,52 @@ $(document).ready(function(){
 			$(this).after($('<br/>'));
 		});
 		$('.text_url').each(function(){
-			$a = $('<a>点击查看</a>').attr('href', $(this).val()).attr('target', 'view');
-			$a.click(function(){
+			var $a = $('<a>点击查看</a>').attr('href', $(this).val()).attr('target', 'view').click(function(){
 				$('#view').show();
 				$('#close').show();
 			});
 			$(this).after($a).remove();
 		});
 		$('#close').click(function(){$('#view').hide();$(this).hide();});
+		
+		//对集合类型进行初始化
+		$('.collections').each(function(){
+			var vals = eval($(this).val()),
+				name = $(this).attr('name');
+
+			if(vals.length == 0){
+				vals[0] = "";
+			}
+			//获取输入框所在td
+			var $tr = $(this).next('tr').children('td').last();
+			$tr.html("");
+			
+			//创建输入框div模板
+			var template = function(key, value){
+				var $input = $('<input>').val(value).addClass('multi_input').attr('name', name + '[' + key + ']').data('id', key),
+					$del = $('<a>').addClass('multi_button del').text('×').click(function(){
+						$(this).closest('.multi_div').remove();
+					});
+				return $('<div>').addClass('multi_div').append($input).append($del);
+			};
+			
+			//批量添加到tr中去
+			for(var val in vals){
+				$tr.append(template(val, vals[val]));
+			}
+			
+			//添加add按钮
+			var $add = $('<a>').addClass('multi_button add').text('+').click(function(){
+				var key = parseInt($(this).prev('.multi_div').find('input.multi_input').data('id')) + 1;
+				$(this).before(template(key, ""));
+			});
+			$tr.append($add);
+			
+			//重置该隐藏域的id，避免扰乱提交数据
+			$(this).attr('name','');
+		});
+		
+		
 		$('body').show();
 	})();
 	
