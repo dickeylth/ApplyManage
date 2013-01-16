@@ -2,11 +2,9 @@ package com.dickey.action;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 
 import com.dickey.action.base.BaseAction;
@@ -154,7 +152,7 @@ public class RoleAction extends BaseAction{
 	public String editSubmit(){
 		
 		//处理用户绑定
-		Set<User> userList = new HashSet<User>();
+		List<User> userList = new LinkedList<User>();
 		for (String userId : users) {
 			if(!userId.equals("")){
 				User user = userService.findUser(userId);
@@ -164,7 +162,7 @@ public class RoleAction extends BaseAction{
 		model.setUsers(userList);
 		
 		//处理权限绑定
-		Set<Permission> permissionList = new HashSet<Permission>();
+		List<Permission> permissionList = new LinkedList<Permission>();
 		for (String permissionId : permissions) {
 			if(!permissionId.equals("")){
 				Permission permission = userService.findPermission(permissionId);

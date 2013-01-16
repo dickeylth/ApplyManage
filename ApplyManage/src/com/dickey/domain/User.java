@@ -1,10 +1,8 @@
 package com.dickey.domain;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.*;
 
@@ -31,12 +29,13 @@ public class User implements Serializable{
 	
 	@ManyToMany(cascade = CascadeType.REFRESH)
     @JoinTable(name = "USER_ROLE", joinColumns = { @JoinColumn(name = "USER_ID") }, inverseJoinColumns = { @JoinColumn(name = "ROLE_ID") })
-	private Set<Role> roles = new HashSet<Role>();
+	private List<Role> roles = new LinkedList<Role>();
 	
 	@OneToMany(cascade = CascadeType.PERSIST, mappedBy="user")
-	private Set<Application> applications = new HashSet<Application>(0);
+	private List<Application> applications = new LinkedList<Application>();
 	
 	@OneToOne(cascade = CascadeType.PERSIST)
+	
 	@JoinTable(name = "USER_ADDRESS", joinColumns = { @JoinColumn(name = "USER_ID") }, inverseJoinColumns = { @JoinColumn(name = "ADDRESS_ID") })
 	private Address address;
 	
@@ -61,17 +60,17 @@ public class User implements Serializable{
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public Set<Role> getRoles() {
+	public List<Role> getRoles() {
 		return roles;
 	}
-	public void setRoles(Set<Role> roles) {
+	public void setRoles(List<Role> roles) {
 		this.roles = roles;
 	}
 	
-	public Set<Application> getApplications() {
+	public List<Application> getApplications() {
 		return applications;
 	}
-	public void setApplications(Set<Application> applications) {
+	public void setApplications(List<Application> applications) {
 		this.applications = applications;
 	}
 	public Address getAddress() {

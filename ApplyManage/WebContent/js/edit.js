@@ -15,7 +15,17 @@ $(document).ready(function(){
 		
 		//对集合类型进行初始化
 		$('.collections').each(function(){
-			var vals = eval($(this).val()),
+			//解析后端发过来的数据
+			function parseParam(val){
+				if(val == "[]"){
+					return [];
+				}else{
+					val = val.slice(1, -1);
+					return val.split(',');
+				}
+			}
+			
+			var vals = parseParam($(this).val()),
 				name = $(this).attr('name');
 
 			if(vals.length == 0){
@@ -36,6 +46,7 @@ $(document).ready(function(){
 			
 			//批量添加到tr中去
 			for(var val in vals){
+				console.log(vals[val]);
 				$tr.append(template(val, vals[val]));
 			}
 			

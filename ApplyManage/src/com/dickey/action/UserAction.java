@@ -2,11 +2,9 @@ package com.dickey.action;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.shiro.crypto.hash.Md5Hash;
 
@@ -139,7 +137,7 @@ public class UserAction extends BaseAction{
 		model.setPassword(crypto);
 		
 		//处理角色绑定
-		Set<Role> roleList = new HashSet<Role>();
+		List<Role> roleList = new LinkedList<Role>();
 		for (String roleId : roles) {
 			if(!roleId.equals("")){
 				Role role = userService.findRole(roleId);

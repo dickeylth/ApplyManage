@@ -1,8 +1,8 @@
 package com.dickey.domain;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -26,11 +26,11 @@ public class Role implements Serializable{
 	
 	@ManyToMany(cascade = CascadeType.REFRESH)
     @JoinTable(name = "USER_ROLE", joinColumns = { @JoinColumn(name = "ROLE_ID") }, inverseJoinColumns = { @JoinColumn(name = "USER_ID") })
-	private Set<User> users = new HashSet<User>();
+	private List<User> users = new LinkedList<User>();
 	
 	@ManyToMany(cascade = CascadeType.REFRESH)
     @JoinTable(name = "ROLE_PERMISSION", joinColumns = { @JoinColumn(name = "ROLE_ID") }, inverseJoinColumns = { @JoinColumn(name = "PERMISSION_ID") })
-	private Set<Permission> permissions = new HashSet<Permission>();
+	private List<Permission> permissions = new LinkedList<Permission>();
 
 	public String getId() {
 		return id;
@@ -48,19 +48,19 @@ public class Role implements Serializable{
 		this.rolename = rolename;
 	}
 
-	public Set<User> getUsers() {
+	public List<User> getUsers() {
 		return users;
 	}
 
-	public void setUsers(Set<User> users) {
+	public void setUsers(List<User> users) {
 		this.users = users;
 	}
 
-	public Set<Permission> getPermissions() {
+	public List<Permission> getPermissions() {
 		return permissions;
 	}
 
-	public void setPermissions(Set<Permission> permissions) {
+	public void setPermissions(List<Permission> permissions) {
 		this.permissions = permissions;
 	}
 
