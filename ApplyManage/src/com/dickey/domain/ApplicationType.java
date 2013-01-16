@@ -21,7 +21,7 @@ public class ApplicationType implements Serializable {
 	@GeneratedValue(generator = "idGenerator")
 	private String id;
 	
-	@Column(nullable=false)
+	@Column(nullable=true)
 	private String typeName;
 	
 	@OneToMany(cascade = CascadeType.PERSIST, mappedBy="applicationType")

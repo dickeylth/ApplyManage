@@ -21,7 +21,7 @@ public class Permission implements Serializable {
 	@GeneratedValue(generator = "idGenerator")
 	private String id;
 	
-	@Column(unique=true, nullable=false)
+	@Column(unique=true, nullable=true)
 	private String permission;
 	
 	@ManyToMany(cascade = CascadeType.REFRESH)
