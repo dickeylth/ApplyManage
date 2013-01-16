@@ -23,10 +23,10 @@ public class User implements Serializable{
 	@GeneratedValue(generator = "idGenerator")
 	private String id;
 	
-	@Column(unique=true, nullable=true)
+	@Column(unique=true, nullable=false)
 	private String username;
 	
-	@Column(nullable=true)
+	@Column(nullable=false)
 	private String password;
 	
 	@ManyToMany(cascade = CascadeType.REFRESH)

@@ -21,7 +21,7 @@ public class Role implements Serializable{
 	@GeneratedValue(generator = "idGenerator")
 	private String id;
 	
-	@Column(unique=true, nullable=true)
+	@Column(unique=true, nullable=false)
 	private String rolename;
 	
 	@ManyToMany(cascade = CascadeType.REFRESH)
