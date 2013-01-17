@@ -42,7 +42,7 @@ public class PermissionDaoImpl extends HibernateDaoSupport implements Permission
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Permission> findAll() {
+	public List<Permission> getAll() {
 		// TODO Auto-generated method stub
 		return (List<Permission>)getHibernateTemplate().find(" from Permission");
 	}

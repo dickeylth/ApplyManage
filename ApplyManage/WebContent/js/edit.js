@@ -37,7 +37,7 @@ $(document).ready(function(){
 			
 			//创建输入框div模板
 			var template = function(key, value){
-				var $input = $('<input>').val(value).addClass('multi_input').attr('name', name + '[' + key + ']').data('id', key),
+				var $input = $('<input>').val($.trim(value)).addClass('multi_input').attr('name', name + '[' + key + ']').data('id', key),
 					$del = $('<a>').addClass('multi_button del').text('×').click(function(){
 						$(this).closest('.multi_div').remove();
 					});
@@ -46,7 +46,6 @@ $(document).ready(function(){
 			
 			//批量添加到tr中去
 			for(var val in vals){
-				console.log(vals[val]);
 				$tr.append(template(val, vals[val]));
 			}
 			
@@ -61,7 +60,12 @@ $(document).ready(function(){
 			$(this).attr('name','');
 		});
 		
-		
+		//修复checkboxlist标签的name属性，保证提交时直接提交不需要action封装集合类型来处理
+		//吐个槽，struts的这标签的name设计得太傻了，作者亲自用过么。。。
+		$('.checkboxlist').each(function(){
+		    var i = parseInt($(this).attr('id').split('-')[1]);
+		    $(this).attr('name', $(this).attr('name') + "[" + i++ + "].id");
+		});
 		$('body').show();
 	})();
 	

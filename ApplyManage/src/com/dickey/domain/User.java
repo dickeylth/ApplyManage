@@ -27,15 +27,14 @@ public class User implements Serializable{
 	@Column(nullable=true)
 	private String password;
 	
-	@ManyToMany(cascade = CascadeType.REFRESH)
+	@ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "USER_ROLE", joinColumns = { @JoinColumn(name = "USER_ID") }, inverseJoinColumns = { @JoinColumn(name = "ROLE_ID") })
 	private List<Role> roles = new LinkedList<Role>();
 	
-	@OneToMany(cascade = CascadeType.PERSIST, mappedBy="user")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="user")
 	private List<Application> applications = new LinkedList<Application>();
 	
 	@OneToOne(cascade = CascadeType.PERSIST)
-	
 	@JoinTable(name = "USER_ADDRESS", joinColumns = { @JoinColumn(name = "USER_ID") }, inverseJoinColumns = { @JoinColumn(name = "ADDRESS_ID") })
 	private Address address;
 	
@@ -66,7 +65,6 @@ public class User implements Serializable{
 	public void setRoles(List<Role> roles) {
 		this.roles = roles;
 	}
-	
 	public List<Application> getApplications() {
 		return applications;
 	}
@@ -79,31 +77,11 @@ public class User implements Serializable{
 	public void setAddress(Address address) {
 		this.address = address;
 	}
-	public User(){
-		
-	}
-	
-	public User(String username, String password) {
-		super();
-		this.username = username;
-		this.password = password;
-	}
-	
 	public List<String> getPhones() {
 		return phones;
 	}
 	public void setPhones(List<String> phones) {
 		this.phones = phones;
-	}
-	
-	@Override
-	public String toString() {
-		String roles = "[";
-		for (Role role : this.roles) {
-			roles += "\t" + role;
-		}
-		return "User [id=" + id + ", username=" + username + ", password="
-				+ password + ", roles=" + roles + "]]";
 	}
 	
 }

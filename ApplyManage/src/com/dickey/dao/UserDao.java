@@ -17,7 +17,7 @@ public interface UserDao {
 	
 	void delete(String id);
 	
-	List<User> findAll();
+	List<User> getAll();
 	
 	List<User> findByProp(String property, String keyword);
 

@@ -42,7 +42,7 @@ public class AddressDaoImpl extends HibernateDaoSupport implements AddressDao{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Address> findAll() {
+	public List<Address> getAll() {
 		// TODO Auto-generated method stub
 		return (List<Address>)getHibernateTemplate().find(" from Address");
 	}

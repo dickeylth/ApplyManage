@@ -42,7 +42,7 @@ public class RoleDaoImpl extends HibernateDaoSupport implements RoleDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Role> findAll() {
+	public List<Role> getAll() {
 		// TODO Auto-generated method stub
 		return (List<Role>)getHibernateTemplate().find(" from Role");
 	}

@@ -23,8 +23,9 @@
 			key="user.password" />
 
 		<!-- 多对多 -->
-		<s:checkboxlist name="roles" list="sysRoles" key="user.roles"
-			listKey="id" listValue="rolename" cssClass="checkboxlist" />
+		<s:bean name="com.dickey.dao.impl.RoleDaoImpl" id="roleDao"/>
+		<s:checkboxlist value="model.roles.{id}" list="#roleDao.all" key="user.roles"
+			listKey="id" listValue="rolename" cssClass="checkboxlist" name="model.roles"/>
 		<!-- 多对多 -->
 
 		<!-- 一对多 -->
@@ -61,5 +62,6 @@
 	<a id="close">×</a>
 	<script src="js/jquery-1.8.3.min.js"></script>
 	<script src="js/edit.js"></script>
+	<s:debug/>
 </body>
 </html>

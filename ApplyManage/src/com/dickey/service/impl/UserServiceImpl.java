@@ -114,7 +114,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	@RequiresPermissions("user:find")
 	public List<User> findUsers() {
-		return userDao.findAll();
+		return userDao.getAll();
 	}
 
 	@Override
@@ -164,7 +164,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public List<Role> findRoles() {
 		// TODO Auto-generated method stub
-		return roleDao.findAll();
+		return roleDao.getAll();
 	}
 
 	@Override
@@ -213,7 +213,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public List<Permission> findPermissions() {
 		// TODO Auto-generated method stub
-		return permissionDao.findAll();
+		return permissionDao.getAll();
 	}
 
 	@Override
@@ -255,7 +255,7 @@ public class UserServiceImpl implements UserService{
 	
 	@Override
 	public List<Application> findApplications() {
-		return applicationDao.findAll();
+		return applicationDao.getAll();
 	}
 
 	@Override
@@ -303,7 +303,7 @@ public class UserServiceImpl implements UserService{
 	
 	@Override
 	public List<ApplicationType> findApplicationTypes() {
-		return applicationTypeDao.findAll();
+		return applicationTypeDao.getAll();
 	}
 
 	@Override
@@ -351,7 +351,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public List<Address> findAddresss() {
 		// TODO Auto-generated method stub
-		return addressDao.findAll();
+		return addressDao.getAll();
 	}
 
 	@Override

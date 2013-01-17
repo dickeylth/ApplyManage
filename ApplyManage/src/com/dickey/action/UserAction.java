@@ -11,6 +11,7 @@ import org.apache.shiro.crypto.hash.Md5Hash;
 import com.dickey.action.base.BaseAction;
 import com.dickey.domain.Role;
 import com.dickey.domain.User;
+import com.opensymphony.xwork2.ActionContext;
 
 public class UserAction extends BaseAction{
 
@@ -50,12 +51,6 @@ public class UserAction extends BaseAction{
 	//模型驱动的实例集
 	private List<User> models = new LinkedList<User>();
 	
-	//系统所有的角色
-	private List<Role> sysRoles = new LinkedList<Role>();
-	
-	//当前用户所有的角色
-	private List<String> roles = new LinkedList<String>();
-	
 	/*
 	 * 按字段查询
 	 */
@@ -93,9 +88,6 @@ public class UserAction extends BaseAction{
 	public String add(){
 		title = "创建新";
 		
-		//处理关联的角色字段
-		sysRoles = userService.findRoles();
-		
 		return INPUT;
 	}
 	
@@ -119,11 +111,11 @@ public class UserAction extends BaseAction{
 			}
 		}
 		
-		//处理关联的角色字段
-		sysRoles = userService.findRoles();
-		for (Role role : model.getRoles()) {
-			roles.add(role.getId());
-		}
+		/**
+		 * 针对密码，特殊处理，缓存当前编辑用户密码到session中供提交时比对
+		 */
+		ActionContext.getContext().getSession().put("pwd", model.getPassword());
+		
 				
 		return INPUT;
 	}
@@ -132,15 +124,20 @@ public class UserAction extends BaseAction{
 	 * 处理增加/修改
 	 */
 	public String editSubmit(){
-		//加密密码
-		String crypto = new Md5Hash(model.getPassword()).toHex(); 
-		model.setPassword(crypto);
+		/*
+		 * 针对密码，特殊处理，比对前后密码是否有修改，有修改时才重新加密
+		 */
+		Object pwd = ActionContext.getContext().getSession().get("pwd");
+		if(pwd == null || !pwd.equals(model.getPassword())){
+			String crypto = new Md5Hash(model.getPassword()).toHex(); 
+			model.setPassword(crypto);
+		}
 		
 		//处理角色绑定
 		List<Role> roleList = new LinkedList<Role>();
-		for (String roleId : roles) {
-			if(!roleId.equals("")){
-				Role role = userService.findRole(roleId);
+		for (Role it : model.getRoles()) {
+			if(it != null && it.getId() != null){		
+				Role role = userService.findRole(it.getId());
 				roleList.add(role);
 			}
 		}
@@ -184,7 +181,7 @@ public class UserAction extends BaseAction{
 	public String delete(){
 		
 		//是否有关联类操作
-		boolean flag = !refClass.trim().equals("") && !refId.trim().equals("");
+		boolean flag = refClass != null && refId != null && !refClass.trim().equals("") && !refId.trim().equals("");
 		
 		for (String id : checkItems) {
 			userService.deleteUser(id);
@@ -267,18 +264,6 @@ public class UserAction extends BaseAction{
 
 	public void setModels(List<User> models) {
 		this.models = models;
-	}
-
-	public List<Role> getSysRoles() {
-		return sysRoles;
-	}
-
-	public List<String> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(List<String> roles) {
-		this.roles = roles;
 	}
 
 	public String getRefClass() {

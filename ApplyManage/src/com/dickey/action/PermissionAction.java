@@ -133,9 +133,9 @@ public class PermissionAction extends BaseAction{
 		
 		//处理角色绑定
 		List<Role> roleList = new LinkedList<Role>();
-		for (String roleId : roles) {
-			if(!roleId.equals("")){
-				Role role = userService.findRole(roleId);
+		for (Role it : model.getRoles()) {
+			if(it != null && it.getId() != null){
+				Role role = userService.findRole(it.getId());
 				roleList.add(role);
 			}
 		}
@@ -180,7 +180,7 @@ public class PermissionAction extends BaseAction{
 	 */
 	public String delete(){
 		//是否有关联类操作
-		boolean flag = !refClass.trim().equals("") && !refId.trim().equals("");
+		boolean flag = refClass != null && refId != null && !refClass.trim().equals("") && !refId.trim().equals("");
 				
 		for (String id : checkItems) {
 			userService.deletePermission(id);

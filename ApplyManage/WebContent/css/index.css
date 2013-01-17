@@ -53,8 +53,12 @@ nav li a {
 }
 
 li:hover,li:hover a,.sysadmin li:hover a,a.on {
-	background-color: #F0F0F0;
+	background-color: #ACDAF4;
 	color: #0072DB;
+}
+
+a.on{
+    background-color: #FAFAFA;
 }
 
 .adminli {

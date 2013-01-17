@@ -17,7 +17,7 @@ public interface AddressDao {
 	
 	void delete(String id);
 	
-	List<Address> findAll();
+	List<Address> getAll();
 	
 	List<Address> findByUser(User user);
 	

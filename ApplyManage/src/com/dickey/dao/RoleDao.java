@@ -15,7 +15,7 @@ public interface RoleDao {
 	
 	void delete(String id);
 	
-	List<Role> findAll();
+	List<Role> getAll();
 	
 	List<Role> findByProp(String property, String keyword);
 

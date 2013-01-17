@@ -18,11 +18,20 @@
 		<s:hidden name="model.id" id="model_id" value="%{model.id}" />
 		<s:textfield name="model.rolename" value="%{model.rolename}"
 			key="role.rolename" />
-		<s:checkboxlist name="users" list="sysUsers" key="role.users"
-			listKey="id" listValue="username" cssClass="checkboxlist" />
-		<s:checkboxlist name="permissions" list="sysPermissions"
-			label="role.permissions" listKey="id" listValue="permission"
-			value="permissions" />
+			
+		<!-- 多对多 -->
+		<s:action name="User_queryAction"/>
+		<s:bean name="com.dickey.dao.impl.UserDaoImpl" id="userDao"/>
+		<s:checkboxlist value="model.users.{id}" list="#userDao.all" key="role.users"
+			listKey="id" listValue="username" cssClass="checkboxlist" name="model.users"/>
+		<!-- 多对多 -->
+			
+		<!-- 多对多 -->
+		<s:bean name="com.dickey.dao.impl.PermissionDaoImpl" id="permissionDao"/>
+		<s:checkboxlist value="model.permissions.{id}" list="#permissionDao.all" key="role.permissions"
+			listKey="id" listValue="permission" cssClass="checkboxlist" name="model.permissions"/>
+		<!-- 多对多 -->
+		
 		<s:submit id="submit" key="submit" cssClass="button" />
 	</s:form>
 	<iframe src="" name="view" id="view"></iframe>

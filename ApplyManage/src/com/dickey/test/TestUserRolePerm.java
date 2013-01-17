@@ -1,13 +1,13 @@
 package com.dickey.test;
 
-import org.hibernate.Session;
+/*import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 import com.dickey.domain.Permission;
 import com.dickey.domain.Role;
-import com.dickey.domain.User;
+import com.dickey.domain.User;*/
 
 public class TestUserRolePerm {
 
@@ -15,7 +15,7 @@ public class TestUserRolePerm {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Configuration configuration = new Configuration().configure();
+/*		Configuration configuration = new Configuration().configure();
 		SessionFactory sf = configuration.buildSessionFactory();
 		Session session = sf.openSession();
 		Transaction tx = session.beginTransaction();
@@ -45,7 +45,7 @@ public class TestUserRolePerm {
 
 		
 		String str = "SELECT B.PERMISSION FROM MY_ROLE T LEFT JOIN MY_ROLE_PERMISSION A ON T.ID = A.ROLE_ID LEFT JOIN MY_PERMISSION B ON A.PERMISSION = B.ID WHERE T.ROLENAME = ? ";
-		System.out.println(str.toLowerCase());
+		System.out.println(str.toLowerCase());*/
 	}
 
 }

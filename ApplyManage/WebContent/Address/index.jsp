@@ -54,7 +54,7 @@
 		</ul>
 	</form>
 	<script type="text/javascript"
-		src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+		src="js/jquery-1.8.3.min.js"></script>
 	<script>
 		$(document).ready(function(){
 			$('.ctrl').click(function(){

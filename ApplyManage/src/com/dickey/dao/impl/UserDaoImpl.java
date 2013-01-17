@@ -48,7 +48,7 @@ public class UserDaoImpl extends HibernateDaoSupport implements UserDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<User> findAll() {
+	public List<User> getAll() {
 		// TODO Auto-generated method stub
 		return (List<User>)getHibernateTemplate().find(" from User");
 	}

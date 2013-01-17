@@ -18,6 +18,7 @@
 	</div>
 	<nav>
 		<ul>
+			<li><a href="<s:url action="default"/>" target="main" class="on">首页</a></li>
 			<shiro:hasPermission name="application:management">
 				<li><a href="<s:url action="Application_queryAction"/>"
 					target="main"><s:text name="application" />管理</a></li>

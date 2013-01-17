@@ -21,14 +21,14 @@ public class Role implements Serializable{
 	@GeneratedValue(generator = "idGenerator")
 	private String id;
 	
-	@Column(unique=true, nullable=true)
+	@Column(unique=true, nullable=false)
 	private String rolename;
 	
-	@ManyToMany(cascade = CascadeType.REFRESH)
+	@ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "USER_ROLE", joinColumns = { @JoinColumn(name = "ROLE_ID") }, inverseJoinColumns = { @JoinColumn(name = "USER_ID") })
 	private List<User> users = new LinkedList<User>();
 	
-	@ManyToMany(cascade = CascadeType.REFRESH)
+	@ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "ROLE_PERMISSION", joinColumns = { @JoinColumn(name = "ROLE_ID") }, inverseJoinColumns = { @JoinColumn(name = "PERMISSION_ID") })
 	private List<Permission> permissions = new LinkedList<Permission>();
 
@@ -66,7 +66,8 @@ public class Role implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Role [id=" + id + ", rolename=" + rolename + ", permissions=" + permissions + "]";
+		return "Role [id=" + id + ", rolename=" + rolename + ", users=" + users + ", permissions=" + permissions + "]";
 	}
+	
 	
 }

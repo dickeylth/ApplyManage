@@ -15,7 +15,7 @@ public interface PermissionDao {
 	
 	void delete(String id);
 	
-	List<Permission> findAll();
+	List<Permission> getAll();
 	
 	List<Permission> findByProp(String property, String keyword);
 

@@ -3,7 +3,7 @@ package com.dickey.test;
 //import org.hibernate.Session;
 //import java.lang.reflect.InvocationTargetException;
 //import java.lang.reflect.Field;
-import java.lang.reflect.Method;
+//import java.lang.reflect.Method;
 import java.util.Date;
 
 import org.hibernate.SessionFactory;
@@ -13,7 +13,7 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.dickey.domain.Application;
 //import com.dickey.domain.User;
-import com.dickey.domain.User;
+//import com.dickey.domain.User;
 
 /*
  * 测试用户
@@ -49,7 +49,7 @@ public class TestUserSingle extends HibernateDaoSupport{
 			e.printStackTrace();
 		}
 		
-		try {
+		/*try {
 			Method method = application.getClass().getDeclaredMethod("setUser", User.class);
 			User user = new User("KONka", "IMQQ");
 			try {
@@ -60,7 +60,7 @@ public class TestUserSingle extends HibernateDaoSupport{
 			} 
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
-		}
+		}*/
 		
 		
 		

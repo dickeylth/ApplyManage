@@ -42,7 +42,7 @@ public class ApplicationDaoImpl extends HibernateDaoSupport implements Applicati
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Application> findAll() {
+	public List<Application> getAll() {
 		// TODO Auto-generated method stub
 		return (List<Application>)getHibernateTemplate().find(" from Application");
 	}

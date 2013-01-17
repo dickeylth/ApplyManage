@@ -193,7 +193,7 @@ public class ApplicationAction extends BaseAction{
 	 */
 	public String delete(){
 		//是否有关联类操作
-		boolean flag = !refClass.trim().equals("") && !refId.trim().equals("");
+		boolean flag = refClass != null && refId != null && !refClass.trim().equals("") && !refId.trim().equals("");
 				
 		for (String id : checkItems) {
 			userService.delApplication(id);

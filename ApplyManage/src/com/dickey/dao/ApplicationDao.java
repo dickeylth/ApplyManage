@@ -17,7 +17,7 @@ public interface ApplicationDao {
 	
 	void delete(String id);
 	
-	List<Application> findAll();
+	List<Application> getAll();
 	
 	List<Application> findByUser(User user);
 	
