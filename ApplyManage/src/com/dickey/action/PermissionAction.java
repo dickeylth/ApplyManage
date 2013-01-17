@@ -27,7 +27,7 @@ public class PermissionAction extends BaseAction{
 	private String[] checkItems;
 	
 	//搜索可用的字段
-	private String[] fields = {"id", "username"};
+	private String[] fields = {"id", "permission"};
 	private Map<String, String> properties = new HashMap<String, String>();
 	
 	//搜索时的字段类别
