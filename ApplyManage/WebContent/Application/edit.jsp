@@ -19,7 +19,8 @@
 		<s:hidden name="model.id" id="model_id" value="%{model.id}" />
 
 		<!-- 多对一 -->
-		<s:select list="sysApplicationTypes" name="applicationType"
+		<s:bean name="com.dickey.dao.impl.ApplicationTypeDaoImpl" id="applicationTypeDao"/>
+		<s:select list="#applicationTypeDao.all" name="model.applicationType.id"
 			listKey="id" listValue="typeName" key="application.applicationType"
 			value="%{model.applicationType.id}" headerKey=""
 			headerValue="--请选择--" />

@@ -48,11 +48,6 @@ public class PermissionAction extends BaseAction{
 	//模型驱动的实例集
 	private List<Permission> models = new LinkedList<Permission>();
 	
-	//系统所有的角色
-	private List<Role> sysRoles = new LinkedList<Role>();
-	
-	//当前权限所对应的角色
-	private List<String> roles = new LinkedList<String>();
 	
 	/*
 	 * 按字段查询
@@ -93,9 +88,6 @@ public class PermissionAction extends BaseAction{
 	public String add(){
 		title = "创建新";
 		
-		//处理关联的角色字段
-		sysRoles = userService.findRoles();
-		
 		return INPUT;
 	}
 	
@@ -116,12 +108,7 @@ public class PermissionAction extends BaseAction{
 				}
 			}
 		}
-		
-		//处理对多对关联的角色字段
-		sysRoles = userService.findRoles();
-		for (Role role : model.getRoles()) {
-			roles.add(role.getId());
-		}
+
 		return INPUT;
 	}
 	
@@ -141,7 +128,7 @@ public class PermissionAction extends BaseAction{
 		}
 		model.setRoles(roleList);
 		
-		//是否有关联类操作
+		//是否有关联类操作（只在一对一情况下会进入）
 		boolean flag = false;
 		System.out.println(refClass);
 		System.out.println(refId);
@@ -162,7 +149,6 @@ public class PermissionAction extends BaseAction{
 				System.err.println("Permission中找不到set"+refClass+"方法！");
 			}
 			flag = true;
-			
 		}
 		
 		if(model.getId().equals("")){
@@ -254,22 +240,6 @@ public class PermissionAction extends BaseAction{
 
 	public void setModel(Permission model) {
 		this.model = model;
-	}
-
-	public List<Role> getSysRoles() {
-		return sysRoles;
-	}
-
-	public void setSysRoles(List<Role> sysRoles) {
-		this.sysRoles = sysRoles;
-	}
-
-	public List<String> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(List<String> roles) {
-		this.roles = roles;
 	}
 
 	public String getRefClass() {

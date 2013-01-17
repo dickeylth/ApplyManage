@@ -129,7 +129,7 @@ public class ApplicationTypeAction extends BaseAction{
 	 * 处理增加/修改
 	 */
 	public String editSubmit(){
-		//是否有关联类操作
+		//是否有关联类操作（只在一对一情况下会进入）
 		boolean flag = false;
 		if(refClass != null && refId != null && !refClass.trim().equals("") && !refId.trim().equals("")){
 			Object object = null;
@@ -148,7 +148,6 @@ public class ApplicationTypeAction extends BaseAction{
 				System.err.println("ApplicationType中找不到set"+refClass+"方法！");
 			}
 			flag = true;
-			
 		}
 		
 		if(model.getId().equals("")){

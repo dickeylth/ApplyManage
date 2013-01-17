@@ -20,7 +20,6 @@
 			key="role.rolename" />
 			
 		<!-- 多对多 -->
-		<s:action name="User_queryAction"/>
 		<s:bean name="com.dickey.dao.impl.UserDaoImpl" id="userDao"/>
 		<s:checkboxlist value="model.users.{id}" list="#userDao.all" key="role.users"
 			listKey="id" listValue="username" cssClass="checkboxlist" name="model.users"/>

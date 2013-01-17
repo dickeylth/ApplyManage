@@ -8,7 +8,6 @@ import java.util.Map;
 
 import com.dickey.action.base.BaseAction;
 import com.dickey.domain.Application;
-import com.dickey.domain.ApplicationType;
 import com.dickey.domain.User;
 import com.opensymphony.xwork2.ActionContext;
 
@@ -52,15 +51,6 @@ public class ApplicationAction extends BaseAction{
 	
 	//查询出的实例集
 	private List<Application> models = new LinkedList<Application>();
-	
-	//{Start处理多对一
-	//系统所有的申请类型
-	private List<ApplicationType> sysApplicationTypes = new LinkedList<ApplicationType>();
-	
-	//当前申请单的类型
-	private String applicationType;
-	//End处理多对一}
-	
 	
 	/*
 	 * 按字段查询
@@ -114,7 +104,7 @@ public class ApplicationAction extends BaseAction{
 		title = "创建新";
 		
 		//处理多对一关联的ApplicationType类
-		sysApplicationTypes = userService.findApplicationTypes();
+		//sysApplicationTypes = userService.findApplicationTypes();
 		
 		return INPUT;
 	}
@@ -126,7 +116,7 @@ public class ApplicationAction extends BaseAction{
 		title = "编辑";
 		
 		//处理多对一关联的ApplicationType类
-		sysApplicationTypes = userService.findApplicationTypes();
+		//sysApplicationTypes = userService.findApplicationTypes();
 		
 		if(!id.trim().isEmpty()){
 			model = userService.findApplication(id);
@@ -147,7 +137,7 @@ public class ApplicationAction extends BaseAction{
 	 * 处理增加/修改
 	 */
 	public String editSubmit(){
-		//是否有关联类操作
+		//是否有关联类操作（只在一对一情况下会进入）
 		boolean flag = false;
 		if(refClass != null && refId != null && !refClass.trim().equals("") && !refId.trim().equals("")){
 			Object object = null;
@@ -166,7 +156,6 @@ public class ApplicationAction extends BaseAction{
 				System.err.println("Application中找不到set"+refClass+"方法！");
 			}
 			flag = true;
-			
 		}
 		
 		if(model.getUser() == null){
@@ -174,8 +163,11 @@ public class ApplicationAction extends BaseAction{
 		}
 		
 		//处理多对一关联的ApplicationType
-		if(model.getApplicationType() == null){
-			model.setApplicationType(userService.findApplicationType(applicationType));
+		if(model.getApplicationType() != null){
+			String id =model.getApplicationType().getId();
+			if(id != null && !id.equals("")){
+				model.setApplicationType(userService.findApplicationType(id));
+			}
 		}
 		
 		if(model.getId().equals("")){
@@ -293,23 +285,5 @@ public class ApplicationAction extends BaseAction{
 	public void setModels(List<Application> models) {
 		this.models = models;
 	}
-
-	public List<ApplicationType> getSysApplicationTypes() {
-		return sysApplicationTypes;
-	}
-
-	public void setSysApplicationTypes(List<ApplicationType> sysApplicationTypes) {
-		this.sysApplicationTypes = sysApplicationTypes;
-	}
-
-	public String getApplicationType() {
-		return applicationType;
-	}
-
-	public void setApplicationType(String applicationType) {
-		this.applicationType = applicationType;
-	}
-
-
 
 }
