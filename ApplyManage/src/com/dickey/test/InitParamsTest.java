@@ -22,7 +22,7 @@ public class InitParamsTest {
 		Permission permission = new Permission();
 		permission.setPermission("TEST_PERMISSION");
 		
-		userService.addPermission(permission);
+		//userService.addPermission(permission);
 		
 		//再处理role
 		Role role = new Role();

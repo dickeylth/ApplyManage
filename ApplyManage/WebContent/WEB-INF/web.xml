@@ -54,5 +54,10 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
+	
+	<!-- 系统初始化 -->
+	 <listener>
+ 		<listener-class>DatabaseInit</listener-class>
+ 	</listener>
 
 </web-app>
