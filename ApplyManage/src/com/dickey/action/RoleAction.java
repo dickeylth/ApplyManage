@@ -55,9 +55,7 @@ public class RoleAction extends BaseAction{
 	 * 按字段查询
 	 */
 	public String queryByProp(){
-		for (String field : fields) {
-			properties.put(field, getText("user." + field));
-		}
+		initQuery();
 		setModels(userService.findRolesByProp(property, keyword));
 		return SUCCESS;
 	}

@@ -55,6 +55,7 @@ public class UserAction extends BaseAction{
 	 * 按字段查询
 	 */
 	public String queryByProp(){
+		initQuery();
 		setModels(userService.findUsersByProp(property, keyword));
 		return SUCCESS;
 	}

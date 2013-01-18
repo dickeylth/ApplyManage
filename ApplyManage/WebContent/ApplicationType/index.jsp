@@ -13,9 +13,8 @@
 		action="ApplicationType_queryByPropAction.do">
 		<s:select list="properties" id="property" name="property" headerKey=""
 			headerValue="--选择搜索字段--" value="property" />
-		<input type="text" name="keyword" id="keyword"
-			value="<s:property value="keyword"/>" /> <input type="submit"
-			id="search_btn" class="button" value="<s:text name='search'/>" />
+		<input type="text" name="keyword" id="keyword" value="${keyword}" />
+		<input type="submit" id="search_btn" class="button" value="<s:text name='search'/>" />
 	</form>
 	<form id="options" method="post">
 		<table>

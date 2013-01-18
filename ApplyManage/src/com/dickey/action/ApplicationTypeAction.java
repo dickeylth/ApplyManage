@@ -56,9 +56,7 @@ public class ApplicationTypeAction extends BaseAction{
 	 * 按字段查询
 	 */
 	public String queryByProp(){
-		for (String field : fields) {
-			properties.put(field, getText("applicationType." + field));
-		}
+		initQuery();
 		boolean flag = false;
 		//处理与User关联的数据
 		try {
