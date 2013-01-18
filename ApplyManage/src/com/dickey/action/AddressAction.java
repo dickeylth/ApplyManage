@@ -157,7 +157,6 @@ public class AddressAction extends BaseAction{
 		
 		if(model.getId().equals("")){
 			//处理新建
-			System.out.println(model);
 			userService.addAddress(model);
 		}else{
 			//处理更新
