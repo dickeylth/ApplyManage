@@ -45,7 +45,7 @@
 		p:sessionFactory-ref="sessionFactory" />
 	<tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
-			<tx:method name="get" read-only="true" />
+			<tx:method name="find*" read-only="true" />
 			<tx:method name="*" />
 		</tx:attributes>
 	</tx:advice>
