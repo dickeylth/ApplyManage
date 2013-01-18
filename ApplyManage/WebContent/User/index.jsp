@@ -23,6 +23,7 @@
 					<td><s:text name="user.id" /></td>
 					<td><s:text name="user.username" /></td>
 					<td><s:text name="user.password" /></td>
+					<td><s:text name="address.country" /></td>
 				</tr>
 			</thead>
 			<tbody>
@@ -35,6 +36,7 @@
 									value="#model.id" /></a></td>
 						<td><s:property value="#model.username" /></td>
 						<td><s:property value="#model.password" /></td>
+						<td><s:property value="#model.address.country" /></td>
 					</tr>
 				</s:iterator>
 			</tbody>

@@ -22,6 +22,7 @@
 				<tr>
 					<td></td>
 					<td><s:text name="application.id" /></td>
+					<td><s:text name="applicationType.typeName" /></td>
 					<td><s:text name="application.start" /></td>
 					<td><s:text name="application.end" /></td>
 					<td><s:text name="application.reason" /></td>
@@ -35,6 +36,7 @@
 						<td><a
 							href="<s:url action='Application_editAction'><s:param name='id' value='#model.id'/></s:url>"><s:property
 									value="#model.id" /></a></td>
+						<td><s:property value="#model.applicationType.typeName" /></td>
 						<td><s:property value="#model.start" /></td>
 						<td><s:property value="#model.end" /></td>
 						<td><s:property value="#model.reason" /></td>

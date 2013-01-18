@@ -62,6 +62,5 @@
 	<a id="close">×</a>
 	<script src="js/jquery-1.8.3.min.js"></script>
 	<script src="js/edit.js"></script>
-	<s:debug/>
 </body>
 </html>

@@ -1,7 +1,7 @@
 body {
 	font: normal 13px "微软雅黑", 'Microsoft Yahei', Arial, Tahoma;
 	color: #666;
-	margin: 50px 40px 0px 40px;
+	margin: 50px 20px 0px 20px;
 	text-align: center;
 }
 
@@ -60,9 +60,7 @@ section,header,footer,aside,article,nav {
 }
 
 /*内容框*/
-#options table {
-	width: 640px;
-}
+
 
 #editForm table {
 	text-align: left;
@@ -123,8 +121,8 @@ table td{
 	position: absolute;
 	top: 10%;
 	left: 50%;
-	width: 720px;
-	margin-left: -360px;
+	width: 800px;
+	margin-left: -400px;
 	height: 400px;
 	overflow: hidden;
 	background-color: #EEFCFF;
@@ -142,7 +140,7 @@ table td{
 	font-size: 18px;
 	padding: 2px 8px;
 	position: absolute;
-	right: 110px;
+	right: 70px;
 	top: 10%;
 	z-index: 2;
 	cursor: pointer;
