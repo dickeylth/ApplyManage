@@ -76,25 +76,21 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	@RequiresPermissions("user:add")
 	public String addUser(User user) {
 		return userDao.save(user);
 	}
 
 	@Override
-	@RequiresPermissions("user:delete")
 	public void deleteUser(User user) {
 		userDao.delete(user);
 	}
 
 	@Override
-	@RequiresPermissions("user:delete")
 	public void deleteUser(String id) {
 		userDao.delete(id);
 	}
 
 	@Override
-	@RequiresPermissions("user:update")
 	public void updateUser(User user) {
 		userDao.update(user);
 	}
@@ -105,20 +101,17 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	@RequiresPermissions("user:find")
 	public User findUser(String id) {
 		// TODO Auto-generated method stub
 		return userDao.get(id);
 	}
 	
 	@Override
-	@RequiresPermissions("user:find")
 	public List<User> findUsers() {
 		return userDao.getAll();
 	}
 
 	@Override
-	@RequiresPermissions("user:find")
 	public List<User> findUsersByProp(String property, String keyword) {
 		// TODO Auto-generated method stub
 		return userDao.findByProp(property, keyword);

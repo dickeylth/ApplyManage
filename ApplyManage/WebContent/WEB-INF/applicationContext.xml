@@ -26,16 +26,27 @@
 		<!-- packagesToScan属性用来列出需要映射的注解类所在的包 -->
 		<property name="packagesToScan" value="com.dickey.domain" />
 		<!-- 定义Hibernate的SessionFactory的属性 -->
-		<property name="hibernateProperties">
-			<!-- 指定数据库方言、是否自动建表、是否生成SQL语句等 -->
+		<!-- <property name="hibernateProperties">
+			指定数据库方言、是否自动建表、是否生成SQL语句等
 			<value>
 				hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
 				hibernate.hbm2ddl.auto=update
 				hibernate.show_sql=true
 				hibernate.format_sql=true
 			</value>
+		</property> -->
+		<property name="configLocation">
+			<value>classpath:jbpm.hibernate.cfg.xml</value>
 		</property>
+		
+		<!-- 扫描指定目录下的所有实体属性映射配置文件 -->
+		<!-- <property name="mappingDirectoryLocations">
+		  <list>
+		    <value>classpath:/com/dickey/domain</value>
+		  </list>
+		</property> -->
 	</bean>
+	
 
 	<!-- 配置Hibernate的局部事务管理器，使用HibernateTransactionManager类 -->
 	<!-- 该类实现PlatformTransactionManager接口，是针对Hibernate的特定实现 -->
@@ -133,5 +144,13 @@
 		<property name="securityManager" ref="securityManager" />
 	</bean>
 
-
+	<!--jbpm4.4工作流  -->
+	<bean id="springHelper" class="org.jbpm.pvm.internal.processengine.SpringHelper" lazy-init="default" autowire="default">
+		<property name="jbpmCfg" value="jbpm.cfg.xml" />
+	</bean>
+	<bean id="processEngine" factory-bean="springHelper"  factory-method="createProcessEngine" />
+	<bean id="repositoryService" factory-bean="processEngine" factory-method="getRepositoryService"/>
+	<bean id="executionService" factory-bean="processEngine" factory-method="getExecutionService" />
+	<bean id="taskService" factory-bean="processEngine" factory-method="getTaskService" />
+	
 </beans>
