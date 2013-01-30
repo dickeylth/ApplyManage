@@ -272,5 +272,10 @@ public interface UserService {
 			String refId);
 	//Address CRUD
 
+	/*
+	 * 系统初始化时对流程定义文件的部署
+	 */
+	void checkProcessDeploy();
+
 
 }

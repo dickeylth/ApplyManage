@@ -1,3 +1,5 @@
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,7 +16,7 @@ import com.dickey.domain.User;
 import com.dickey.service.UserService;
 
 
-public class DatabaseInit extends HttpServlet implements ServletContextListener {
+public class SystemInit extends HttpServlet implements ServletContextListener {
 
 	/**
 	 * 默认序列化UID
@@ -24,6 +26,8 @@ public class DatabaseInit extends HttpServlet implements ServletContextListener 
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 		// TODO Auto-generated method stub
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+		
 		WebApplicationContext actx = 
 				WebApplicationContextUtils.getWebApplicationContext(sce.getServletContext());
 		UserService userService = (UserService) actx.getBean("userService");
@@ -54,9 +58,13 @@ public class DatabaseInit extends HttpServlet implements ServletContextListener 
 			
 			admin.getRoles().add(role);
 			userService.addUser(admin);
-			
-			System.out.println("---------------数据库初始化完毕--------------");
 		}
+		
+		System.out.println(sdf.format(new Date()) + "\t数据库初始化完毕...");
+		
+		userService.checkProcessDeploy();
+		System.out.println(sdf.format(new Date()) + "\t流程定义部署检查完毕...");
+		
 	}
 
 	@Override

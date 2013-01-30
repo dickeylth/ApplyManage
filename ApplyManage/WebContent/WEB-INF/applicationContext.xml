@@ -79,9 +79,17 @@
 	<bean id="addressDao" class="com.dickey.dao.impl.AddressDaoImpl"
 		parent="daoTemplate" />
 	<bean id="userService" class="com.dickey.service.impl.UserServiceImpl"
-		p:userDao-ref="userDao" p:roleDao-ref="roleDao" p:applicationDao-ref="applicationDao"
-		p:applicationTypeDao-ref="applicationTypeDao" p:permissionDao-ref="permissionDao"
-		p:addressDao-ref="addressDao" />
+		p:userDao-ref="userDao" 
+		p:roleDao-ref="roleDao" 
+		p:applicationDao-ref="applicationDao"
+		p:applicationTypeDao-ref="applicationTypeDao" 
+		p:permissionDao-ref="permissionDao"
+		p:addressDao-ref="addressDao" 
+		p:processEngine-ref="processEngine" 
+		p:repositoryService-ref="repositoryService"
+		p:executionService-ref="executionService"
+		p:taskService-ref="taskService"
+		/>
 
 
 
