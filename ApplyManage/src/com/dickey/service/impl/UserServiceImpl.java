@@ -2,7 +2,6 @@ package com.dickey.service.impl;
 
 import java.io.File;
 import java.io.FilenameFilter;
-import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -151,7 +150,6 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public User findUser(String id) {
-		// TODO Auto-generated method stub
 		return userDao.get(id);
 	}
 	
@@ -162,111 +160,93 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public List<User> findUsersByProp(String property, String keyword) {
-		// TODO Auto-generated method stub
 		return userDao.findByProp(property, keyword);
 	}
 
 	@Override
 	public List<User> findUsersByRef(String refClass, String refId) {
-		// TODO Auto-generated method stub
 		return userDao.findByRef(refClass, refId);
 	}
 	
 
 	@Override
 	public String addRole(Role role) {
-		// TODO Auto-generated method stub
 		return roleDao.save(role);
 	}
 
 	@Override
 	public void deleteRole(Role role) {
-		// TODO Auto-generated method stub
 		roleDao.delete(role);
 	}
 
 	@Override
 	public void deleteRole(String id) {
-		// TODO Auto-generated method stub
 		roleDao.delete(id);
 	}
 
 	@Override
 	public void updateRole(Role role) {
-		// TODO Auto-generated method stub
 		roleDao.update(role);
 	}
 
 	@Override
 	public Role findRole(String id) {
-		// TODO Auto-generated method stub
 		return roleDao.get(id);
 	}
 
 	@Override
 	public List<Role> findRoles() {
-		// TODO Auto-generated method stub
 		return roleDao.getAll();
 	}
 
 	@Override
 	public List<Role> findRolesByProp(String property, String keyword) {
-		// TODO Auto-generated method stub
 		return roleDao.findByProp(property, keyword);
 	}
 
 	@Override
 	public List<Role> findRolesByRef(String refClass, String refId) {
-		// TODO Auto-generated method stub
 		return roleDao.findByRef(refClass, refId);
 	}
 
 
 	@Override
 	public String addPermission(Permission permission) {
-		// TODO Auto-generated method stub
 		return permissionDao.save(permission);
 	}
 
 	@Override
 	public void deletePermission(Permission permission) {
-		// TODO Auto-generated method stub
 		permissionDao.delete(permission);
 	}
 
 	@Override
 	public void deletePermission(String id) {
-		// TODO Auto-generated method stub
 		permissionDao.delete(id);
 	}
 
 	@Override
 	public void updatePermission(Permission permission) {
-		// TODO Auto-generated method stub
 		permissionDao.update(permission);
 	}
 
 	@Override
 	public Permission findPermission(String id) {
-		// TODO Auto-generated method stub
 		return permissionDao.get(id);
 	}
 
 	@Override
 	public List<Permission> findPermissions() {
-		// TODO Auto-generated method stub
 		return permissionDao.getAll();
 	}
 
 	@Override
 	public List<Permission> findPermissionsByProp(String property, String keyword) {
-		// TODO Auto-generated method stub
 		return permissionDao.findByProp(property, keyword);
 	}
 
 	@Override
 	public List<Permission> findPermissionsByRef(String refClass, String refId) {
-		// TODO Auto-generated method stub
 		return permissionDao.findByRef(refClass, refId);
 	}
 	
@@ -307,13 +287,11 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public List<Application> findApplicationsByProp(String property, String keyword, boolean userRel, User user) {
-		// TODO Auto-generated method stub
 		return applicationDao.findByProp(property, keyword, userRel, user);
 	}
 	
 	@Override
 	public List<Application> findApplicationsByRef(String refClass, String refId) {
-		// TODO Auto-generated method stub
 		return applicationDao.findByRef(refClass, refId);
 	}
 	
@@ -350,68 +328,57 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public List<ApplicationType> findApplicationTypesByProp(String property, String keyword, boolean userRel, User user) {
-		// TODO Auto-generated method stub
 		return applicationTypeDao.findByProp(property, keyword, userRel, user);
 	}
 
 	@Override
 	public List<ApplicationType> findApplicationTypesByRef(String refClass, String refId) {
-		// TODO Auto-generated method stub
 		return applicationTypeDao.findByRef(refClass, refId);
 	}
 
 	@Override
 	public String addAddress(Address address) {
-		// TODO Auto-generated method stub
 		return addressDao.save(address);
 	}
 
 	@Override
 	public void deleteAddress(Address address) {
-		// TODO Auto-generated method stub
 		addressDao.delete(address);
 	}
 
 	@Override
 	public void deleteAddress(String id) {
-		// TODO Auto-generated method stub
 		addressDao.delete(id);
 	}
 
 	@Override
 	public void updateAddress(Address address) {
-		// TODO Auto-generated method stub
 		addressDao.update(address);
 	}
 
 	@Override
 	public Address findAddress(String id) {
-		// TODO Auto-generated method stub
 		return addressDao.get(id);
 	}
 
 	@Override
 	public List<Address> findAddresss() {
-		// TODO Auto-generated method stub
 		return addressDao.getAll();
 	}
 
 	@Override
 	public List<Address> findAddresssByProp(String property, String keyword,
 			boolean userRel, User user) {
-		// TODO Auto-generated method stub
 		return addressDao.findByProp(property, keyword, userRel, user);
 	}
 
 	@Override
 	public List<Address> findAddresssByRef(String refClass, String refId) {
-		// TODO Auto-generated method stub
 		return addressDao.findByRef(refClass, refId);
 	}
 
 	@Override
 	public List<Address> findAddresssByUser(User user) {
-		// TODO Auto-generated method stub
 		return addressDao.findByUser(user);
 	}
 	
@@ -440,7 +407,6 @@ public class UserServiceImpl implements UserService{
 				deployProcess(file);
 			}
 		}
-		
 	}
 	private List<File> getProcessFiles(){
 		File dir = new File(getClass().getResource("/jpdl").getFile());
@@ -462,5 +428,7 @@ public class UserServiceImpl implements UserService{
 		System.out.println(file.getName() + "流程定义文件已部署，id为：" + deployId);
 	}
 
+	
+	
 
 }

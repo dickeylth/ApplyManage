@@ -90,6 +90,8 @@
 		p:executionService-ref="executionService"
 		p:taskService-ref="taskService"
 		/>
+	<bean id="userSession" class="com.dickey.jbpm.UserSession"
+		p:userDao-ref="userDao"/>
 
 
 

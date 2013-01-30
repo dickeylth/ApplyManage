@@ -7,9 +7,10 @@ import java.util.List;
 import javax.persistence.*;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.jbpm.api.identity.Group;
 
 @Entity
-public class Role implements Serializable{
+public class Role implements Serializable, Group{
 	
 	/**
 	 * 默认序列化UID
@@ -67,6 +68,18 @@ public class Role implements Serializable{
 	@Override
 	public String toString() {
 		return "Role [id=" + id + ", rolename=" + rolename + ", users=" + users + ", permissions=" + permissions + "]";
+	}
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return rolename;
+	}
+
+	@Override
+	public String getType() {
+		// TODO Auto-generated method stub
+		return "candidate";
 	}
 	
 	
