@@ -2,6 +2,8 @@ package com.dickey.service;
 
 import java.util.List;
 
+import org.jbpm.api.task.Task;
+
 import com.dickey.domain.*;
 
 public interface UserService {
@@ -276,6 +278,8 @@ public interface UserService {
 	 * 系统初始化时对流程定义文件的部署
 	 */
 	void checkProcessDeploy();
+	//获取当前用户任务列表
+	List<Task> getTaskList(User user);
 
 
 }

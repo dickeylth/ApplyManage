@@ -53,6 +53,11 @@ public class SystemInit extends HttpServlet implements ServletContextListener {
 				}
 			}
 			
+			Permission permission = new Permission();
+			permission.setPermission("system:manage");
+			userService.addPermission(permission);
+			permissions.add(permission);
+			
 			role.setPermissions(permissions);
 			userService.addRole(role);
 			

@@ -9,6 +9,28 @@
 <link rel="stylesheet" href="css/iframe.css" />
 </head>
 <body>
+	<div class="breadcrumb">
+		<shiro:hasPermission name="system:manage">
+			<div class="adminli"><a href="javascript:;">系统管理</a>
+				<ul class="sysadmin">
+					<shiro:hasPermission name="user:manage">
+						<li><a href="<s:url action="User_queryAction"/>"
+							target="main"><s:text name="user" />管理</a></li>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="role:manage">
+						<li><a href="<s:url action="Role_queryAction"/>"
+							target="main"><s:text name="role" />管理</a></li>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="permission:manage">
+						<li><a href="<s:url action="Permission_queryAction"/>"
+							target="main"><s:text name="permission" />管理</a></li>
+					</shiro:hasPermission>
+				</ul>
+			</div>
+		</shiro:hasPermission>
+		<img src="img/seperator.png" style="float:left;width:13px;height:33px">
+		<span class="breaditem"><s:text name="user" />管理</span>
+	</div>
 	<form id="search" method="post" action="User_queryByPropAction.do">
 		<s:select list="properties" id="property" name="property" headerKey=""
 			headerValue="--选择搜索字段--" value="property" />

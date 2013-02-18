@@ -11,6 +11,7 @@ import org.jbpm.api.ProcessDefinition;
 import org.jbpm.api.ProcessEngine;
 import org.jbpm.api.RepositoryService;
 import org.jbpm.api.TaskService;
+import org.jbpm.api.task.Task;
 
 import com.dickey.dao.AddressDao;
 import com.dickey.dao.ApplicationDao;
@@ -382,6 +383,9 @@ public class UserServiceImpl implements UserService{
 		return addressDao.findByUser(user);
 	}
 	
+	/*
+	 * 处理流程部署
+	 */
 	@Override
 	public void checkProcessDeploy(){
 		//获取当前系统中已部署流程
@@ -428,7 +432,12 @@ public class UserServiceImpl implements UserService{
 		System.out.println(file.getName() + "流程定义文件已部署，id为：" + deployId);
 	}
 
-	
-	
+	/*
+	 * 获取当前角色任务列表
+	 */
+	@Override
+	public List<Task> getTaskList(User user){
+		return taskService.findGroupTasks(user.getId());
+	}
 
 }

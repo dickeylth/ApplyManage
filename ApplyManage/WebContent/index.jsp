@@ -19,34 +19,35 @@
 	<nav>
 		<ul>
 			<li><a href="<s:url action="default"/>" target="main" class="on">首页</a></li>
-			<shiro:hasPermission name="application:management">
+			<shiro:hasPermission name="application:manage">
 				<li><a href="<s:url action="Application_queryAction"/>"
 					target="main"><s:text name="application" />管理</a></li>
 			</shiro:hasPermission>
-			<shiro:hasPermission name="applicationType:management">
+			<shiro:hasPermission name="applicationType:manage">
 				<li><a href="<s:url action="ApplicationType_queryAction"/>"
 					target="main"><s:text name="applicationType" />管理</a></li>
 			</shiro:hasPermission>
-			<shiro:hasPermission name="address:management">
+			<shiro:hasPermission name="address:manage">
 				<li><a href="<s:url action="Address_queryAction"/>"
 					target="main"><s:text name="address" />管理</a></li>
 			</shiro:hasPermission>
-			<shiro:hasPermission name="sysadmin:access">
+			<shiro:hasPermission name="system:manage">
 				<li class="adminli"><a href="javascript:;">系统管理</a>
 					<ul class="sysadmin">
-						<shiro:hasPermission name="user:admin">
+						<shiro:hasPermission name="user:manage">
 							<li><a href="<s:url action="User_queryAction"/>"
 								target="main"><s:text name="user" />管理</a></li>
 						</shiro:hasPermission>
-						<shiro:hasPermission name="role:admin">
+						<shiro:hasPermission name="role:manage">
 							<li><a href="<s:url action="Role_queryAction"/>"
 								target="main"><s:text name="role" />管理</a></li>
 						</shiro:hasPermission>
-						<shiro:hasPermission name="permission:admin">
+						<shiro:hasPermission name="permission:manage">
 							<li><a href="<s:url action="Permission_queryAction"/>"
 								target="main"><s:text name="permission" />管理</a></li>
 						</shiro:hasPermission>
-					</ul></li>
+					</ul>
+				</li>
 			</shiro:hasPermission>
 			<li id="account"><a href="<s:url value="logout"/>" id="logout"><s:text
 						name="logout" /></a></li>
@@ -59,8 +60,10 @@
 	<script>
 		$(document).ready(function(){
 			$('nav a').click(function(){
-				$('nav .on').removeClass('on');
-				$(this).addClass('on');
+				if(!$(this).closest('ul').hasClass('sysadmin')){
+					$('nav .on').removeClass('on');
+					$(this).addClass('on');
+				}
 			});
 			
 		});
