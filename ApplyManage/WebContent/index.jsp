@@ -60,8 +60,8 @@
 	<script>
 		$(document).ready(function(){
 			$('nav a').click(function(){
+				$('nav .on').removeClass('on');
 				if(!$(this).closest('ul').hasClass('sysadmin')){
-					$('nav .on').removeClass('on');
 					$(this).addClass('on');
 				}
 			});

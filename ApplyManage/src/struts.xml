@@ -28,6 +28,7 @@
 		<action name="*_*Action" class="com.dickey.action.{1}Action"
 			method="{2}">
 			<result name="input">{1}/edit.jsp</result>
+			<result name="task">{1}/task.jsp</result>
 			<result>{1}/index.jsp</result>
 		</action>
 

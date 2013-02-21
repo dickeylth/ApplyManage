@@ -64,12 +64,7 @@ public class Role implements Serializable, Group{
 	public void setPermissions(List<Permission> permissions) {
 		this.permissions = permissions;
 	}
-
-	@Override
-	public String toString() {
-		return "Role [id=" + id + ", rolename=" + rolename + ", users=" + users + ", permissions=" + permissions + "]";
-	}
-
+	
 	@Override
 	public String getName() {
 		// TODO Auto-generated method stub
@@ -81,6 +76,12 @@ public class Role implements Serializable, Group{
 		// TODO Auto-generated method stub
 		return "candidate";
 	}
+
+	@Override
+	public String toString() {
+		return "Role [id=" + id + ", rolename=" + rolename + ", users=" + users + ", permissions=" + permissions + "]";
+	}
+
 	
 	
 }

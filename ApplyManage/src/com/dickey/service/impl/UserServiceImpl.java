@@ -2,13 +2,18 @@ package com.dickey.service.impl;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.jbpm.api.ExecutionService;
 import org.jbpm.api.ProcessDefinition;
 import org.jbpm.api.ProcessEngine;
+import org.jbpm.api.ProcessInstance;
 import org.jbpm.api.RepositoryService;
 import org.jbpm.api.TaskService;
 import org.jbpm.api.task.Task;
@@ -432,12 +437,118 @@ public class UserServiceImpl implements UserService{
 		System.out.println(file.getName() + "流程定义文件已部署，id为：" + deployId);
 	}
 
-	/*
+	/**
 	 * 获取当前角色任务列表
+	 * @param String bizName 业务名
+	 * @param User user 用户
+	 * @return Map<业务id, Task>
 	 */
 	@Override
-	public List<Task> getTaskList(User user){
-		return taskService.findGroupTasks(user.getId());
+	public Map<String, Task> getTaskList(String bizName, User user){
+		Map<String, Task> tasks = new HashMap<>();
+		List<Task> taskList = taskService.findGroupTasks(user.getId());
+		for (Task task : taskList) {
+			String bizId = (String) taskService.getVariable(task.getId(), bizName + "Id");
+			tasks.put(bizId, task);
+		}
+		return tasks;
 	}
-
+	
+	/**
+	 * 流程-处理申请
+	 * @param String bizName 业务名
+	 * @param String bizId 业务id
+	 * @param User user 业务执行用户
+	 * @return String 状态信息
+	 */
+	@Override
+	public String procApply(String bizName, String bizId, User user) throws Exception{
+		//流程中要用到的变量信息
+		Map<String, Object> variables = new HashMap<String, Object>();
+		//存放该流程实例关联的业务表id
+		variables.put(bizName + "Id", bizId);
+		//存放该流程实例关联的用户角色
+		variables.put("role", getProperRole(user, bizName));
+		
+		//启动流程，通过该业务id来绑定一个流程实例
+		ProcessInstance processInstance = executionService.startProcessInstanceByKey(bizName, variables, bizId);
+		//该表单到时候是在web页面进行申请时填写好的
+		System.out.println("申请单已填写：" + processInstance.isActive("填写申请单"));
+		//处理申请单填写任务
+		Task task = taskService.findPersonalTasks("formFillin").get(0);
+		taskService.completeTask(task.getId());
+		
+		//返回申请单（业务数据）的状态以更新
+		return "申请单已提交";
+		
+	}
+	
+	//根据用户和业务名返回合适的角色，处理用户-角色多对多关联与流程中角色决策路径问题
+	private String getProperRole(User user, String bizName) throws Exception{
+		List<Role> roles = user.getRoles();
+		if(roles.size() == 1){
+			return roles.get(0).getRolename();
+		}else{
+			for (Role role : roles) {
+				List<Permission> permissions = role.getPermissions();
+				for (Permission permission : permissions) {
+					//如果permission中有与业务名吻合的部分，表明该permission对应的role即为所需
+					if(permission.getPermission().indexOf(bizName) != -1){
+						return role.getRolename();
+					}
+				}
+			}
+			throw new Exception("该角色可能与该业务流程未绑定，请确认后再执行！");
+		}
+		
+	}
+	
+	/**
+	 * 流程-处理批准
+	 * @param String taskId 任务id
+	 * @return String 业务状态
+	 */
+	@Override
+	public String procApprove(String taskId) throws Exception{
+		//处理批准任务
+		String activeStatus = taskService.getTask(taskId).getActivityName();
+		taskService.completeTask(taskId, "批准");
+		
+		//修改申请单（业务数据）的状态
+		return activeStatus + "已批准";
+	}
+	
+	/**
+	 * 流程-处理驳回
+	 * @param String taskId 任务id
+	 * @return String 业务状态
+	 */
+	@Override
+	public String procReject(String taskId) throws Exception{
+		//处理批准任务
+		String activeStatus = taskService.getTask(taskId).getActivityName();
+		taskService.completeTask(taskId, "驳回");
+		
+		//修改申请单（业务数据）的状态
+		return activeStatus + "已驳回";
+	}
+	
+	/**
+	 * 处理流程中业务数据状态更新
+	 * @throws InvocationTargetException 
+	 * @throws IllegalArgumentException 
+	 * @throws IllegalAccessException 
+	 * @param String bizName 业务名
+	 * @param String bizId 业务id
+	 * @param String status 需要更新为的状态
+	 */
+	private void updateBizStatus(String bizName, String bizId, String status) throws Exception{
+		Object obj = Class.forName(bizName).newInstance();
+		Method method = this.getClass().getDeclaredMethod("find" + bizName, String.class);
+		obj = method.invoke(this, bizId);
+		method = Class.forName(bizName).getDeclaredMethod("setStatus", String.class);
+		method.invoke(obj, status);
+		method = this.getClass().getDeclaredMethod("update" + bizName, Class.forName(bizName));
+		method.invoke(this, obj);
+	}
 }

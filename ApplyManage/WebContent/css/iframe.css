@@ -9,9 +9,10 @@ body {
 /*导航栏*/
 .breadcrumb {
 	background-color: #F4F3F2;
-	border-bottom: 1px solid #9B9B9B;
+	border: 1px solid #9B9B9B;
+	border-left: 0;
+	border-right:0;
 	height: 33px;
-	padding-left: 12px;
 	font-size: 14px;
 }
 

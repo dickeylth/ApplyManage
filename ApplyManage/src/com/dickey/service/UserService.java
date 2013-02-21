@@ -1,6 +1,7 @@
 package com.dickey.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.jbpm.api.task.Task;
 
@@ -278,8 +279,36 @@ public interface UserService {
 	 * 系统初始化时对流程定义文件的部署
 	 */
 	void checkProcessDeploy();
-	//获取当前用户任务列表
-	List<Task> getTaskList(User user);
+	/**
+	 * 获取当前角色任务列表
+	 * @param String bizName 业务名
+	 * @param User user 用户
+	 * @return Map<业务id, Task>
+	 */
+	Map<String, Task> getTaskList(String bizName, User user);
+	
+	/**
+	 * 流程-处理申请
+	 * @param String bizName 业务名
+	 * @param String bizId 业务id
+	 * @param User user 业务执行用户
+	 * @return String 状态信息
+	 */
+	String procApply(String bizName, String bizId, User user) throws Exception;
+	
+	/**
+	 * 流程-处理批准
+	 * @param String taskId 任务id
+	 * @return String 业务状态
+	 */
+	String procApprove(String taskId) throws Exception;
+	
+	/**
+	 * 流程-处理驳回
+	 * @param String taskId 任务id
+	 * @return String 业务状态
+	 */
+	String procReject(String taskId) throws Exception;
 
 
 }

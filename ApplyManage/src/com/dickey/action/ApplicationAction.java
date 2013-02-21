@@ -2,9 +2,13 @@ package com.dickey.action;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+
+import org.jbpm.api.task.Task;
 
 import com.dickey.action.base.BaseAction;
 import com.dickey.domain.Application;
@@ -20,6 +24,9 @@ public class ApplicationAction extends BaseAction{
 	
 	//需要编辑的model的id
 	private String id = "";
+	
+	//与流程相关，审批时传入的任务id（TaskId)
+	private String taskId = "";
 	
 	//模型驱动的实例
 	private Application model = new Application();
@@ -57,17 +64,9 @@ public class ApplicationAction extends BaseAction{
 	 */
 	public String queryByProp(){
 		initQuery();
-		boolean flag = false;
-		//处理与User关联的数据
-		try {
-			model.getClass().getDeclaredField("user");
-			flag = true;
-		}  catch (Exception e) {
-			System.out.println(model.getClass().getName() + "与用户无关联");
-		}
 		
 		if(!property.trim().equals("") && !keyword.trim().equals("")){
-			setModels(userService.findApplicationsByProp(property, keyword, flag, user));
+			setModels(userService.findApplicationsByProp(property, keyword, true, user));
 		}
 		return SUCCESS;
 	}
@@ -79,6 +78,25 @@ public class ApplicationAction extends BaseAction{
 		initQuery();
 		setModels(userService.findApplicationsByUser(user));
 		return SUCCESS;
+	}
+	
+	/*
+	 * 查询流程任务
+	 */
+	public String queryTask(){
+		initQuery();
+		//遍历业务表，为各业务entry设置taskId，以传给后续审批用
+		List<Application> applications = new LinkedList<Application>();
+		Map<String, Task> tasks = userService.getTaskList("Application", user);
+		Iterator<Entry<String, Task>> iterator = tasks.entrySet().iterator();
+		while (iterator.hasNext()) {
+			Map.Entry<String, Task> entry = (Map.Entry<String, Task>) iterator.next();
+			Application application = userService.findApplication(entry.getKey());
+			application.setTaskid(entry.getValue().getId());
+			applications.add(application);
+		}
+		setModels(applications);
+		return "task";
 	}
 	
 	/*
@@ -129,6 +147,39 @@ public class ApplicationAction extends BaseAction{
 			}
 		}
 		return INPUT;
+	}
+	
+	/*
+	 * 处理流程申请
+	 */
+	public String apply() throws Exception{
+		updateBizStatus(userService.procApply("Application", id, user));
+		return SUCCESS;
+	}
+	
+	/*
+	 * 处理流程批准
+	 */
+	public String approve() throws Exception{
+		updateBizStatus(userService.procApprove(taskId));
+		return SUCCESS;
+	}
+	
+	/*
+	 * 处理流程驳回
+	 */
+	public String reject() throws Exception{
+		updateBizStatus(userService.procReject(taskId));
+		return SUCCESS;
+	}
+	
+	/*
+	 * 处理流程中业务数据状态更新
+	 */
+	private void updateBizStatus(String status){
+		Application application = userService.findApplication(id);
+		application.setStatus(status);
+		userService.updateApplication(application);
 	}
 	
 	/*
@@ -210,6 +261,14 @@ public class ApplicationAction extends BaseAction{
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public String getTaskId() {
+		return taskId;
+	}
+
+	public void setTaskId(String taskId) {
+		this.taskId = taskId;
 	}
 
 	public Application getModel() {

@@ -38,6 +38,13 @@ public class Application implements Serializable{
 	
 	@Column
 	private String reason;
+	
+	//流程状态
+	@Column
+	private String status;
+	//流程关联任务id
+	private String taskid;
+	
 
 	public String getId() {
 		return id;
@@ -85,6 +92,22 @@ public class Application implements Serializable{
 
 	public void setReason(String reason) {
 		this.reason = reason;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getTaskid() {
+		return taskid;
+	}
+
+	public void setTaskid(String taskid) {
+		this.taskid = taskid;
 	}
 
 	@Override
