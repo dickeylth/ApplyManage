@@ -8,10 +8,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.jbpm.api.history.HistoryTask;
 import org.jbpm.api.task.Task;
 
 import com.dickey.action.base.BaseAction;
 import com.dickey.domain.Application;
+import com.dickey.domain.BizWorkflow;
 import com.dickey.domain.User;
 import com.opensymphony.xwork2.ActionContext;
 
@@ -92,11 +94,30 @@ public class ApplicationAction extends BaseAction{
 		while (iterator.hasNext()) {
 			Map.Entry<String, Task> entry = (Map.Entry<String, Task>) iterator.next();
 			Application application = userService.findApplication(entry.getKey());
-			application.setTaskid(entry.getValue().getId());
+			application.getBizWorkflow().setTaskId(entry.getValue().getId());
 			applications.add(application);
 		}
 		setModels(applications);
 		return "task";
+	}
+	
+	/*
+	 * 查询流程历史任务
+	 */
+	public String queryHist(){
+		initQuery();
+		//遍历业务表，为各业务entry设置taskId，以传给后续审批用
+		List<Application> applications = new LinkedList<Application>();
+		Map<String, HistoryTask> tasks = userService.getHistTaskList("Application", user);
+		Iterator<Entry<String, HistoryTask>> iterator = tasks.entrySet().iterator();
+		while (iterator.hasNext()) {
+			Map.Entry<String, HistoryTask> entry = (Map.Entry<String, HistoryTask>) iterator.next();
+			Application application = userService.findApplication(entry.getKey());
+			application.getBizWorkflow().setTaskId(entry.getValue().getId());
+			applications.add(application);
+		}
+		setModels(applications);
+		return "hist";
 	}
 	
 	/*
@@ -153,32 +174,45 @@ public class ApplicationAction extends BaseAction{
 	 * 处理流程申请
 	 */
 	public String apply() throws Exception{
-		updateBizStatus(userService.procApply("Application", id, user));
-		return SUCCESS;
+		String processInstanceId = userService.procApply("Application", id, user);
+		updateBizStatus("申请单已提交", true, processInstanceId);
+		return query();
 	}
 	
 	/*
 	 * 处理流程批准
 	 */
 	public String approve() throws Exception{
-		updateBizStatus(userService.procApprove(taskId));
-		return SUCCESS;
+		updateBizStatus(userService.procApprove(taskId, user), true, null);
+		return "task";
 	}
 	
 	/*
 	 * 处理流程驳回
 	 */
 	public String reject() throws Exception{
-		updateBizStatus(userService.procReject(taskId));
-		return SUCCESS;
+		updateBizStatus(userService.procReject(taskId, user), false, null);
+		return "task";
 	}
 	
-	/*
+	/**
 	 * 处理流程中业务数据状态更新
+	 * @param String status 状态名
+	 * @param boolean direction 审批通过？驳回
+	 * @param String processInstanceId 流程实例id，仅在申请时绑定
 	 */
-	private void updateBizStatus(String status){
+	private void updateBizStatus(String status, boolean direction, String processInstanceId){
 		Application application = userService.findApplication(id);
-		application.setStatus(status);
+		application.getBizWorkflow().setStatus(status);
+		if(processInstanceId != null){
+			application.getBizWorkflow().setProcessInstanceId(processInstanceId);
+		}
+		
+		if(direction){
+			application.getBizWorkflow().stepForward();
+		}else{
+			application.getBizWorkflow().stepBackword();
+		}
 		userService.updateApplication(application);
 	}
 	
@@ -221,6 +255,7 @@ public class ApplicationAction extends BaseAction{
 		
 		if(model.getId().equals("")){
 			//处理新建
+			model.setBizWorkflow(new BizWorkflow());
 			userService.addApplication(model);
 		}else{
 			//处理更新

@@ -2,8 +2,6 @@ package com.dickey.service.impl;
 
 import java.io.File;
 import java.io.FilenameFilter;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -11,11 +9,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.jbpm.api.ExecutionService;
+import org.jbpm.api.HistoryService;
 import org.jbpm.api.ProcessDefinition;
 import org.jbpm.api.ProcessEngine;
 import org.jbpm.api.ProcessInstance;
 import org.jbpm.api.RepositoryService;
 import org.jbpm.api.TaskService;
+import org.jbpm.api.history.HistoryTask;
 import org.jbpm.api.task.Task;
 
 import com.dickey.dao.AddressDao;
@@ -46,6 +46,7 @@ public class UserServiceImpl implements UserService{
 	private RepositoryService repositoryService;
 	private ExecutionService executionService;
 	private TaskService taskService;
+	private HistoryService historyService;
 	
 	public UserDao getUserDao() {
 		return userDao;
@@ -126,8 +127,18 @@ public class UserServiceImpl implements UserService{
 	public void setTaskService(TaskService taskService) {
 		this.taskService = taskService;
 	}
+
+	public HistoryService getHistoryService() {
+		return historyService;
+	}
+
+	public void setHistoryService(HistoryService historyService) {
+		this.historyService = historyService;
+	}	
+	
 	
 	/*------------- End of Getters & Setters -----------------*/
+
 
 	@Override
 	public String addUser(User user) {
@@ -455,6 +466,24 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	/**
+	 * 获取当前角色历史任务列表
+	 * @param String bizName 业务名
+	 * @param User user 用户
+	 * @return Map<业务id, Task>
+	 */
+	@Override
+	public Map<String, HistoryTask> getHistTaskList(String bizName, User user){
+		Map<String, HistoryTask> tasks = new HashMap<>();
+		List<HistoryTask> taskList = historyService.createHistoryTaskQuery().assignee(user.getId()).list();
+		for (HistoryTask task : taskList) {
+			//要求流程设计中不可有分支，这样才能保证executionId与processInstanceId是一致的
+			String bizId = historyService.createHistoryProcessInstanceQuery().processInstanceId(task.getExecutionId()).uniqueResult().getKey();
+			tasks.put(bizId, task);
+		}
+		return tasks;
+	}
+	
+	/**
 	 * 流程-处理申请
 	 * @param String bizName 业务名
 	 * @param String bizId 业务id
@@ -475,17 +504,17 @@ public class UserServiceImpl implements UserService{
 		//该表单到时候是在web页面进行申请时填写好的
 		System.out.println("申请单已填写：" + processInstance.isActive("填写申请单"));
 		//处理申请单填写任务
-		Task task = taskService.findPersonalTasks("formFillin").get(0);
-		taskService.completeTask(task.getId());
+		String taskId = taskService.findPersonalTasks("formFillin").get(0).getId();
+		taskService.completeTask(taskId);
 		
 		//返回申请单（业务数据）的状态以更新
-		return "申请单已提交";
+		return processInstance.getId();
 		
 	}
 	
 	//根据用户和业务名返回合适的角色，处理用户-角色多对多关联与流程中角色决策路径问题
 	private String getProperRole(User user, String bizName) throws Exception{
-		List<Role> roles = user.getRoles();
+		List<Role> roles = findUser(user.getId()).getRoles();
 		if(roles.size() == 1){
 			return roles.get(0).getRolename();
 		}else{
@@ -509,9 +538,10 @@ public class UserServiceImpl implements UserService{
 	 * @return String 业务状态
 	 */
 	@Override
-	public String procApprove(String taskId) throws Exception{
+	public String procApprove(String taskId, User user) throws Exception{
 		//处理批准任务
 		String activeStatus = taskService.getTask(taskId).getActivityName();
+		taskService.takeTask(taskId, user.getId());
 		taskService.completeTask(taskId, "批准");
 		
 		//修改申请单（业务数据）的状态
@@ -524,31 +554,14 @@ public class UserServiceImpl implements UserService{
 	 * @return String 业务状态
 	 */
 	@Override
-	public String procReject(String taskId) throws Exception{
+	public String procReject(String taskId, User user) throws Exception{
 		//处理批准任务
 		String activeStatus = taskService.getTask(taskId).getActivityName();
+		taskService.takeTask(taskId, user.getId());
 		taskService.completeTask(taskId, "驳回");
 		
 		//修改申请单（业务数据）的状态
 		return activeStatus + "已驳回";
 	}
 	
-	/**
-	 * 处理流程中业务数据状态更新
-	 * @throws InvocationTargetException 
-	 * @throws IllegalArgumentException 
-	 * @throws IllegalAccessException 
-	 * @param String bizName 业务名
-	 * @param String bizId 业务id
-	 * @param String status 需要更新为的状态
-	 */
-	private void updateBizStatus(String bizName, String bizId, String status) throws Exception{
-		Object obj = Class.forName(bizName).newInstance();
-		Method method = this.getClass().getDeclaredMethod("find" + bizName, String.class);
-		obj = method.invoke(this, bizId);
-		method = Class.forName(bizName).getDeclaredMethod("setStatus", String.class);
-		method.invoke(obj, status);
-		method = this.getClass().getDeclaredMethod("update" + bizName, Class.forName(bizName));
-		method.invoke(this, obj);
-	}
 }

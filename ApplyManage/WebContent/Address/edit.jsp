@@ -9,6 +9,11 @@
 <link rel="stylesheet" href="css/iframe.css" />
 </head>
 <body style="display: none">
+	<div class="breadcrumb">
+		<div class="adminli">
+			<a href="javascript:history.back();" class="back">返回</a>
+		</div>
+	</div>
 	<h3>
 		${title}<s:text name="address" />
 	</h3>

@@ -10,10 +10,11 @@
 </head>
 <body>
 	<div class="breadcrumb">
-		<div class="adminli"><a href="javascript:;">系统管理</a>
+		<div class="adminli"><a href="javascript:;">请假管理</a>
 			<ul class="sysadmin">
 				<li><a href="<s:url action="Application_queryAction"/>" target="main">我的申请</a></li>
 				<li><a href="<s:url action="Application_queryTaskAction"/>" target="main">我的任务</a></li>
+				<li><a href="<s:url action="Application_queryHistAction"/>" target="main">历史任务</a></li>
 			</ul>
 		</div>
 		<img src="img/seperator.png" style="float:left;width:13px;height:33px">
@@ -52,9 +53,9 @@
 						<td><s:property value="#model.start" /></td>
 						<td><s:property value="#model.end" /></td>
 						<td><s:property value="#model.reason" /></td>
-						<td><s:property value="#model.status" /></td>
+						<td><s:property value="#model.bizWorkflow.status" /></td>
 						<td>
-							<s:if test="#model.status == ''">
+							<s:if test="%{#model.bizWorkflow.step == 0}">
 								<a href="<s:url action='Application_applyAction'><s:param name='id' value='#model.id'/></s:url>">申请</a>
 							</s:if>
 						</td>

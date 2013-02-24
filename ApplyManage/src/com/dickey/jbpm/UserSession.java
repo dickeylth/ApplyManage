@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.jbpm.api.identity.Group;
 import org.jbpm.api.identity.User;
+import org.jbpm.pvm.internal.env.EnvironmentImpl;
 import org.jbpm.pvm.internal.identity.spi.IdentitySession;
 
 import com.dickey.dao.UserDao;
@@ -65,10 +66,12 @@ public class UserSession implements IdentitySession{
 	@Override
 	public List<Group> findGroupsByUser(String userId) {
 		List<Group> groups = new LinkedList<>();
+		UserDao userDao = EnvironmentImpl.getFromCurrent(UserDao.class);
 		List<Role> roles = userDao.get(userId).getRoles();
 		for (Role role : roles) {
 			groups.add(role);
 		}
+		System.out.println("角色数：" + groups.size());
 		return groups;
 	}
 

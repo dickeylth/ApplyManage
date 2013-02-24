@@ -40,11 +40,8 @@ public class Application implements Serializable{
 	private String reason;
 	
 	//流程状态
-	@Column
-	private String status;
-	//流程关联任务id
-	private String taskid;
-	
+	@OneToOne(cascade = CascadeType.ALL)
+	private BizWorkflow bizWorkflow;
 
 	public String getId() {
 		return id;
@@ -94,20 +91,12 @@ public class Application implements Serializable{
 		this.reason = reason;
 	}
 
-	public String getStatus() {
-		return status;
+	public BizWorkflow getBizWorkflow() {
+		return bizWorkflow;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public String getTaskid() {
-		return taskid;
-	}
-
-	public void setTaskid(String taskid) {
-		this.taskid = taskid;
+	public void setBizWorkflow(BizWorkflow bizWorkflow) {
+		this.bizWorkflow = bizWorkflow;
 	}
 
 	@Override

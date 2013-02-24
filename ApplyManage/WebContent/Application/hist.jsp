@@ -18,7 +18,7 @@
 			</ul>
 		</div>
 		<img src="img/seperator.png" style="float:left;width:13px;height:33px">
-		<span class="breaditem">我的任务</span>
+		<span class="breaditem">历史任务</span>
 	</div>
 	<%-- <form id="search" method="post"
 		action="Application_queryByPropAction.do">
@@ -38,7 +38,6 @@
 					<td><s:text name="application.end" /></td>
 					<td><s:text name="application.reason" /></td>
 					<td>状态</td>
-					<td>操作</td>
 				</tr>
 			</thead>
 			<tbody>
@@ -54,10 +53,6 @@
 						<td><s:property value="#model.end" /></td>
 						<td><s:property value="#model.reason" /></td>
 						<td><s:property value="#model.bizWorkflow.status" /></td>
-						<td>
-							<a href="<s:url action='Application_approveAction'><s:param name='id' value='#model.id'/><s:param name='taskId' value='#model.bizWorkflow.taskId'/></s:url>">批准</a>
-							<a href="<s:url action='Application_rejectAction'><s:param name='id' value='#model.id'/><s:param name='taskId' value='#model.bizWorkflow.taskId'/></s:url>">驳回</a>
-						</td>
 					</tr>
 				</s:iterator>
 			</tbody>

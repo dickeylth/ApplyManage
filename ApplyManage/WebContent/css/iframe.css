@@ -27,7 +27,7 @@ a.on{
 
 .adminli {
 	position: relative;
-	width: 72px;
+	width: 80px;
 	display: inline;
 	float: left;
 }
@@ -39,9 +39,13 @@ a.on{
 	padding: 7px;
 }
 
+.adminli>a.back{
+	background: url(../img/back.png) no-repeat fixed 10px 9px;
+	padding-left: 16px;
+}
+
 .adminli:hover{
-	background-color: #0491c7;
-	color: #e1f2f5;
+	background-color: #ACDAF4;
 }
 
 .adminli:hover .sysadmin {
@@ -94,7 +98,7 @@ li:hover .sysadmin li {
 	text-decoration: none;
 	font-weight: 500;
 	display: block;
-	padding: 8px 12px;
+	padding: 8px 16px;
 	-moz-transition: 0.5s;
 	-o-transition: 0.5s;
 	-webkit-transition: 0.5s;

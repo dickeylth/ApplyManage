@@ -9,6 +9,11 @@
 <link rel="stylesheet" href="css/iframe.css" />
 </head>
 <body style="display: none">
+	<div class="breadcrumb">
+		<div class="adminli">
+			<a href="javascript:history.back();" class="back">返回</a>
+		</div>
+	</div>
 	<h3>
 		${title}<s:text name="application" />
 	</h3>
@@ -31,7 +36,9 @@
 			key="application.end" />
 		<s:textfield name="model.reason" value="%{model.reason}"
 			key="application.reason" />
-		<s:submit key="submit" cssClass="button" />
+		<s:if test="%{#model.bizWorkflow.step == 0}">
+			<s:submit key="submit" cssClass="button" />
+		</s:if>
 	</s:form>
 	<iframe src="" name="view" id="view"></iframe>
 	<a id="close">×</a>

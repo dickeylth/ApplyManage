@@ -3,6 +3,7 @@ package com.dickey.service;
 import java.util.List;
 import java.util.Map;
 
+import org.jbpm.api.history.HistoryTask;
 import org.jbpm.api.task.Task;
 
 import com.dickey.domain.*;
@@ -288,6 +289,14 @@ public interface UserService {
 	Map<String, Task> getTaskList(String bizName, User user);
 	
 	/**
+	 * 获取当前角色历史任务列表
+	 * @param String bizName 业务名
+	 * @param User user 用户
+	 * @return Map<业务id, Task>
+	 */
+	Map<String, HistoryTask> getHistTaskList(String bizName, User user);
+	
+	/**
 	 * 流程-处理申请
 	 * @param String bizName 业务名
 	 * @param String bizId 业务id
@@ -301,14 +310,15 @@ public interface UserService {
 	 * @param String taskId 任务id
 	 * @return String 业务状态
 	 */
-	String procApprove(String taskId) throws Exception;
+	String procApprove(String taskId, User user) throws Exception;
 	
 	/**
 	 * 流程-处理驳回
 	 * @param String taskId 任务id
 	 * @return String 业务状态
 	 */
-	String procReject(String taskId) throws Exception;
+	String procReject(String taskId, User user) throws Exception;
+
 
 
 }

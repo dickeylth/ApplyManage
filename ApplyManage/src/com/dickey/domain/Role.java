@@ -18,8 +18,6 @@ public class Role implements Serializable, Group{
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GenericGenerator(name = "idGenerator", strategy = "uuid")
-	@GeneratedValue(generator = "idGenerator")
 	private String id;
 	
 	@Column(unique=true, nullable=false)
