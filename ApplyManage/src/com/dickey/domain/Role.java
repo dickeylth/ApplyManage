@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.persistence.*;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.jbpm.api.identity.Group;
 
 @Entity
@@ -21,7 +20,7 @@ public class Role implements Serializable, Group{
 	private String id;
 	
 	@Column(unique=true, nullable=false)
-	private String rolename;
+	private String name;
 	
 	@ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "USER_ROLE", joinColumns = { @JoinColumn(name = "ROLE_ID") }, inverseJoinColumns = { @JoinColumn(name = "USER_ID") })
@@ -39,12 +38,8 @@ public class Role implements Serializable, Group{
 		this.id = id;
 	}
 
-	public String getRolename() {
-		return rolename;
-	}
-
-	public void setRolename(String rolename) {
-		this.rolename = rolename;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public List<User> getUsers() {
@@ -66,7 +61,7 @@ public class Role implements Serializable, Group{
 	@Override
 	public String getName() {
 		// TODO Auto-generated method stub
-		return rolename;
+		return name;
 	}
 
 	@Override
@@ -77,7 +72,7 @@ public class Role implements Serializable, Group{
 
 	@Override
 	public String toString() {
-		return "Role [id=" + id + ", rolename=" + rolename + ", users=" + users + ", permissions=" + permissions + "]";
+		return "Role [id=" + id + ", name=" + name + ", users=" + users + ", permissions=" + permissions + "]";
 	}
 
 	

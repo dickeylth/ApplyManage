@@ -64,7 +64,7 @@
 			<li><input type="submit" value="新增" id="add"
 				data-action="Permission_addAction.do" class="ctrl button" /></li>
 			<li><input type="submit" value="删除" id="delete"
-				data-action="Role_deleteAction.do" class="ctrl button" /></li>
+				data-action="Permission_deleteAction.do" class="ctrl button" /></li>
 		</ul>
 	</form>
 	<script type="text/javascript"
@@ -78,7 +78,7 @@
 						return;
 					}
 				}
-				$('form').attr('action',$(this).data('action')).submit();
+				$(this).closest('form').attr('action',$(this).data('action')).submit();
 			});
 			
 		});

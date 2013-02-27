@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<process name="Application" xmlns="http://jbpm.org/4.4/jpdl">
+<process name="Leave" xmlns="http://jbpm.org/4.4/jpdl">
    <start g="279,8,48,48" name="流程开始">
-      <transition name="to 填写申请单" to="填写申请单" g="-81,-20"/>
+      <transition g="-81,-11" name="to 填写申请单" to="填写申请单"/>
    </start>
-   <end g="360,408,48,48" name="请假已批准"/>
-   <task name="填写申请单" g="256,96,92,52" assignee="formFillin">
-      <transition name="to 判断用户角色" to="判断用户角色" g="-12,-24"/>
-   </task>
-   <decision name="判断用户角色" g="345,182,48,48" expr="#{role}">
-      <transition name="ROLE_USER" to="部门领导审批" g="-34,-9"/>
-      <transition name="ROLE_dept_manager" to="主任审批" g="-9,-16"/>
+   <end g="354,407,48,48" name="请假已批准"/>
+   <decision expr="#{role}" g="278,203,48,48" name="判断用户角色">
+      <transition g="-34,-9" name="ROLE_USER" to="部门领导审批"/>
+      <transition g="-9,-16" name="ROLE_dept_manager" to="主任审批"/>
    </decision>
-   <task name="部门领导审批" g="187,290,92,52" candidate-groups="ROLE_dept_manager">
-      <transition name="批准" to="主任审批" g="-18,-19"/>
-      <transition name="驳回" to="填写申请单" g="-29,-18"/>
+   <task candidate-groups="ROLE_dept_manager" g="115,296,92,52" name="部门领导审批">
+      <transition g="-18,-19" name="批准" to="主任审批"/>
+      <transition g="-29,-18" name="驳回" to="填写申请单"/>
    </task>
-   <task name="主任审批" g="380,290,92,52" candidate-groups="ROLE_director">
-      <transition name="批准" to="请假已批准" g="-27,-11"/>
-      <transition name="驳回" to="请假已驳回" g="3,-12"/>
+   <task candidate-groups="ROLE_director" g="366,296,92,52" name="主任审批">
+      <transition g="-27,-11" name="批准" to="请假已批准"/>
+      <transition g="3,-12" name="驳回" to="请假已驳回"/>
    </task>
-   <end name="请假已驳回" g="445,410,48,48"/>
+   <end g="425,405,48,48" name="请假已驳回"/>
+   <state name="填写申请单" g="256,101,92,52">
+      <transition g="-12,-11" name="to 判断用户角色" to="判断用户角色"/>
+   </state>
 </process>

@@ -40,7 +40,7 @@ public class SystemInit extends HttpServlet implements ServletContextListener {
 			
 			Role role = new Role();
 			role.setId("ROLE_ADMIN");
-			role.setRolename("ROLE_ADMIN");
+			role.setName("ROLE_ADMIN");
 			
 			String[] domains = {"User", "Role", "Permission", "Address", "Application", "ApplicationType"};
 			String[] ops = {"manage", "add", "delete"};

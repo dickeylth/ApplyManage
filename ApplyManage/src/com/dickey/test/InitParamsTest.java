@@ -26,7 +26,7 @@ public class InitParamsTest {
 		
 		//再处理role
 		Role role = new Role();
-		role.setRolename("ROLE_TEST");
+		role.setName("ROLE_TEST");
 		role.getPermissions().add(permission);
 		
 		userService.addRole(role);

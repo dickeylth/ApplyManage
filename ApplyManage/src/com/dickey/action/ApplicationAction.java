@@ -108,7 +108,7 @@ public class ApplicationAction extends BaseAction{
 		initQuery();
 		//遍历业务表，为各业务entry设置taskId，以传给后续审批用
 		List<Application> applications = new LinkedList<Application>();
-		Map<String, HistoryTask> tasks = userService.getHistTaskList("Application", user);
+		Map<String, HistoryTask> tasks = userService.getHistTaskList(user);
 		Iterator<Entry<String, HistoryTask>> iterator = tasks.entrySet().iterator();
 		while (iterator.hasNext()) {
 			Map.Entry<String, HistoryTask> entry = (Map.Entry<String, HistoryTask>) iterator.next();
@@ -167,6 +167,9 @@ public class ApplicationAction extends BaseAction{
 				}
 			}
 		}
+		if(model !=null && model.getBizWorkflow() != null && model.getBizWorkflow().getStep() != 0){
+			title = "查看";
+		}
 		return INPUT;
 	}
 	
@@ -174,7 +177,7 @@ public class ApplicationAction extends BaseAction{
 	 * 处理流程申请
 	 */
 	public String apply() throws Exception{
-		String processInstanceId = userService.procApply("Application", id, user);
+		String processInstanceId = userService.procApply("Leave", "Application", id, user);
 		updateBizStatus("申请单已提交", true, processInstanceId);
 		return query();
 	}
@@ -259,6 +262,7 @@ public class ApplicationAction extends BaseAction{
 			userService.addApplication(model);
 		}else{
 			//处理更新
+			model.setBizWorkflow(userService.findApplication(model.getId()).getBizWorkflow());
 			userService.updateApplication(model);
 		}
 		return flag ? queryByRef() : query();
@@ -270,7 +274,7 @@ public class ApplicationAction extends BaseAction{
 	public String delete(){
 		//是否有关联类操作
 		boolean flag = refClass != null && refId != null && !refClass.trim().equals("") && !refId.trim().equals("");
-				
+		
 		for (String id : checkItems) {
 			userService.delApplication(id);
 		}

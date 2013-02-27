@@ -11,7 +11,6 @@ import java.util.Map;
 import org.jbpm.api.ExecutionService;
 import org.jbpm.api.HistoryService;
 import org.jbpm.api.ProcessDefinition;
-import org.jbpm.api.ProcessEngine;
 import org.jbpm.api.ProcessInstance;
 import org.jbpm.api.RepositoryService;
 import org.jbpm.api.TaskService;
@@ -42,7 +41,6 @@ public class UserServiceImpl implements UserService{
 	private AddressDao addressDao;
 	
 	//jBPM
-	private ProcessEngine processEngine;
 	private RepositoryService repositoryService;
 	private ExecutionService executionService;
 	private TaskService taskService;
@@ -94,14 +92,6 @@ public class UserServiceImpl implements UserService{
 
 	public void setAddressDao(AddressDao addressDao) {
 		this.addressDao = addressDao;
-	}
-
-	public ProcessEngine getProcessEngine() {
-		return processEngine;
-	}
-
-	public void setProcessEngine(ProcessEngine processEngine) {
-		this.processEngine = processEngine;
 	}
 
 	public RepositoryService getRepositoryService() {
@@ -467,12 +457,11 @@ public class UserServiceImpl implements UserService{
 	
 	/**
 	 * 获取当前角色历史任务列表
-	 * @param String bizName 业务名
 	 * @param User user 用户
 	 * @return Map<业务id, Task>
 	 */
 	@Override
-	public Map<String, HistoryTask> getHistTaskList(String bizName, User user){
+	public Map<String, HistoryTask> getHistTaskList(User user){
 		Map<String, HistoryTask> tasks = new HashMap<>();
 		List<HistoryTask> taskList = historyService.createHistoryTaskQuery().assignee(user.getId()).list();
 		for (HistoryTask task : taskList) {
@@ -485,13 +474,14 @@ public class UserServiceImpl implements UserService{
 	
 	/**
 	 * 流程-处理申请
+	 * @param String processName 流程名
 	 * @param String bizName 业务名
 	 * @param String bizId 业务id
 	 * @param User user 业务执行用户
 	 * @return String 状态信息
 	 */
 	@Override
-	public String procApply(String bizName, String bizId, User user) throws Exception{
+	public String procApply(String processName, String bizName, String bizId, User user) throws Exception{
 		//流程中要用到的变量信息
 		Map<String, Object> variables = new HashMap<String, Object>();
 		//存放该流程实例关联的业务表id
@@ -500,12 +490,11 @@ public class UserServiceImpl implements UserService{
 		variables.put("role", getProperRole(user, bizName));
 		
 		//启动流程，通过该业务id来绑定一个流程实例
-		ProcessInstance processInstance = executionService.startProcessInstanceByKey(bizName, variables, bizId);
+		ProcessInstance processInstance = executionService.startProcessInstanceByKey(processName, variables, bizId);
 		//该表单到时候是在web页面进行申请时填写好的
 		System.out.println("申请单已填写：" + processInstance.isActive("填写申请单"));
-		//处理申请单填写任务
-		String taskId = taskService.findPersonalTasks("formFillin").get(0).getId();
-		taskService.completeTask(taskId);
+		//处理申请单填写状态转移
+		executionService.signalExecutionById(processInstance.getId());
 		
 		//返回申请单（业务数据）的状态以更新
 		return processInstance.getId();
@@ -516,14 +505,14 @@ public class UserServiceImpl implements UserService{
 	private String getProperRole(User user, String bizName) throws Exception{
 		List<Role> roles = findUser(user.getId()).getRoles();
 		if(roles.size() == 1){
-			return roles.get(0).getRolename();
+			return roles.get(0).getName();
 		}else{
 			for (Role role : roles) {
 				List<Permission> permissions = role.getPermissions();
 				for (Permission permission : permissions) {
 					//如果permission中有与业务名吻合的部分，表明该permission对应的role即为所需
 					if(permission.getPermission().indexOf(bizName) != -1){
-						return role.getRolename();
+						return role.getName();
 					}
 				}
 			}

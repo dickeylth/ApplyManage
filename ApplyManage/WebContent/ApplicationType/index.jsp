@@ -62,7 +62,7 @@
 						return;
 					}
 				}
-				$('form').attr('action',$(this).data('action')).submit();
+				$(this).closest('form').attr('action',$(this).data('action')).submit();
 			});
 			
 		});
