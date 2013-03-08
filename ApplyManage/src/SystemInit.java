@@ -68,8 +68,8 @@ public class SystemInit extends HttpServlet implements ServletContextListener {
 		
 		System.out.println(sdf.format(new Date()) + "\t数据库初始化完毕...");
 		
-		userService.checkProcessDeploy();
-		System.out.println(sdf.format(new Date()) + "\t流程定义部署检查完毕...");
+		userService.procProcessDeploy();
+		System.out.println(sdf.format(new Date()) + "\t流程定义部署完毕...");
 		
 	}
 

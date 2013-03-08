@@ -30,7 +30,7 @@
 		<!-- 多对多 -->
 		<s:bean name="com.dickey.dao.impl.RoleDaoImpl" id="roleDao"/>
 		<s:checkboxlist value="model.roles.{id}" list="#roleDao.all" key="user.roles"
-			listKey="id" listValue="rolename" cssClass="checkboxlist" name="model.roles"/>
+			listKey="id" listValue="name" cssClass="checkboxlist" name="model.roles"/>
 		<!-- 多对多 -->
 
 		<!-- 一对多 -->

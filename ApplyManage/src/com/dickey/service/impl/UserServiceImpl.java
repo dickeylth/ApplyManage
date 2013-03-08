@@ -4,13 +4,11 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import org.jbpm.api.ExecutionService;
 import org.jbpm.api.HistoryService;
-import org.jbpm.api.ProcessDefinition;
 import org.jbpm.api.ProcessInstance;
 import org.jbpm.api.RepositoryService;
 import org.jbpm.api.TaskService;
@@ -393,8 +391,8 @@ public class UserServiceImpl implements UserService{
 	 * 处理流程部署
 	 */
 	@Override
-	public void checkProcessDeploy(){
-		//获取当前系统中已部署流程
+	public void procProcessDeploy(){
+		/*//获取当前系统中已部署流程
 		List<ProcessDefinition> definitions = repositoryService.createProcessDefinitionQuery().list();
 		List<String> processList = new LinkedList<>();
 		boolean flag = false;
@@ -406,16 +404,15 @@ public class UserServiceImpl implements UserService{
 			}
 		}
 		
-		System.out.println("流程定义count：" + processList.size());
-		//遍历jpdl目录下流程定义文件，检查每个文件是否已被部署过
+		System.out.println("流程定义count：" + processList);*/
+		//遍历jpdl目录下流程定义文件，部署之
+		
 		List<File> files = getProcessFiles();
-		System.out.println("流程定义文件count：" + files.size());
+		//System.out.println("流程定义文件count：" + files.size());
 		for (File file : files) {
-			String name = file.getName().substring(0, file.getName().indexOf("."));
-			if(flag || !processList.contains(name)){
-				//未被部署，执行流程部署操作
-				deployProcess(file);
-			}
+			//执行流程部署操作
+			String deployId = repositoryService.createDeployment().addResourceFromFile(file).deploy();
+			System.out.println(file.getName() + "流程定义文件已部署，id为：" + deployId);
 		}
 	}
 	private List<File> getProcessFiles(){
@@ -432,10 +429,6 @@ public class UserServiceImpl implements UserService{
 		}
 		
 		return Arrays.asList(files);
-	}
-	private void deployProcess(File file){
-		String deployId = repositoryService.createDeployment().addResourceFromFile(file).deploy();
-		System.out.println(file.getName() + "流程定义文件已部署，id为：" + deployId);
 	}
 
 	/**

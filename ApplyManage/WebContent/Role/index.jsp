@@ -54,7 +54,7 @@
 						<td><a
 							href="<s:url action='Role_editAction'><s:param name='id' value='#model.id'/></s:url>"><s:property
 									value="#model.id" /></a></td>
-						<td><s:property value="#model.rolename" /></td>
+						<td><s:property value="#model.name" /></td>
 					</tr>
 				</s:iterator>
 			</tbody>

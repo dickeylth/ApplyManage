@@ -164,7 +164,8 @@ public class RoleAction extends BaseAction{
 		
 		if(model.getId().equals("")){
 			//处理新建
-			model.setId(model.getName());
+			//model.setId(model.getName());
+			System.out.println(model);
 			userService.addRole(model);
 		}else{
 			//处理更新

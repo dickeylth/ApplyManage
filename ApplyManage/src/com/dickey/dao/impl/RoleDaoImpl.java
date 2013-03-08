@@ -19,12 +19,19 @@ public class RoleDaoImpl extends HibernateDaoSupport implements RoleDao {
 	@Override
 	public String save(Role role) {
 		// TODO Auto-generated method stub
+		System.out.println(role);
+		if(role.getId().equals("")){
+			role.setId(role.getName());
+		}
 		return (String) getHibernateTemplate().save(role);
 	}
 
 	@Override
 	public void update(Role role) {
 		// TODO Auto-generated method stub
+		if(role.getId().equals("")){
+			role.setId(role.getName());
+		}
 		getHibernateTemplate().merge(role);
 	}
 

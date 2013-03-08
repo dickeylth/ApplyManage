@@ -21,7 +21,7 @@
 		<s:hidden name="refClass" value="%{refClass}" />
 		<s:hidden name="refId" value="%{refId}" />
 		<s:hidden name="model.id" id="model_id" value="%{model.id}" />
-		<s:textfield name="model.rolename" value="%{model.rolename}"
+		<s:textfield name="model.name" value="%{model.name}"
 			key="role.rolename" />
 			
 		<!-- 多对多 -->
